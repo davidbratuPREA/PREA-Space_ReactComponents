@@ -36,7 +36,7 @@ jobs:
         working-directory: demo
 
       - name: Build
-        run: npm run build
+        run: npx vite build
         working-directory: demo
         env:
           GITHUB_ACTIONS: true
