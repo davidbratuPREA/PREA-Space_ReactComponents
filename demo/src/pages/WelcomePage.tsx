@@ -1,5 +1,6 @@
 import React from 'react';
 import { registry } from '../registry';
+import { Logo } from '../components/Logo';
 
 export function WelcomePage() {
   const componentCount = Object.keys(registry).length;
@@ -7,7 +8,9 @@ export function WelcomePage() {
 
   return (
     <div className="welcome">
-      <div className="welcome__logo">PS</div>
+      <div className="welcome__logo">
+        <Logo size={36} />
+      </div>
 
       <h1 className="welcome__title">
         PREA <span>Space</span> library

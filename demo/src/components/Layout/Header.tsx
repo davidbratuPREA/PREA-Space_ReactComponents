@@ -1,4 +1,5 @@
 import React from 'react';
+import { Logo } from '../Logo';
 
 interface HeaderProps {
   theme: 'light' | 'dark';
@@ -9,7 +10,7 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
   return (
     <header className="header">
       <a className="header__brand" href="#/">
-        <div className="header__logo">PS</div>
+        <Logo size={26} />
         <span className="header__name">
           PREA <span>Space</span>
         </span>

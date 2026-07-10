@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* ─── Logo color ─────────────────────────────────────────────── */
+.logo-icon { color: #181818; }
+.logo-icon svg { width: 100%; height: 100%; display: block; }
+[data-theme='dark'] .logo-icon { color: #ffffff; }
+
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 :root {
