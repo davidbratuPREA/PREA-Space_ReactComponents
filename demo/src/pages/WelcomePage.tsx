@@ -10,12 +10,12 @@ export function WelcomePage() {
       <div className="welcome__logo">PS</div>
 
       <h1 className="welcome__title">
-        PREA <span>Space</span> Components
+        PREA <span>Space</span> library
       </h1>
       <p className="welcome__sub">
-        A custom React component library built on top of Ant Design v6,
-        following the PREA Space Design System. Pick a component from the
-        sidebar to explore its live demo, API reference, and source files.
+        This is a custom React component library, following the PREA Space
+        Design System. Pick a component from the sidebar to explore its live
+        demo, API reference, and source files.
       </p>
 
       <div className="welcome__stats">
@@ -30,8 +30,8 @@ export function WelcomePage() {
         </div>
         <div style={{ width: 1, background: 'var(--border)' }} />
         <div>
-          <div className="welcome__stat-value">v6</div>
-          <div className="welcome__stat-label">Ant Design</div>
+          <div className="welcome__stat-value">v1.0</div>
+          <div className="welcome__stat-label">PREA Design</div>
         </div>
       </div>
 
