@@ -8,7 +8,7 @@ export function WelcomePage() {
 
   return (
     <div className="welcome">
-      <Logo size={200} style={{ marginBottom: 12 }} />
+      <Logo variant="icon" size={80} style={{ marginBottom: 8 }} />
 
       <p className="welcome__sub">
         This is a custom React component library, following the PREA Space

@@ -1,24 +1,30 @@
 import React from 'react';
-import rawSvg from '../assets/logo.svg?raw';
+import rawFull from '../assets/logo.svg?raw';
+import rawIcon from '../assets/logo_icon.svg?raw';
 
 interface LogoProps {
+  /** 'full' = logo + PREA text | 'icon' = icon only */
+  variant?: 'full' | 'icon';
   size?: number;
   className?: string;
   style?: React.CSSProperties;
 }
 
-/**
- * PREA company logo — renders inline so `fill: currentColor` is controlled
- * by CSS. Color tokens:
- *   light mode → color: #181818  (set via .logo-icon in index.css)
- *   dark  mode → color: #FFFFFF
- */
-export function Logo({ size = 24, className, style }: LogoProps) {
+export function Logo({ variant = 'full', size = 24, className, style }: LogoProps) {
+  const svg = variant === 'icon' ? rawIcon : rawFull;
+
   return (
     <span
       className={['logo-icon', className].filter(Boolean).join(' ')}
-      style={{ display: 'inline-flex', alignItems: 'center', width: size, height: size, flexShrink: 0, ...style }}
-      dangerouslySetInnerHTML={{ __html: rawSvg }}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        width: size,
+        height: size,
+        flexShrink: 0,
+        ...style,
+      }}
+      dangerouslySetInnerHTML={{ __html: svg }}
       aria-label="PREA Space logo"
       role="img"
     />
