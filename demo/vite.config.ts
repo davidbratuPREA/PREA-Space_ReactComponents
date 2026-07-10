@@ -5,7 +5,7 @@ import path from 'path';
 export default defineConfig({
   // GitHub Pages serves the site under /<repo-name>/.
   // GITHUB_ACTIONS is set automatically in CI, so local dev stays at '/'.
-  base: process.env.GITHUB_ACTIONS ? '/DeepStreet-ReactComponents/' : '/',
+  base: process.env.GITHUB_ACTIONS ? '/PREA-Space_ReactComponents/' : '/',
   plugins: [react()],
   resolve: {
     alias: {
