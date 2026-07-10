@@ -91,19 +91,7 @@ export function ComponentPage() {
           )}
         </button>
 
-        {entry.figmaUrl && (
-          <a
-            className="action-btn action-btn--ghost"
-            href={entry.figmaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 24c2.208 0 4-1.792 4-4v-4H8c-2.208 0-4 1.792-4 4s1.792 4 4 4z"/>
-            </svg>
-            Open in Figma
-          </a>
-        )}
+
       </div>
 
       {/* ── Preview ────────────────────────────────────────── */}

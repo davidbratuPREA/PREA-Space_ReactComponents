@@ -94,8 +94,7 @@ export const preatabsEntry: ComponentEntry = {
   id: 'prea-tabs',
   name: 'PREATabs',
   category: 'Navigation',
-  description:
-    'Browser-style editable card tabs for Ant Design v6. Supports add/remove, disabled state, controlled & uncontrolled modes, and adapts automatically to any ConfigProvider theme (light, dark, custom tokens).',
+  description: 'Main tab system, used on top of the page to navigate through pages.',
   status: 'stable',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=0-1',
   files: [
