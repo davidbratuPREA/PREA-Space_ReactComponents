@@ -11,7 +11,7 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
     <header className="header">
       <a className="header__brand" href="#/">
         <Logo size={80} style={{ marginRight: 6 }} />
-        <span className="header__name" style={{ color: 'var(--text-secondary)', fontWeight: 400, fontSize: 13 }}>library</span>
+        <span className="header__name" style={{ color: 'var(--text-secondary)', fontWeight: 400, fontSize: 13 }}>component library</span>
       </a>
 
       <div className="header__right">

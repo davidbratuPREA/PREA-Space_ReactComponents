@@ -8,11 +8,8 @@ export function WelcomePage() {
 
   return (
     <div className="welcome">
-      <Logo size={200} style={{ marginBottom: 24 }} />
+      <Logo size={200} style={{ marginBottom: 12 }} />
 
-      <h1 className="welcome__title">
-        <span>library</span>
-      </h1>
       <p className="welcome__sub">
         This is a custom React component library, following the PREA Space
         Design System. Pick a component from the sidebar to explore its live
