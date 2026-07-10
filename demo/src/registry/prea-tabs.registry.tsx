@@ -3,6 +3,7 @@ import { ConfigProvider, theme as antTheme } from 'antd';
 import { PREATabs } from '@prea';
 import type { PREATabItem } from '@prea';
 import type { ComponentEntry } from './types';
+import { useAppTheme } from '../ThemeContext';
 
 // ─── Read the raw source files to bundle for download ──────────────────────
 // Vite's ?raw import inlines the file content as a string at build time.
@@ -14,74 +15,45 @@ import preatabsIndex from '../../../PREATabs/index.ts?raw';
 
 // ─── Live demo component ────────────────────────────────────────────────────
 function PREATabsDemo() {
-  const [lightItems, setLightItems] = useState<PREATabItem[]>([
+  const appTheme = useAppTheme();
+
+  const [items, setItems] = useState<PREATabItem[]>([
     { key: '1', label: 'Dashboard', children: <p style={{ padding: 16, margin: 0 }}>Dashboard content goes here.</p> },
     { key: '2', label: 'Analytics', children: <p style={{ padding: 16, margin: 0 }}>Analytics content goes here.</p> },
-    { key: '3', label: 'Reports', children: <p style={{ padding: 16, margin: 0 }}>Reports content goes here.</p> },
+    { key: '3', label: 'Reports',   children: <p style={{ padding: 16, margin: 0 }}>Reports content goes here.</p> },
   ]);
-  const [lightActive, setLightActive] = useState('1');
+  const [activeKey, setActiveKey] = useState('1');
 
-  const [darkItems, setDarkItems] = useState<PREATabItem[]>([
-    { key: 'a', label: 'Overview', children: <p style={{ padding: 16, margin: 0 }}>Overview content goes here.</p> },
-    { key: 'b', label: 'Settings', children: <p style={{ padding: 16, margin: 0 }}>Settings content goes here.</p> },
-    { key: 'c', label: 'Team', children: <p style={{ padding: 16, margin: 0 }}>Team content goes here.</p> },
-  ]);
-  const [darkActive, setDarkActive] = useState('a');
-
-  const handleLightEdit = (key: string, action: 'add' | 'remove') => {
+  const handleEdit = (key: string, action: 'add' | 'remove') => {
     if (action === 'add') {
       const k = String(Date.now());
-      setLightItems(prev => [...prev, { key: k, label: 'New Tab', children: <p style={{ padding: 16, margin: 0 }}>New tab content.</p> }]);
-      setLightActive(k);
+      setItems(prev => [...prev, { key: k, label: 'New Tab', children: <p style={{ padding: 16, margin: 0 }}>New tab content.</p> }]);
+      setActiveKey(k);
     } else {
-      setLightItems(prev => prev.filter(i => i.key !== key));
-      if (lightActive === key) setLightActive(lightItems[0]?.key ?? '');
+      setItems(prev => prev.filter(i => i.key !== key));
+      if (activeKey === key) setActiveKey(items[0]?.key ?? '');
     }
   };
 
-  const handleDarkEdit = (key: string, action: 'add' | 'remove') => {
-    if (action === 'add') {
-      const k = String(Date.now());
-      setDarkItems(prev => [...prev, { key: k, label: 'New Tab', children: <p style={{ padding: 16, margin: 0 }}>New tab content.</p> }]);
-      setDarkActive(k);
-    } else {
-      setDarkItems(prev => prev.filter(i => i.key !== key));
-      if (darkActive === key) setDarkActive(darkItems[0]?.key ?? '');
-    }
-  };
+  const isDark = appTheme === 'dark';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-      {/* Light mode */}
-      <div>
-        <p style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: 12 }}>
-          Light Mode
-        </p>
-        <ConfigProvider theme={{ algorithm: antTheme.defaultAlgorithm }}>
-          <PREATabs items={lightItems} activeKey={lightActive} onChange={setLightActive} onEdit={handleLightEdit} />
-        </ConfigProvider>
-      </div>
-      {/* Dark mode */}
-      <div>
-        <p style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: 12 }}>
-          Dark Mode
-        </p>
-        <ConfigProvider
-          theme={{
-            algorithm: antTheme.darkAlgorithm,
-            token: {
-              colorBgContainer: '#303030',
-              colorFillQuaternary: '#1B1B1B',
-              colorFillTertiary: '#1B1B1B',
-              colorFillSecondary: '#383838',
-              colorFill: '#404040',
-            },
-          }}
-        >
-          <PREATabs items={darkItems} activeKey={darkActive} onChange={setDarkActive} onEdit={handleDarkEdit} />
-        </ConfigProvider>
-      </div>
-    </div>
+    <ConfigProvider
+      theme={isDark ? {
+        algorithm: antTheme.darkAlgorithm,
+        token: {
+          colorBgContainer:    '#303030',
+          colorFillQuaternary: '#212121',
+          colorFillTertiary:   '#212121',
+          colorFillSecondary:  '#383838',
+          colorFill:           '#404040',
+        },
+      } : {
+        algorithm: antTheme.defaultAlgorithm,
+      }}
+    >
+      <PREATabs items={items} activeKey={activeKey} onChange={setActiveKey} onEdit={handleEdit} />
+    </ConfigProvider>
   );
 }
 

@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout/Layout';
 import { WelcomePage } from './pages/WelcomePage';
 import { ComponentPage } from './pages/ComponentPage';
+import { ThemeContext } from './ThemeContext';
 
 type Theme = 'light' | 'dark';
 
@@ -26,13 +27,15 @@ export default function App() {
     setAppTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
 
   return (
-    <HashRouter>
-      <Layout theme={appTheme} onToggleTheme={toggleTheme}>
-        <Routes>
-          <Route path="/" element={<WelcomePage />} />
-          <Route path="/:componentId" element={<ComponentPage />} />
-        </Routes>
-      </Layout>
-    </HashRouter>
+    <ThemeContext.Provider value={appTheme}>
+      <HashRouter>
+        <Layout theme={appTheme} onToggleTheme={toggleTheme}>
+          <Routes>
+            <Route path="/" element={<WelcomePage />} />
+            <Route path="/:componentId" element={<ComponentPage />} />
+          </Routes>
+        </Layout>
+      </HashRouter>
+    </ThemeContext.Provider>
   );
 }

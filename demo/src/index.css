@@ -375,7 +375,9 @@ body {
 
 /* ─── Component Page ────────────────────────────────────────── */
 .comp-page {
-  max-width: 860px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .comp-page__header {
