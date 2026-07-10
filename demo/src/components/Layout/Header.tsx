@@ -20,7 +20,7 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
 
         <a
           className="header__github"
-          href="https://github.com/DavidBr369/PREA-Space_ReactComponents"
+          href="https://github.com/davidbratuPREA/PREA-Space_ReactComponents"
           target="_blank"
           rel="noopener noreferrer"
           title="View source on GitHub"
