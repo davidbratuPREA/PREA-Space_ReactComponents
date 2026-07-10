@@ -60,24 +60,24 @@
 }
 
 [data-theme='dark'] {
-  --bg-page: #09090d;
-  --bg-sidebar: #111116;
-  --bg-sidebar-item-hover: #1c1c24;
-  --bg-sidebar-item-active: #22222e;
-  --bg-card: #131318;
-  --bg-preview: #1a1a22;
-  --bg-preview-dot: #2a2a38;
+  --bg-page: #212121;
+  --bg-sidebar: #1a1a1a;
+  --bg-sidebar-item-hover: #2a2a2a;
+  --bg-sidebar-item-active: #303030;
+  --bg-card: #272727;
+  --bg-preview: #2a2a2a;
+  --bg-preview-dot: #333333;
 
-  --text-primary: #f0f0ff;
-  --text-secondary: #9090b8;
-  --text-muted: #55557a;
+  --text-primary: #f0f0f0;
+  --text-secondary: #999999;
+  --text-muted: #666666;
 
-  --border: #1e1e2e;
-  --border-subtle: #18181f;
+  --border: #333333;
+  --border-subtle: #2a2a2a;
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
 }
 
 /* ─── Reset ─────────────────────────────────────────────────── */
@@ -135,7 +135,7 @@ body {
 }
 
 [data-theme='dark'] .header {
-  background: rgba(13, 13, 20, 0.7);
+  background: rgba(26, 26, 26, 0.8);
 }
 
 .header__brand {
