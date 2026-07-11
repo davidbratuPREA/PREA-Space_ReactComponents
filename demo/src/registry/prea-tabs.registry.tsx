@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { ConfigProvider, theme as antTheme } from 'antd';
-import { PREATabs } from '@prea';
-import type { PREATabItem } from '@prea';
+import { TabsMain } from '@prea';
+import type { TabsMainItem } from '@prea';
 import type { ComponentEntry } from './types';
 import { useAppTheme } from '../ThemeContext';
 
 // ─── Read the raw source files to bundle for download ──────────────────────
-// Vite's ?raw import inlines the file content as a string at build time.
-import preatabsSource from '../../../PREATabs/PREATabs.tsx?raw';
-import preatTabSource from '../../../PREATabs/PREATab.tsx?raw';
-import preatabsTypes from '../../../PREATabs/PREATabs.types.ts?raw';
-import preatabsCss from '../../../PREATabs/PREATabs.css?raw';
-import preatabsIndex from '../../../PREATabs/index.ts?raw';
+import tabsMainSource from '../../../TabsMain/TabsMain.tsx?raw';
+import tabSource      from '../../../TabsMain/Tab.tsx?raw';
+import tabsMainTypes  from '../../../TabsMain/TabsMain.types.ts?raw';
+import tabsMainCss    from '../../../TabsMain/TabsMain.css?raw';
+import tabsMainIndex  from '../../../TabsMain/index.ts?raw';
 
 // ─── Live demo component ────────────────────────────────────────────────────
-function PREATabsDemo() {
+function TabsMainDemo() {
   const appTheme = useAppTheme();
 
-  const [items, setItems] = useState<PREATabItem[]>([
+  const [items, setItems] = useState<TabsMainItem[]>([
     { key: '1', label: 'Dashboard', children: <p style={{ padding: 16, margin: 0 }}>Dashboard content goes here.</p> },
     { key: '2', label: 'Analytics', children: <p style={{ padding: 16, margin: 0 }}>Analytics content goes here.</p> },
     { key: '3', label: 'Reports',   children: <p style={{ padding: 16, margin: 0 }}>Reports content goes here.</p> },
@@ -52,18 +51,18 @@ function PREATabsDemo() {
         algorithm: antTheme.defaultAlgorithm,
       }}
     >
-      <PREATabs items={items} activeKey={activeKey} onChange={setActiveKey} onEdit={handleEdit} />
+      <TabsMain items={items} activeKey={activeKey} onChange={setActiveKey} onEdit={handleEdit} />
     </ConfigProvider>
   );
 }
 
 // ─── Usage snippet ──────────────────────────────────────────────────────────
-const USAGE = `import { PREATabs } from './PREATabs';
-import type { PREATabItem } from './PREATabs';
+const USAGE = `import { TabsMain } from './TabsMain';
+import type { TabsMainItem } from './TabsMain';
 import { useState } from 'react';
 
 function App() {
-  const [items, setItems] = useState<PREATabItem[]>([
+  const [items, setItems] = useState<TabsMainItem[]>([
     { key: '1', label: 'Dashboard', children: <p>Dashboard content</p> },
     { key: '2', label: 'Analytics', children: <p>Analytics content</p> },
   ]);
@@ -80,7 +79,7 @@ function App() {
   };
 
   return (
-    <PREATabs
+    <TabsMain
       items={items}
       activeKey={activeKey}
       onChange={setActiveKey}
@@ -90,30 +89,30 @@ function App() {
 }`;
 
 // ─── Registry entry ─────────────────────────────────────────────────────────
-export const preatabsEntry: ComponentEntry = {
-  id: 'prea-tabs',
-  name: 'PREATabs',
+export const tabsMainEntry: ComponentEntry = {
+  id: 'tabs-main',
+  name: 'TabsMain',
   category: 'Navigation',
   description: 'Main tab system, used on top of the page to navigate through pages.',
   status: 'stable',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=0-1',
   files: [
-    { name: 'PREATabs.tsx', content: preatabsSource },
-    { name: 'PREATab.tsx',  content: preatTabSource },
-    { name: 'PREATabs.types.ts', content: preatabsTypes },
-    { name: 'PREATabs.css', content: preatabsCss },
-    { name: 'index.ts',    content: preatabsIndex },
+    { name: 'TabsMain.tsx',       content: tabsMainSource },
+    { name: 'Tab.tsx',            content: tabSource },
+    { name: 'TabsMain.types.ts',  content: tabsMainTypes },
+    { name: 'TabsMain.css',       content: tabsMainCss },
+    { name: 'index.ts',           content: tabsMainIndex },
   ],
   usage: USAGE,
   props: [
-    { name: 'items',          type: 'PREATabItem[]',  default: '—',     required: true,  description: 'Array of tab items. Each item requires key, label and children.' },
-    { name: 'activeKey',      type: 'string',         default: '—',     required: false, description: 'Controlled active tab key. Pair with onChange.' },
-    { name: 'defaultActiveKey', type: 'string',       default: 'items[0].key', required: false, description: 'Default active key for uncontrolled mode.' },
-    { name: 'onChange',       type: '(key: string) => void', default: '—', required: false, description: 'Callback fired when the active tab changes.' },
-    { name: 'onEdit',         type: '(key: string, action: "add" | "remove") => void', default: '—', required: false, description: 'Callback for add/remove actions. Omit to hide the + button.' },
-    { name: 'maxTabWidth',    type: 'number',         default: '250',   required: false, description: 'Maximum width of each tab in pixels.' },
-    { name: 'className',      type: 'string',         default: '—',     required: false, description: 'Additional CSS class name for the root element.' },
-    { name: 'style',          type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles for the root element.' },
+    { name: 'items',             type: 'TabsMainItem[]',  default: '—',           required: true,  description: 'Array of tab items. Each item requires key, label and children.' },
+    { name: 'activeKey',         type: 'string',          default: '—',           required: false, description: 'Controlled active tab key. Pair with onChange.' },
+    { name: 'defaultActiveKey',  type: 'string',          default: 'items[0].key', required: false, description: 'Default active key for uncontrolled mode.' },
+    { name: 'onChange',          type: '(key: string) => void', default: '—',    required: false, description: 'Callback fired when the active tab changes.' },
+    { name: 'onEdit',            type: '(key: string, action: "add" | "remove") => void', default: '—', required: false, description: 'Callback for add/remove actions. Omit to hide the + button.' },
+    { name: 'maxTabWidth',       type: 'number',          default: '250',         required: false, description: 'Maximum width of each tab in pixels.' },
+    { name: 'className',         type: 'string',          default: '—',           required: false, description: 'Additional CSS class name for the root element.' },
+    { name: 'style',             type: 'React.CSSProperties', default: '—',       required: false, description: 'Inline styles for the root element.' },
   ],
-  demo: <PREATabsDemo />,
+  demo: <TabsMainDemo />,
 };

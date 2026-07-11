@@ -1,8 +1,8 @@
-import { preatabsEntry } from './prea-tabs.registry';
+import { tabsMainEntry } from './prea-tabs.registry';
 import type { ComponentRegistry } from './types';
 
 export const registry: ComponentRegistry = {
-  'prea-tabs': preatabsEntry,
+  'tabs-main': tabsMainEntry,
 };
 
 export const categories = Array.from(

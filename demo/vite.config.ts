@@ -9,8 +9,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // Allow importing PREATabs directly from the parent folder
-      '@prea': path.resolve(__dirname, '../PREATabs'),
+      // Allow importing TabsMain directly from the parent folder
+      '@prea': path.resolve(__dirname, '../TabsMain'),
     },
     // Deduplicate packages so the parent PREATabs folder
     // uses the same copies installed in demo/node_modules
