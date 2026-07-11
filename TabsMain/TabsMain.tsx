@@ -133,6 +133,7 @@ const TabsMain: React.FC<TabsMainProps> = ({
             </button>
           </>
         )}
+
       </div>
 
       {/* ── Tab panels ──────────────────────────────────────── */}

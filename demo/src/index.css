@@ -464,15 +464,7 @@ body {
   overflow: hidden;
 }
 
-.preview-frame::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(var(--bg-preview-dot) 1px, transparent 1px);
-  background-size: 20px 20px;
-  opacity: 0.6;
-  pointer-events: none;
-}
+
 
 .preview-frame__content {
   position: relative;

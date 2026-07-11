@@ -16,14 +16,15 @@
   flex-direction: column;
   width: 100%;
   background-color: var(--prea-color-fill-tertiary);
-  border: var(--prea-line-width) solid var(--prea-color-border);
 }
 
 /* ─── Tab bar row ────────────────────────────────────────────── */
 /*
- * The bar has an explicit bottom border that runs full-width.
- * The active tab covers this border with a matching bg-container colour,
- * making it appear "connected" to the content area below.
+ * box-shadow: inset 0 -1px 0 0 colorBorder creates the bottom line.
+ * An element's own box-shadow is NOT clipped by its own overflow, so
+ * horizontal scrolling (overflow-x: auto) doesn't interfere.
+ * The active tab's colorBgContainer background paints OVER the inset shadow
+ * in its column, creating the "connected" gap without any overflow tricks.
  */
 .prea-tabs__bar {
   display: flex;
@@ -34,7 +35,7 @@
   overflow-x: auto;
   overflow-y: visible;
   scrollbar-width: none;
-  border-bottom: var(--prea-line-width) solid var(--prea-color-border);
+  box-shadow: inset 0 -1px 0 0 var(--prea-color-border);
 }
 .prea-tabs__bar::-webkit-scrollbar {
   display: none;
@@ -58,25 +59,25 @@
   align-self: stretch;
   transition: background-color 0.15s ease;
 
-  /* Reserve border slots on all sides — inactive = transparent */
-  border-left:   var(--prea-line-width) solid transparent;
-  border-right:  var(--prea-line-width) solid transparent;
-  border-bottom: var(--prea-line-width) solid transparent;
+  /* Reserve left/right border space — inactive = transparent */
+  border-left:  var(--prea-line-width) solid transparent;
+  border-right: var(--prea-line-width) solid transparent;
 }
 
 /*
  * Active tab — left + right border in colorBorder.
- * Bottom border matches colorBgContainer so it visually erases the bar's
- * bottom line, connecting the tab to the content area below.
- * margin-bottom: -1px pulls the tab down to overlap the bar border.
+ * background-color: colorBgContainer paints over the bar’s inset box-shadow
+ * in this column, making the line “disappear” under the active tab.
  */
 .prea-tabs__tab--active {
   background-color: var(--prea-color-bg-container);
-  border-left-color:   var(--prea-color-border);
-  border-right-color:  var(--prea-color-border);
-  border-bottom-color: var(--prea-color-bg-container);
-  margin-bottom: calc(-1 * var(--prea-line-width));
-  padding-bottom: calc(var(--prea-padding-xxs) + var(--prea-line-width));
+  border-left-color:  var(--prea-color-border);
+  border-right-color: var(--prea-color-border);
+}
+
+/* First tab active — no left border (nothing to connect to on the left edge) */
+.prea-tabs__tab:first-child.prea-tabs__tab--active {
+  border-left-color: transparent;
 }
 
 /* Hover on inactive tabs */
@@ -135,28 +136,55 @@
   outline-offset: 1px;
 }
 
-/* ─── Divider between tabs ───────────────────────────────────── */
+/* ─── Divider between tabs ─────────────────────────────────── */
+/*
+ * The container spans the full bar height and controls background fill.
+ * The visible line lives in ::before (16px, centered) so it can be
+ * hidden independently without touching the container width.
+ * Width is always 1px → zero layout shift.
+ */
 .prea-tabs__divider {
   flex-shrink: 0;
   width: 1px;
+  align-self: stretch;         /* full bar height */
+  background-color: transparent;
+  position: relative;
+  transition: background-color var(--prea-motion-fast) ease;
+}
+
+.prea-tabs__divider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
   height: 16px;
   background-color: var(--prea-color-border);
-  margin: auto 0;
-  opacity: 1;
   transition: opacity var(--prea-motion-fast) ease;
 }
 
-/* Divider to the RIGHT of an active or hovered tab */
-.prea-tabs__tab--active + .prea-tabs__divider,
-.prea-tabs__tab:not(.prea-tabs__tab--disabled):hover + .prea-tabs__divider {
+/*
+ * Dividers on BOTH sides of a hovered tab:
+ *   • Container → colorFillSecondary (matches hover tab bg, fills the 1px strip)
+ *   • Line (::before) → opacity 0 (hidden)
+ * No width change → zero layout shift.
+ */
+.prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover + .prea-tabs__divider,
+.prea-tabs__divider:has(+ .prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover) {
+  background-color: var(--prea-color-fill-secondary);
+}
+
+.prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover + .prea-tabs__divider::before,
+.prea-tabs__divider:has(+ .prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover)::before {
+  opacity: 0;
+}
+/* Hide line around the ACTIVE tab */
+.prea-tabs__tab--active + .prea-tabs__divider::before,
+.prea-tabs__divider:has(+ .prea-tabs__tab--active)::before {
   opacity: 0;
 }
 
-/* Divider to the LEFT of an active or hovered tab */
-.prea-tabs__divider:has(+ .prea-tabs__tab--active),
-.prea-tabs__divider:has(+ .prea-tabs__tab:not(.prea-tabs__tab--disabled):hover) {
-  opacity: 0;
-}
 
 /* ─── Add (+) button ─────────────────────────────────────────── */
 .prea-tabs__add-btn {
