@@ -3,9 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { registry, categories } from '../../registry';
 
 // Coming-soon placeholder components (not yet coded)
-const comingSoon = [
-  { id: 'prea-button', name: 'PREAButton', category: 'Inputs' },
-];
+const comingSoon: { id: string; name: string; category: string }[] = [];
 
 export function Sidebar() {
   const [search, setSearch] = useState('');
