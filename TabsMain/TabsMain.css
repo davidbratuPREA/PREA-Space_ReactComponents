@@ -124,19 +124,16 @@
   border-left-color: transparent;
 }
 
-/* Hover on inactive tabs */
-.prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover {
+/* Hover on inactive tabs — pseudo-element stops 1px above the bar's bottom
+ * so the inset border shadow stays visible without any layout shift.
+ * (background-color on the real element would cover the shadow and cause a
+ *  1px jump when the tab becomes active and margin-bottom is removed.) */
+.prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 1px 0; /* fills tab except bottom 1px — bar shadow shows through */
   background-color: var(--tabs-hover-bg);
-}
-
-/*
- * Non-active tabs stop 1px short of the bar's bottom edge so the inset
- * box-shadow (the border line) is always visible beneath them.
- * Active tab has full stretch — its background intentionally covers the
- * shadow, creating the "connected to content" open effect.
- */
-.prea-tabs__tab:not(.prea-tabs__tab--active) {
-  margin-bottom: 1px;
+  pointer-events: none;
 }
 
 /* Disabled tab */
