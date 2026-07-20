@@ -12,9 +12,9 @@ export default defineConfig({
       // Allow importing TabsMain directly from the parent folder
       '@prea': path.resolve(__dirname, '../TabsMain'),
     },
-    // Deduplicate packages so the parent PREATabs folder
-    // uses the same copies installed in demo/node_modules
-    dedupe: ['react', 'react-dom', 'antd', '@ant-design/icons'],
+    // Deduplicate packages so the parent component folders
+    // use the same copies installed in demo/node_modules
+    dedupe: ['react', 'react-dom', 'antd', '@ant-design/icons', 'lucide-react'],
   },
   server: {
     fs: {
