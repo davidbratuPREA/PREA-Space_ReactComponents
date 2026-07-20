@@ -17,7 +17,8 @@
 
 /* ─── DropdownMenu container ─────────────────────────────────────────────── */
 .prea-dropdown-menu {
-  display: flex;
+  /* inline-flex: width = widest item + padding, not the parent container */
+  display: inline-flex;
   flex-direction: column;
   background-color: var(--dropdown\/color\/bg, #fff);
   border: 1px solid var(--dropdown\/color\/border, #e1e1e1);
@@ -97,7 +98,8 @@
 
 /* ─── GroupDropdownMenu ──────────────────────────────────────────────────── */
 .prea-group-dropdown-menu {
-  display: flex;
+  /* inline-flex: width = widest item + padding, not the parent container */
+  display: inline-flex;
   flex-direction: column;
   background-color: var(--dropdown\/color\/bg, #fff);
   border: 1px solid var(--dropdown\/color\/border, #e1e1e1);
