@@ -1,24 +1,31 @@
-import type { ReactNode } from 'react';
+import React from 'react';
+
+/** State of a single breadcrumb item */
+export type BreadcrumbItemState = 'default' | 'hover' | 'active';
 
 export interface BreadcrumbItemDef {
-  /** Unique key */
   key: string;
-  /** Label text */
-  label: ReactNode;
-  /** Optional link URL — if omitted the item renders as plain text */
+  /** The displayed link label (e.g. "Deep Street") */
+  label: string;
+  /**
+   * Optional href — makes the item a navigable link.
+   * When omitted the item is rendered as a span.
+   */
   href?: string;
-  /** Optional icon rendered before the label */
-  icon?: ReactNode;
+  /**
+   * Optional dropdown items.
+   * When provided the item shows a chevron-down on hover and
+   * opens a small dropdown list on click.
+   */
+  dropdownItems?: Array<{ key: string; label: string; active?: boolean }>;
+  /** Called when the user selects a dropdown option */
+  onDropdownSelect?: (optionKey: string) => void;
+  /** Click handler for the item text itself */
+  onClick?: (key: string) => void;
 }
 
 export interface BreadcrumbProps {
-  /** Ordered list of crumb items. Last item is the current active page. */
   items: BreadcrumbItemDef[];
-  /**
-   * Custom separator rendered between crumbs.
-   * @default '/'
-   */
-  separator?: ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }

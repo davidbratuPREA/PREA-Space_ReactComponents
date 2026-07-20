@@ -1,180 +1,168 @@
-/* ──────────────────────────────────────────────────────────────────────────────
-   PREA DropdownMenu + GroupDropdownMenu — DropdownMenu.css
-   Values sourced directly from Figma "Components" variable collection,
-   Dropdown/* tokens (dev mode confirmed values).
-   ────────────────────────────────────────────────────────────────────────────── */
-
-/* ── Token definitions — Light mode (1:1) ───────────────────────────────────── */
+/* ─── Figma design tokens — Dropdown ─────────────────────────────────────── */
 :root {
-  /* Sizing — Dropdown/Sizing/* */
-  --dd-item-height:     22px;   /* controlHeight (SM item) */
-  --dd-item-height-lg:  32px;   /* controlHeightBig */
-  --dd-padding-item:     4px;   /* PaddingItem — vertical padding in item list */
-  --dd-padding-item-h:   6px;   /* PaddingItemBig — horizontal padding per item */
-  --dd-padding-head-v:   2px;   /* PaddingHead-V — group header vertical padding */
-  --dd-padding-head-h:   8px;   /* PaddingHead-H — group header horizontal padding */
-  --dd-radius:           4px;   /* BorderRadius — per-item border radius */
-  --dd-radius-menu:      6px;   /* BorderRadiusLG — outer menu border radius */
-  --dd-icon-gap:         6px;   /* gap between icon and label */
+  --dropdown\/sizing\/controlheight: 23px;
+  --dropdown\/sizing\/paddingitem: 4px;
+  --dropdown\/sizing\/borderradius: 4px;
+  --dropdown\/sizing\/icongap: 6px;
+  --dropdown\/sizing\/borderradiuslg: 6px;
+  --dropdown\/sizing\/controlheightbig: 32px;
+  --dropdown\/sizing\/paddingitembig: 6px;
 
-  /* Typography — Font/* */
-  --dd-font-size:   14px;   /* Font Size/fontSizeLG */
-  --dd-font-weight: 400;    /* Font Weight/Regular */
-  --dd-line-height: 18px;   /* Line Height/lineHeightLG */
-
-  /* Colors — Dropdown/Color/* (Light) */
-  --dd-text:          #202020;   /* Dropdown/Color/Text */
-  --dd-text-danger:   #ff4d4f;
-  --dd-text-disabled: rgba(0,0,0,0.25);
-
-  --dd-bg:            #ffffff;   /* Dropdown/Color/BG-2 */
-  --dd-bg-hover:      rgba(0,0,0,0.06);   /* item hover bg */
-  --dd-bg-head:       #f6f6f6;   /* Dropdown/Color/BG-2b — group header bg */
-
-  --dd-border:        #e1e1e1;   /* Dropdown/Color/Border */
-  --dd-shadow:        0 6px 16px 0 rgba(0,0,0,0.08),
-                      0 3px 6px -4px rgba(0,0,0,0.12),
-                      0 9px 28px 8px rgba(0,0,0,0.05);
+  --dropdown\/color\/bg: #ffffff;
+  --dropdown\/color\/border: #e1e1e1;
+  --dropdown\/color\/text: #202020;
+  --dropdown\/color\/itemhover: #e7e7e7;
+  --dropdown\/color\/danger-text: #d92d20;
 }
 
-/* ── Token overrides — Dark mode (1:2) ──────────────────────────────────────── */
-[data-theme="dark"] {
-  --dd-text:          rgba(255,255,255,0.85);
-  --dd-text-disabled: rgba(255,255,255,0.25);
-
-  --dd-bg:            #1f1f1f;
-  --dd-bg-hover:      rgba(255,255,255,0.08);
-  --dd-bg-head:       #2a2a2a;
-
-  --dd-border:        #3a3a3a;
-  --dd-shadow:        0 6px 16px 0 rgba(0,0,0,0.32),
-                      0 3px 6px -4px rgba(0,0,0,0.48),
-                      0 9px 28px 8px rgba(0,0,0,0.2);
-}
-
-/* ────────────────────────────────────────────────────────────────────────────
-   DropdownMenu
-   ─────────────────────────────────────────────────────────────────────────── */
+/* ─── DropdownMenu container ─────────────────────────────────────────────── */
 .prea-dropdown-menu {
-  background: var(--dd-bg);
-  border: 1px solid var(--dd-border);
-  border-radius: var(--dd-radius-menu);
-  box-shadow: var(--dd-shadow);
-  padding: var(--dd-padding-item) 0;
-  min-width: 150px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
+  background-color: var(--dropdown\/color\/bg, #fff);
+  border: 1px solid var(--dropdown\/color\/border, #e1e1e1);
+  border-radius: var(--dropdown\/sizing\/borderradiuslg, 6px);
+  min-width: 100px;
   overflow: hidden;
 }
 
-/* ── Item ────────────────────────────────────────────────────────────────────── */
-.prea-dropdown-menu__item {
+/* Inner items wrapper — adds padding around the group */
+.prea-dropdown-menu__group {
+  display: flex;
+  flex-direction: column;
+  padding: var(--dropdown\/sizing\/paddingitem, 4px);
+}
+
+/* ─── DropdownItem ───────────────────────────────────────────────────────── */
+.prea-dropdown-item {
   display: flex;
   align-items: center;
-  gap: var(--dd-icon-gap);
-  height: var(--dd-item-height-lg);
-  padding: 0 var(--dd-padding-item-h);
-  margin: 0 var(--dd-padding-item);
-  border-radius: var(--dd-radius);
-  font-size: var(--dd-font-size);
-  font-weight: var(--dd-font-weight);
-  line-height: var(--dd-line-height);
-  color: var(--dd-text);
+  height: var(--dropdown\/sizing\/controlheight, 23px);
+  padding-inline: var(--dropdown\/sizing\/paddingitem, 4px);
+  border-radius: var(--dropdown\/sizing\/borderradius, 4px);
   cursor: pointer;
   user-select: none;
-  transition: background 0.15s ease, color 0.15s ease;
-  white-space: nowrap;
+  transition: background-color 120ms ease;
+  color: var(--dropdown\/color\/text, #202020);
 }
 
-.prea-dropdown-menu__item:hover:not(.prea-dropdown-menu__item--disabled) {
-  background: var(--dd-bg-hover);
+.prea-dropdown-item:hover:not(.prea-dropdown-item--disabled) {
+  background-color: var(--dropdown\/color\/itemhover, #e7e7e7);
 }
 
-/* ── Danger ─────────────────────────────────────────────────────────────────── */
-.prea-dropdown-menu__item--danger {
-  color: var(--dd-text-danger);
+/* Danger state */
+.prea-dropdown-item--danger {
+  color: var(--dropdown\/color\/danger-text, #d92d20);
 }
 
-.prea-dropdown-menu__item--danger:hover:not(.prea-dropdown-menu__item--disabled) {
-  background: rgba(255, 77, 79, 0.06);
-}
-
-/* ── Disabled ────────────────────────────────────────────────────────────────── */
-.prea-dropdown-menu__item--disabled {
-  color: var(--dd-text-disabled);
+/* Disabled state */
+.prea-dropdown-item--disabled {
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-/* ── Icon ───────────────────────────────────────────────────────────────────── */
-.prea-dropdown-menu__icon {
-  display: inline-flex;
+/* icon + text row */
+.prea-dropdown-item__icon-text {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
   align-items: center;
-  font-size: 1em;
-  flex-shrink: 0;
-  line-height: 1;
+  gap: var(--dropdown\/sizing\/icongap, 6px);
 }
 
-/* ── Label ──────────────────────────────────────────────────────────────────── */
-.prea-dropdown-menu__label {
+/* Icon slots — 14 px to match Figma */
+.prea-dropdown-item__icon-left,
+.prea-dropdown-item__icon-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  /* Inherits color from parent .prea-dropdown-item */
+}
+
+.prea-dropdown-item__label {
+  font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', sans-serif);
+  font-size: var(--font-size\/fontsize, 12px);
+  line-height: var(--line-height\/lineheight, 16px);
+  font-weight: 400;
+  white-space: nowrap;
   flex: 1 0 0;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Inherits color from parent .prea-dropdown-item */
 }
 
-/* ── Suffix (e.g. chevron) ───────────────────────────────────────────────────── */
-.prea-dropdown-menu__suffix {
-  display: inline-flex;
-  align-items: center;
-  margin-left: auto;
-  padding-left: 8px;
-  flex-shrink: 0;
-  color: var(--dd-text-disabled);
-  font-size: 0.875em;
-}
-
-/* ────────────────────────────────────────────────────────────────────────────
-   GroupDropdownMenu
-   ─────────────────────────────────────────────────────────────────────────── */
+/* ─── GroupDropdownMenu ──────────────────────────────────────────────────── */
 .prea-group-dropdown-menu {
-  background: var(--dd-bg);
-  border: 1px solid var(--dd-border);
-  border-radius: var(--dd-radius-menu);
-  box-shadow: var(--dd-shadow);
-  min-width: 150px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
+  background-color: var(--dropdown\/color\/bg, #fff);
+  border: 1px solid var(--dropdown\/color\/border, #e1e1e1);
+  border-radius: var(--dropdown\/sizing\/borderradiuslg, 6px);
+  min-width: 100px;
   overflow: hidden;
 }
 
-/* ── Group ───────────────────────────────────────────────────────────────────── */
-.prea-group-dropdown-menu__group {
+.prea-group-dropdown-menu__section {
   display: flex;
   flex-direction: column;
+  padding: var(--dropdown\/sizing\/paddingitem, 4px);
 }
 
-/* ── Group header ────────────────────────────────────────────────────────────── */
+.prea-group-dropdown-menu__section + .prea-group-dropdown-menu__section {
+  border-top: 1px solid var(--dropdown\/color\/border, #e1e1e1);
+}
+
+/* "Group head" header label */
 .prea-group-dropdown-menu__heading {
+  font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', sans-serif);
+  font-size: var(--font-size\/fontsize, 12px);
+  line-height: var(--line-height\/lineheight, 16px);
+  font-weight: 400;
+  color: var(--dropdown\/color\/text, #202020);
+  opacity: 0.45;
+  padding-inline: var(--dropdown\/sizing\/paddingitembig, 6px);
+  padding-block: 4px;
+  white-space: nowrap;
+}
+
+/* DropdownBig item — 32 px, 14 px text, no icon */
+.prea-dropdown-big-item {
   display: flex;
   align-items: center;
-  height: var(--dd-item-height-lg);
-  padding: var(--dd-padding-head-v) var(--dd-padding-head-h);
-  background: var(--dd-bg-head);
-  border-bottom: 1px solid var(--dd-border);
-  font-size: var(--dd-font-size);
-  font-weight: 500;
-  line-height: var(--dd-line-height);
-  color: var(--dd-text);
+  height: var(--dropdown\/sizing\/controlheightbig, 32px);
+  padding-inline: var(--dropdown\/sizing\/paddingitembig, 6px);
+  border-radius: var(--dropdown\/sizing\/borderradius, 4px);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 120ms ease;
+  color: var(--dropdown\/color\/text, #202020);
 }
 
-/* ── Group items list ────────────────────────────────────────────────────────── */
-.prea-group-dropdown-menu__items {
-  display: flex;
-  flex-direction: column;
-  padding: var(--dd-padding-item) 0;
+.prea-dropdown-big-item:hover:not(.prea-dropdown-big-item--disabled) {
+  background-color: var(--dropdown\/color\/itemhover, #e7e7e7);
 }
 
-/* Reuse the same item style from DropdownMenu */
-.prea-group-dropdown-menu__items .prea-dropdown-menu__item {
-  margin: 0 var(--dd-padding-item);
+.prea-dropdown-big-item--danger {
+  color: var(--dropdown\/color\/danger-text, #d92d20);
+}
+
+.prea-dropdown-big-item--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.prea-dropdown-big-item__label {
+  font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', sans-serif);
+  font-size: var(--font-size\/fontsizelg, 14px);
+  line-height: var(--line-height\/lineheightlg, 18px);
+  font-weight: 400;
+  flex: 1 0 0;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

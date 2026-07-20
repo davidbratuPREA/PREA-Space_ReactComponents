@@ -1,8 +1,10 @@
-export { DropdownMenu } from './DropdownMenu';
+export { DropdownMenu, DropdownItem } from './DropdownMenu';
 export { GroupDropdownMenu } from './GroupDropdownMenu';
 export type {
   DropdownMenuProps,
+  DropdownItemDef,
+  DropdownItemState,
   GroupDropdownMenuProps,
-  DropdownItem,
   DropdownGroup,
+  DropdownBigItemDef,
 } from './DropdownMenu.types';

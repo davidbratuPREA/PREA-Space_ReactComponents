@@ -1,76 +1,75 @@
 import React from 'react';
+import type { GroupDropdownMenuProps, DropdownBigItemDef } from './DropdownMenu.types';
 import './DropdownMenu.css';
-import type { GroupDropdownMenuProps } from './DropdownMenu.types';
+
+// ─── DropdownBigItem ───────────────────────────────────────────────────────
 
 /**
- * PREA GroupDropdownMenu — Dropdown panel with section group headers.
+ * DropdownBigItem
  *
- * Each group has a heading (DropdownBig Head from Figma) and a list of items.
+ * Matches Figma "DropdownBig Item" — text-only row, 32 px tall, 14 px font.
+ * No icon, no chevron. Used inside GroupDropdownMenu sections.
  *
- * @example
- * ```tsx
- * <GroupDropdownMenu
- *   groups={[
- *     {
- *       heading: 'Group A',
- *       items: [
- *         { key: '1', label: 'Option 1' },
- *         { key: '2', label: 'Option 2' },
- *       ],
- *     },
- *     {
- *       heading: 'Group B',
- *       items: [
- *         { key: '3', label: 'Option 3', danger: true },
- *       ],
- *     },
- *   ]}
- * />
- * ```
+ * States: Default (no bg) · Hover (#e7e7e7) via CSS
  */
-export function GroupDropdownMenu({ groups, className = '', style }: GroupDropdownMenuProps) {
+function DropdownBigItem({
+  label,
+  danger = false,
+  disabled = false,
+  onClick,
+  itemKey,
+}: DropdownBigItemDef & { itemKey: string }) {
+  const cls = [
+    'prea-dropdown-big-item',
+    danger && 'prea-dropdown-big-item--danger',
+    disabled && 'prea-dropdown-big-item--disabled',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  function handleClick() {
+    if (!disabled && onClick) onClick(itemKey);
+  }
+
   return (
     <div
-      className={['prea-group-dropdown-menu', className].filter(Boolean).join(' ')}
-      style={style}
-      role="menu"
+      className={cls}
+      role="menuitem"
+      tabIndex={disabled ? -1 : 0}
+      aria-disabled={disabled}
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') handleClick();
+      }}
     >
-      {groups.map((group, i) => (
-        <div key={i} className="prea-group-dropdown-menu__group">
-          <div className="prea-group-dropdown-menu__heading">
+      <span className="prea-dropdown-big-item__label">{label}</span>
+    </div>
+  );
+}
+
+// ─── GroupDropdownMenu ─────────────────────────────────────────────────────
+
+/**
+ * GroupDropdownMenu
+ *
+ * Matches the Figma "GroupDropdown Menu" — panel with one or more groups,
+ * each having a "Group head" heading followed by DropdownBig items.
+ *
+ * Multiple groups are separated by a 1px border divider.
+ */
+export function GroupDropdownMenu({ groups, className, style }: GroupDropdownMenuProps) {
+  const cls = ['prea-group-dropdown-menu', className].filter(Boolean).join(' ');
+  return (
+    <div className={cls} role="menu" style={style}>
+      {groups.map((group, gi) => (
+        <div key={group.heading ?? gi} className="prea-group-dropdown-menu__section">
+          <div className="prea-group-dropdown-menu__heading" aria-hidden>
             {group.heading}
           </div>
-          <div className="prea-group-dropdown-menu__items">
-            {group.items.map((item) => (
-              <div
-                key={item.key}
-                className={[
-                  'prea-dropdown-menu__item',
-                  item.danger   ? 'prea-dropdown-menu__item--danger'   : '',
-                  item.disabled ? 'prea-dropdown-menu__item--disabled' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                role="menuitem"
-                aria-disabled={item.disabled}
-                onClick={() => {
-                  if (!item.disabled) item.onClick?.(item.key);
-                }}
-              >
-                {item.icon && (
-                  <span className="prea-dropdown-menu__icon" aria-hidden="true">
-                    {item.icon}
-                  </span>
-                )}
-                <span className="prea-dropdown-menu__label">{item.label}</span>
-                {item.suffix && (
-                  <span className="prea-dropdown-menu__suffix" aria-hidden="true">
-                    {item.suffix}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
+          {group.items.map((item) => {
+            const { key, ...rest } = item;
+            return <DropdownBigItem key={key} {...rest} itemKey={key} />;
+          })}
         </div>
       ))}
     </div>

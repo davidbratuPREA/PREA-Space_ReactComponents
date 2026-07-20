@@ -1,104 +1,140 @@
-/* ──────────────────────────────────────────────────────────────────────────────
-   PREA Breadcrumb — Breadcrumb.css
-   Values sourced from Figma "Components" collection — Breadcrumb/* tokens.
-   Light (mode 1:1) in :root, Dark (mode 1:2) overrides in [data-theme="dark"].
-   ────────────────────────────────────────────────────────────────────────────── */
-
-/* ── Token definitions — Light mode ─────────────────────────────────────────── */
+/* ─── Figma design tokens — Breadcrumb ───────────────────────────────────── */
 :root {
-  /* Sizing — Breadcrumb/Sizing/* */
-  --bc-height:        22px;   /* item height */
-  --bc-gap:            4px;   /* gap between icon and label */
-  --bc-separator-gap:  6px;   /* gap around separator */
-  --bc-font-size:     13px;   /* fontSize/SM */
-  --bc-font-weight:   400;    /* Regular */
-  --bc-line-height:   1.4;
-
-  /* Colors — Breadcrumb/Color/* (Light) */
-  --bc-text:          rgba(0,0,0,0.45);    /* inactive link color */
-  --bc-text-hover:    #4096ff;             /* hover link */
-  --bc-text-active:   rgba(0,0,0,0.88);   /* current/active page */
-  --bc-separator:     rgba(0,0,0,0.25);   /* separator slash color */
-  --bc-icon:          rgba(0,0,0,0.45);   /* icon color */
-  --bc-icon-hover:    #4096ff;
+  --breadcrumb\/sizing\/paddingtext: 6px;
+  --breadcrumb\/sizing\/paddingicon: 2px;
+  --breadcrumb\/sizing\/borderradius: 3px;
+  --breadcrumb\/color\/text: #202020;
+  --breadcrumb\/color\/hover-bg: #e7e7e7;
+  --breadcrumb\/color\/dropdown-bg: #ffffff;
+  --breadcrumb\/color\/dropdown-border: #e1e1e1;
+  --breadcrumb\/color\/active-item: #e7e7e7;
 }
 
-[data-theme="dark"] {
-  --bc-text:          rgba(255,255,255,0.45);
-  --bc-text-hover:    #4096ff;
-  --bc-text-active:   rgba(255,255,255,0.85);
-  --bc-separator:     rgba(255,255,255,0.25);
-  --bc-icon:          rgba(255,255,255,0.45);
-  --bc-icon-hover:    #4096ff;
-}
-
-/* ── Breadcrumb container ───────────────────────────────────────────────────── */
+/* ─── Breadcrumb container ───────────────────────────────────────────────── */
 .prea-breadcrumb {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: var(--bc-font-size);
-  font-weight: var(--bc-font-weight);
-  line-height: var(--bc-line-height);
+  gap: 0; /* items manage their own spacing */
 }
 
-/* ── Crumb item wrapper ─────────────────────────────────────────────────────── */
-.prea-breadcrumb__item {
-  display: inline-flex;
+/* ─── BreadcrumbItem ─────────────────────────────────────────────────────── */
+
+/*
+ * Structure (per Figma):
+ *
+ *   ┌─ BreadcrumbText (left-radius)─┐ ┌─ BreadcrumbIcon (right-radius) ─┐
+ *   │  padX: paddingtext             │ │  pad: paddingicon                │
+ *   │  "Link Item"                   │ │  icon 14px (›  or  ∨)            │
+ *   └────────────────────────────────┘ └──────────────────────────────────┘
+ *
+ * Default:  no background, chevron-right
+ * Hover:    pill background on both parts, chevron-down (when dropdownItems exist)
+ * Active:   same as Hover (dropdown is open)
+ */
+
+.prea-breadcrumb-item {
+  position: relative; /* dropdown anchoring */
+  display: flex;
   align-items: center;
+  cursor: default;
+  color: var(--breadcrumb\/color\/text, #202020);
 }
 
-/* ── Separator ──────────────────────────────────────────────────────────────── */
-.prea-breadcrumb__separator {
-  margin: 0 var(--bc-separator-gap);
-  color: var(--bc-separator);
-  user-select: none;
-  line-height: 1;
-}
-
-/* ── Crumb link / span ──────────────────────────────────────────────────────── */
-.prea-breadcrumb__link {
-  display: inline-flex;
+/* The "pill" = text-part + icon-part together */
+.prea-breadcrumb-item__pill {
+  display: flex;
   align-items: center;
-  gap: var(--bc-gap);
-  height: var(--bc-height);
-  color: var(--bc-text);
-  text-decoration: none;
-  border-radius: 4px;
-  padding: 0 2px;
-  transition: color 0.2s ease;
+  border-radius: var(--breadcrumb\/sizing\/borderradius, 3px);
+  transition: background-color 120ms ease;
+}
+
+.prea-breadcrumb-item__pill:hover,
+.prea-breadcrumb-item--active .prea-breadcrumb-item__pill {
+  background-color: var(--breadcrumb\/color\/hover-bg, #e7e7e7);
   cursor: pointer;
 }
 
-.prea-breadcrumb__link:hover {
-  color: var(--bc-text-hover);
-}
-
-.prea-breadcrumb__link:hover .prea-breadcrumb__icon {
-  color: var(--bc-icon-hover);
-}
-
-/* ── Active (last) crumb ────────────────────────────────────────────────────── */
-.prea-breadcrumb__item--active .prea-breadcrumb__link {
-  color: var(--bc-text-active);
-  cursor: default;
-  pointer-events: none;
-}
-
-/* ── Icon ───────────────────────────────────────────────────────────────────── */
-.prea-breadcrumb__icon {
-  display: inline-flex;
+/* Text part — left rounded corners */
+.prea-breadcrumb-item__text {
+  display: flex;
   align-items: center;
-  font-size: 1em;
-  color: var(--bc-icon);
-  transition: color 0.2s ease;
-  line-height: 1;
+  height: 100%;
+  padding-inline: var(--breadcrumb\/sizing\/paddingtext, 6px);
+  border-radius:
+    var(--breadcrumb\/sizing\/borderradius, 3px)
+    0
+    0
+    var(--breadcrumb\/sizing\/borderradius, 3px);
+  font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', sans-serif);
+  font-size: var(--font-size\/fontsize, 12px);
+  line-height: var(--line-height\/lineheight, 16px);
+  font-weight: 400;
+  white-space: nowrap;
+  text-decoration: none;
+  color: inherit;
 }
 
-.prea-breadcrumb__item--active .prea-breadcrumb__icon {
-  color: var(--bc-text-active);
+.prea-breadcrumb-item__text:focus-visible {
+  outline: 2px solid var(--breadcrumb\/color\/text, #202020);
+  outline-offset: 2px;
+  border-radius: var(--breadcrumb\/sizing\/borderradius, 3px);
+}
+
+/* Icon part — right rounded corners */
+.prea-breadcrumb-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--breadcrumb\/sizing\/paddingicon, 2px);
+  border-radius:
+    0
+    var(--breadcrumb\/sizing\/borderradius, 3px)
+    var(--breadcrumb\/sizing\/borderradius, 3px)
+    0;
+  width: 14px;
+  height: 14px;
+}
+
+/* ─── Dropdown panel ─────────────────────────────────────────────────────── */
+.prea-breadcrumb-item__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--breadcrumb\/color\/dropdown-bg, #fff);
+  border: 1px solid var(--breadcrumb\/color\/dropdown-border, #e1e1e1);
+  border-radius: var(--dropdown\/sizing\/borderradiuslg, 6px);
+  min-width: 120px;
+  overflow: hidden;
+  padding: var(--dropdown\/sizing\/paddingitem, 4px);
+  /* shadow for elevation */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.prea-breadcrumb-item__dropdown-option {
+  display: flex;
+  align-items: center;
+  height: var(--dropdown\/sizing\/controlheight, 23px);
+  padding-inline: var(--dropdown\/sizing\/paddingitem, 4px);
+  border-radius: var(--dropdown\/sizing\/borderradius, 4px);
+  font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', sans-serif);
+  font-size: var(--font-size\/fontsize, 12px);
+  line-height: var(--line-height\/lineheight, 16px);
+  font-weight: 400;
+  color: var(--breadcrumb\/color\/text, #202020);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 120ms ease;
+}
+
+.prea-breadcrumb-item__dropdown-option:hover {
+  background-color: var(--dropdown\/color\/itemhover, #e7e7e7);
+}
+
+.prea-breadcrumb-item__dropdown-option--active {
+  background-color: var(--dropdown\/color\/itemhover, #e7e7e7);
+  font-weight: 500;
 }

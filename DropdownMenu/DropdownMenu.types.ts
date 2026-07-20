@@ -1,33 +1,49 @@
-import type { ReactNode } from 'react';
+import React from 'react';
 
-export interface DropdownItem {
-  /** Unique item key */
+/** Single row state — matches Figma "Dropdown Item" states */
+export type DropdownItemState = 'default' | 'hover' | 'danger';
+
+export interface DropdownItemDef {
   key: string;
   /** Label text */
-  label: ReactNode;
-  /** Optional icon before the label */
-  icon?: ReactNode;
-  /** Renders item in danger/red style */
+  label: string;
+  /**
+   * Optional icon — ReactNode rendered on the left (14 px).
+   * In the Figma design this is always a lucide icon (e.g. li:atom).
+   */
+  icon?: React.ReactNode;
+  /**
+   * Optional right-side element.
+   * Figma default: a chevron-right icon — pass false to hide it.
+   */
+  showChevron?: boolean;
+  /** Renders the item in danger/red style */
   danger?: boolean;
-  /** Grays out the item and prevents click */
+  /** Grays the item out — no hover interaction */
   disabled?: boolean;
-  /** Optional suffix element (e.g. chevron for sub-menu indicator) */
-  suffix?: ReactNode;
   onClick?: (key: string) => void;
 }
 
 export interface DropdownMenuProps {
-  items: DropdownItem[];
+  items: DropdownItemDef[];
   className?: string;
   style?: React.CSSProperties;
 }
 
-/* ── GroupDropdownMenu ─────────────────────────────────────────────────────── */
+/* ─── GroupDropdownMenu ──────────────────────────────────────────────────── */
+
+export interface DropdownBigItemDef {
+  key: string;
+  label: string;
+  danger?: boolean;
+  disabled?: boolean;
+  onClick?: (key: string) => void;
+}
 
 export interface DropdownGroup {
-  /** Group heading label */
-  heading: ReactNode;
-  items: DropdownItem[];
+  /** Group header label ("Group head" in Figma) */
+  heading: string;
+  items: DropdownBigItemDef[];
 }
 
 export interface GroupDropdownMenuProps {

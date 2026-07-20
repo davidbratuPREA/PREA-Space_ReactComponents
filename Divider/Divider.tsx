@@ -3,71 +3,26 @@ import type { DividerProps } from './Divider.types';
 import './Divider.css';
 
 /**
- * PREA Divider — horizontal or vertical separator line.
+ * Divider
  *
- * Supports an optional text label positioned left / center / right,
- * dashed line style, and both horizontal (block) and vertical (inline) orientations.
+ * A thin line that separates content.
+ * Matches the Figma "Divider" component — 2 variants: Horizontal and Vertical.
  *
- * @example
- * ```tsx
- * // Horizontal, no label
- * <Divider />
- *
- * // Horizontal with centred label
- * <Divider label="OR" />
- *
- * // Dashed with label on the left
- * <Divider label="Section" labelPosition="left" dashed />
- *
- * // Vertical (inline)
- * <span>Left</span>
- * <Divider orientation="vertical" />
- * <span>Right</span>
- * ```
+ * • Horizontal (default): full-width block line, 1px tall
+ * • Vertical: inline line, 1px wide, height relative to surrounding text
  */
 export function Divider({
   orientation = 'horizontal',
-  label,
-  labelPosition = 'center',
-  dashed = false,
-  className = '',
+  className,
   style,
 }: DividerProps) {
-  if (orientation === 'vertical') {
-    return (
-      <span
-        className={[
-          'prea-divider',
-          'prea-divider--vertical',
-          dashed ? 'prea-divider--dashed' : '',
-          className,
-        ]
-          .filter(Boolean)
-          .join(' ')}
-        style={style}
-        role="separator"
-        aria-orientation="vertical"
-      />
-    );
-  }
+  const cls = [
+    'prea-divider',
+    `prea-divider--${orientation}`,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  return (
-    <div
-      className={[
-        'prea-divider',
-        dashed ? 'prea-divider--dashed' : '',
-        label ? `prea-divider--label-${labelPosition}` : '',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      style={style}
-      role="separator"
-      aria-orientation="horizontal"
-    >
-      {label && (
-        <span className="prea-divider__label">{label}</span>
-      )}
-    </div>
-  );
+  return <div className={cls} role="separator" aria-orientation={orientation} style={style} />;
 }

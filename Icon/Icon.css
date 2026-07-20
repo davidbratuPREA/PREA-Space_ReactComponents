@@ -1,0 +1,5 @@
+.prea-icon {
+  display: block;
+  flex-shrink: 0;
+  /* Icons inherit currentColor from their parent — override with color prop */
+}
