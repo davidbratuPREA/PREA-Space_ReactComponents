@@ -129,6 +129,16 @@
   background-color: var(--tabs-hover-bg);
 }
 
+/*
+ * Non-active tabs stop 1px short of the bar's bottom edge so the inset
+ * box-shadow (the border line) is always visible beneath them.
+ * Active tab has full stretch — its background intentionally covers the
+ * shadow, creating the "connected to content" open effect.
+ */
+.prea-tabs__tab:not(.prea-tabs__tab--active) {
+  margin-bottom: 1px;
+}
+
 /* Disabled tab */
 .prea-tabs__tab--disabled {
   cursor: not-allowed;
