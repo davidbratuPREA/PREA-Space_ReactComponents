@@ -19,7 +19,7 @@
 }
 
 /* Dark mode colour overrides — exact values from Figma Dark.tokens.json */
-[data-theme='dark'] {
+html[data-theme='dark'] {
   --dropdown\/color\/bg: #292929;
   --dropdown\/color\/border: #3D3D3D;
   --dropdown\/color\/text: #F5F5F5;

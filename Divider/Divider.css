@@ -5,7 +5,7 @@
 }
 
 /* Dark mode — exact value from Figma Dark.tokens.json */
-[data-theme='dark'] {
+html[data-theme='dark'] {
   --divider\/color\/line: #3D3D3D;
 }
 

@@ -12,12 +12,13 @@
   --breadcrumb\/color\/activebig:  #D5D5D5;  /* text-part active bg   */
   --breadcrumb\/color\/activesmall: #C1C1C1; /* icon-part active bg   */
 
-  --breadcrumb\/color\/dropdown-bg: #ffffff;
-  --breadcrumb\/color\/dropdown-border: #e1e1e1;
+  /* Note: dropdown-bg and dropdown-border intentionally omitted here —
+     the breadcrumb dropdown is rendered using the shared Dropdown color tokens
+     which already have dark mode overrides in DropdownMenu.css */
 }
 
 /* Dark mode — exact values from Figma Dark.tokens.json */
-[data-theme='dark'] {
+html[data-theme='dark'] {
   --breadcrumb\/color\/text: #F5F5F5;
   --breadcrumb\/color\/icon: #F5F5F5;
   --breadcrumb\/color\/hoverbig:   #3F3F3F;
@@ -129,8 +130,9 @@
   z-index: 100;
   display: flex;
   flex-direction: column;
-  background-color: var(--breadcrumb\/color\/dropdown-bg, #fff);
-  border: 1px solid var(--breadcrumb\/color\/dropdown-border, #e1e1e1);
+  /* Reuse the shared Dropdown tokens — they carry both light & dark mode values */
+  background-color: var(--dropdown\/color\/bg, #ffffff);
+  border: 1px solid var(--dropdown\/color\/border, #e1e1e1);
   border-radius: var(--dropdown\/sizing\/borderradiuslg, 6px);
   min-width: 100px;
   overflow: hidden;
@@ -148,7 +150,8 @@
   font-size: var(--font-size\/fontsize, 12px);
   line-height: var(--line-height\/lineheight, 16px);
   font-weight: 400;
-  color: var(--breadcrumb\/color\/text, #202020);
+  /* Use the dropdown text token so it flips to #F5F5F5 in dark mode */
+  color: var(--dropdown\/color\/text, #202020);
   cursor: pointer;
   white-space: nowrap;
   transition: background-color 120ms ease;

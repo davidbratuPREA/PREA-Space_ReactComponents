@@ -40,7 +40,7 @@
 
 /* ── Token overrides — Dark mode ─────────────────────────────────────────────── */
 /* Exact values from Figma Dark.tokens.json → TabsMain/Color/* */
-[data-theme="dark"] {
+html[data-theme="dark"] {
   --tabs-bar-bg:     #1B1B1B;  /* TabsMain/Color/BG        */
   --tabs-hover-bg:   #282828;  /* TabsMain/Color/BG-Hover  */
   --tabs-active-bg:  #303030;  /* TabsMain/Color/BG-Active */
@@ -124,16 +124,9 @@
   border-left-color: transparent;
 }
 
-/* Hover on inactive tabs — pseudo-element stops 1px above the bar's bottom
- * so the inset border shadow stays visible without any layout shift.
- * (background-color on the real element would cover the shadow and cause a
- *  1px jump when the tab becomes active and margin-bottom is removed.) */
-.prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 1px 0; /* fills tab except bottom 1px — bar shadow shows through */
+/* Hover on inactive tabs */
+.prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover {
   background-color: var(--tabs-hover-bg);
-  pointer-events: none;
 }
 
 /* Disabled tab */
