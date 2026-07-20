@@ -1,21 +1,29 @@
-/* ─── Figma design tokens — Breadcrumb ───────────────────────────────────── */
+/* ─── Figma design tokens — Breadcrumb ────────────────────────────────────── */
 :root {
   --breadcrumb\/sizing\/paddingtext: 6px;
   --breadcrumb\/sizing\/paddingicon: 2px;
   --breadcrumb\/sizing\/borderradius: 3px;
 
+  /* Light mode — exact values from Figma Light.tokens.json */
   --breadcrumb\/color\/text: #202020;
-
-  /* Hover: text-part and icon-part have DIFFERENT backgrounds */
-  --breadcrumb\/color\/hoverbig:   #e7e7e7;   /* text side — lighter  */
-  --breadcrumb\/color\/hoversmall: #d5d5d5;   /* icon side — darker   */
-
-  /* Active: both sides shift darker */
-  --breadcrumb\/color\/activebig:   #d5d5d5;
-  --breadcrumb\/color\/activesmall: #c1c1c1;
+  --breadcrumb\/color\/icon: #202020;
+  --breadcrumb\/color\/hoverbig:   #E7E7E7;  /* text-part hover bg    */
+  --breadcrumb\/color\/hoversmall: #D5D5D5;  /* icon-part hover bg    */
+  --breadcrumb\/color\/activebig:  #D5D5D5;  /* text-part active bg   */
+  --breadcrumb\/color\/activesmall: #C1C1C1; /* icon-part active bg   */
 
   --breadcrumb\/color\/dropdown-bg: #ffffff;
   --breadcrumb\/color\/dropdown-border: #e1e1e1;
+}
+
+/* Dark mode — exact values from Figma Dark.tokens.json */
+[data-theme='dark'] {
+  --breadcrumb\/color\/text: #F5F5F5;
+  --breadcrumb\/color\/icon: #F5F5F5;
+  --breadcrumb\/color\/hoverbig:   #3F3F3F;
+  --breadcrumb\/color\/hoversmall: #4B4B4B;
+  --breadcrumb\/color\/activebig:  #555555;
+  --breadcrumb\/color\/activesmall: #717171;
 }
 
 /* ─── Breadcrumb container ───────────────────────────────────────────────── */

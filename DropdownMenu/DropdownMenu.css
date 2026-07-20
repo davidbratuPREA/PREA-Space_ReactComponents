@@ -3,16 +3,29 @@
   --dropdown\/sizing\/controlheight: 23px;
   --dropdown\/sizing\/paddingitem: 4px;
   --dropdown\/sizing\/borderradius: 4px;
-  --dropdown\/sizing\/icongap: 6px;
+  --dropdown\/sizing\/icongap: 6px;       /* gap: icon → label inside iconText group */
+  --dropdown\/sizing\/icongapxl: 12px;   /* gap: iconText group → right chevron  */
   --dropdown\/sizing\/borderradiuslg: 6px;
   --dropdown\/sizing\/controlheightbig: 32px;
   --dropdown\/sizing\/paddingitembig: 6px;
 
+  /* Light mode colours */
   --dropdown\/color\/bg: #ffffff;
   --dropdown\/color\/border: #e1e1e1;
   --dropdown\/color\/text: #202020;
+  --dropdown\/color\/icon: #202020;
   --dropdown\/color\/itemhover: #e7e7e7;
   --dropdown\/color\/danger-text: #d92d20;
+}
+
+/* Dark mode colour overrides — exact values from Figma Dark.tokens.json */
+[data-theme='dark'] {
+  --dropdown\/color\/bg: #292929;
+  --dropdown\/color\/border: #3D3D3D;
+  --dropdown\/color\/text: #F5F5F5;
+  --dropdown\/color\/icon: #F5F5F5;
+  --dropdown\/color\/itemhover: #313131;
+  --dropdown\/color\/danger-text: #F97066; /* lighter red for dark bg */
 }
 
 /* ─── DropdownMenu container ─────────────────────────────────────────────── */
@@ -38,6 +51,8 @@
 .prea-dropdown-item {
   display: flex;
   align-items: center;
+  /* IconGapXL (12px): gap between the iconText group and the right chevron */
+  gap: var(--dropdown\/sizing\/icongapxl, 12px);
   height: var(--dropdown\/sizing\/controlheight, 23px);
   padding-inline: var(--dropdown\/sizing\/paddingitem, 4px);
   border-radius: var(--dropdown\/sizing\/borderradius, 4px);

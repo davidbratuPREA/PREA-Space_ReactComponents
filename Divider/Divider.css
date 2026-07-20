@@ -1,6 +1,12 @@
 /* ─── Divider tokens ──────────────────────────────────────────────────────── */
 :root {
-  --divider\/color\/line: #e1e1e1;
+  /* Light mode — exact value from Figma Light.tokens.json */
+  --divider\/color\/line: #E1E1E1;
+}
+
+/* Dark mode — exact value from Figma Dark.tokens.json */
+[data-theme='dark'] {
+  --divider\/color\/line: #3D3D3D;
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────── */
