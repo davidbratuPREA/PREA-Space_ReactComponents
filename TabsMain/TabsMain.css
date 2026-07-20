@@ -8,48 +8,50 @@
 /* ── Token definitions — Light mode ─────────────────────────────────────────── */
 :root {
   /* Sizing — TabsMain/Sizing/* */
-  --tabs-padding-xxs:    4px;
-  --tabs-padding-xs:     8px;
-  --tabs-padding-sm:    12px;
-  --tabs-line-width:     1px;
+  --tabs-padding-xxs:    4px;   /* padding-S  */
+  --tabs-padding-xs:     8px;   /* padding-M  */
+  --tabs-padding-sm:    12px;   /* padding-L  */
+  --tabs-btn-gap:       12px;   /* btnGap     */
+  --tabs-line-width:     1px;   /* borderWeight */
   --tabs-radius-sm:      4px;
 
-  /* Typography — TabsMain/Typography/* */
-  --tabs-font-size:     13px;   /* fontSizeSM */
+  /* Typography */
+  --tabs-font-size:     13px;
   --tabs-line-height:   1.4;
 
   /* Motion */
   --tabs-motion-fast:   0.1s;
 
-  /* Colors — TabsMain/Color/* (Light) */
-  --tabs-bar-bg:           rgba(0,0,0,0.02);   /* tab bar fill — inactive area */
-  --tabs-active-bg:        #ffffff;             /* active tab background */
-  --tabs-hover-bg:         rgba(0,0,0,0.06);   /* inactive tab hover */
-  --tabs-fill:             rgba(0,0,0,0.15);   /* button (close/add) hover fill */
-  --tabs-border:           #d9d9d9;             /* tab border & bottom line */
-  --tabs-content-bg:       #ffffff;             /* content panel background */
+  /* Colors — exact values from Figma Light.tokens.json → TabsMain/Color/* */
+  --tabs-bar-bg:     #EEEEEE;  /* TabsMain/Color/BG        */
+  --tabs-hover-bg:   #F5F5F5;  /* TabsMain/Color/BG-Hover  */
+  --tabs-active-bg:  #FFFFFF;  /* TabsMain/Color/BG-Active */
+  --tabs-border:     #D9D9D9;  /* TabsMain/Color/Border    */
+  --tabs-text:       #202020;  /* TabsMain/Color/Text      */
+  --tabs-icon:       #202020;  /* TabsMain/Color/Icon      */
+  --tabs-content-bg: #FFFFFF;  /* reuse BG-Active for panel */
 
-  /* Text */
-  --tabs-text:             rgba(0,0,0,0.88);   /* tab label */
-  --tabs-text-secondary:   rgba(0,0,0,0.45);   /* close/add button icon */
-  --tabs-text-disabled:    rgba(0,0,0,0.25);   /* disabled tab label */
-
-  /* Accent */
-  --tabs-primary:          #4096ff;             /* focus-visible outline */
+  /* Utility aliases (kept for compatibility with rules below) */
+  --tabs-fill:           rgba(0,0,0,0.10);  /* close/add button hover */
+  --tabs-text-secondary: rgba(0,0,0,0.45);
+  --tabs-text-disabled:  rgba(0,0,0,0.25);
+  --tabs-primary:        #4096ff;
 }
 
 /* ── Token overrides — Dark mode ─────────────────────────────────────────────── */
+/* Exact values from Figma Dark.tokens.json → TabsMain/Color/* */
 [data-theme="dark"] {
-  --tabs-bar-bg:           rgba(255,255,255,0.04);
-  --tabs-active-bg:        #141414;
-  --tabs-hover-bg:         rgba(255,255,255,0.12);
-  --tabs-fill:             rgba(255,255,255,0.18);
-  --tabs-border:           #424242;
-  --tabs-content-bg:       #141414;
+  --tabs-bar-bg:     #1B1B1B;  /* TabsMain/Color/BG        */
+  --tabs-hover-bg:   #282828;  /* TabsMain/Color/BG-Hover  */
+  --tabs-active-bg:  #303030;  /* TabsMain/Color/BG-Active */
+  --tabs-border:     #424242;  /* TabsMain/Color/Border    */
+  --tabs-text:       #F5F5F5;  /* TabsMain/Color/Text      */
+  --tabs-icon:       #F5F5F5;  /* TabsMain/Color/Icon      */
+  --tabs-content-bg: #303030;  /* reuse BG-Active for panel */
 
-  --tabs-text:             rgba(255,255,255,0.85);
-  --tabs-text-secondary:   rgba(255,255,255,0.45);
-  --tabs-text-disabled:    rgba(255,255,255,0.25);
+  --tabs-fill:           rgba(255,255,255,0.12);
+  --tabs-text-secondary: rgba(255,255,255,0.45);
+  --tabs-text-disabled:  rgba(255,255,255,0.25);
 }
 
 /* ─── Root container ─────────────────────────────────────────── */
