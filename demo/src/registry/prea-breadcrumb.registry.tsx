@@ -30,18 +30,6 @@ function BreadcrumbDemo() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
 
       <div>
-        <p style={headingStyle}>Plain breadcrumb — chevron-right on every item</p>
-        <Breadcrumb
-          items={[
-            { key: 'deep-street', label: 'Deep Street' },
-            { key: 'asset',       label: 'Asset' },
-            { key: 'flurstucke',  label: 'Flurstücke' },
-            { key: '1802',        label: '1802' },
-          ]}
-        />
-      </div>
-
-      <div>
         <p style={headingStyle}>Any item can open a dropdown (hover to see chevron-down + pill)</p>
         <Breadcrumb
           items={[

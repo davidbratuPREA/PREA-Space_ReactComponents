@@ -461,7 +461,9 @@ body {
   flex-direction: column;
   gap: 24px;
   position: relative;
-  overflow: hidden;
+  /* overflow visible so dropdowns / popovers are not clipped */
+  overflow: visible;
+  min-height: 160px;
 }
 
 
@@ -469,6 +471,8 @@ body {
 .preview-frame__content {
   position: relative;
   z-index: 1;
+  /* allow child dropdowns to overflow the frame without being clipped */
+  overflow: visible;
 }
 
 /* ─── Code Block ────────────────────────────────────────────── */
