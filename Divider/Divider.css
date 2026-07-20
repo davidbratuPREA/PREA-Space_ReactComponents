@@ -1,0 +1,84 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA Divider — Divider.css
+   Values sourced from Figma "Components" collection — Divider/* tokens.
+   Horizontal (Version=Horizontal) and Vertical (Version=Vertical) from Figma.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Sizing — Divider/Sizing/* */
+  --div-line-width:        1px;   /* borderWidth */
+  --div-label-gap:        12px;   /* gap between label text and line ends */
+  --div-label-font-size:  13px;   /* fontSizeSM */
+  --div-label-font-weight: 400;
+  --div-vertical-height:  1em;    /* default height for inline vertical divider */
+  --div-vertical-margin:   8px;   /* horizontal margin for vertical dividers */
+
+  /* Colors — Divider/Color/* (Light) */
+  --div-line-color:   #e1e1e1;            /* Divider line color */
+  --div-label-color:  rgba(0,0,0,0.45);   /* label text color */
+}
+
+[data-theme="dark"] {
+  --div-line-color:   #3a3a3a;
+  --div-label-color:  rgba(255,255,255,0.45);
+}
+
+/* ── Horizontal divider ──────────────────────────────────────────────────────── */
+.prea-divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 16px 0;
+  color: var(--div-label-color);
+  font-size: var(--div-label-font-size);
+  font-weight: var(--div-label-font-weight);
+  white-space: nowrap;
+}
+
+/* The line arms */
+.prea-divider::before,
+.prea-divider::after {
+  content: '';
+  flex: 1;
+  border-top: var(--div-line-width) solid var(--div-line-color);
+}
+
+/* Dashed style */
+.prea-divider--dashed::before,
+.prea-divider--dashed::after {
+  border-top-style: dashed;
+}
+
+/* Label spacing */
+.prea-divider__label {
+  padding: 0 var(--div-label-gap);
+  line-height: 1;
+}
+
+/* Label position — left: only right arm, right: only left arm */
+.prea-divider--label-left::before  { flex: 0 0 24px; }
+.prea-divider--label-right::after  { flex: 0 0 24px; }
+
+/* ── Vertical divider ────────────────────────────────────────────────────────── */
+.prea-divider--vertical {
+  display: inline-flex;
+  width: var(--div-line-width);
+  height: var(--div-vertical-height);
+  min-height: 1em;
+  margin: 0 var(--div-vertical-margin);
+  background: var(--div-line-color);
+  border: none;
+  flex: none;
+  align-self: stretch;
+}
+
+/* Vertical dashed */
+.prea-divider--vertical.prea-divider--dashed {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--div-line-color) 0px,
+    var(--div-line-color) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}

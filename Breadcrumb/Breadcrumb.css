@@ -1,0 +1,104 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA Breadcrumb — Breadcrumb.css
+   Values sourced from Figma "Components" collection — Breadcrumb/* tokens.
+   Light (mode 1:1) in :root, Dark (mode 1:2) overrides in [data-theme="dark"].
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Token definitions — Light mode ─────────────────────────────────────────── */
+:root {
+  /* Sizing — Breadcrumb/Sizing/* */
+  --bc-height:        22px;   /* item height */
+  --bc-gap:            4px;   /* gap between icon and label */
+  --bc-separator-gap:  6px;   /* gap around separator */
+  --bc-font-size:     13px;   /* fontSize/SM */
+  --bc-font-weight:   400;    /* Regular */
+  --bc-line-height:   1.4;
+
+  /* Colors — Breadcrumb/Color/* (Light) */
+  --bc-text:          rgba(0,0,0,0.45);    /* inactive link color */
+  --bc-text-hover:    #4096ff;             /* hover link */
+  --bc-text-active:   rgba(0,0,0,0.88);   /* current/active page */
+  --bc-separator:     rgba(0,0,0,0.25);   /* separator slash color */
+  --bc-icon:          rgba(0,0,0,0.45);   /* icon color */
+  --bc-icon-hover:    #4096ff;
+}
+
+[data-theme="dark"] {
+  --bc-text:          rgba(255,255,255,0.45);
+  --bc-text-hover:    #4096ff;
+  --bc-text-active:   rgba(255,255,255,0.85);
+  --bc-separator:     rgba(255,255,255,0.25);
+  --bc-icon:          rgba(255,255,255,0.45);
+  --bc-icon-hover:    #4096ff;
+}
+
+/* ── Breadcrumb container ───────────────────────────────────────────────────── */
+.prea-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--bc-font-size);
+  font-weight: var(--bc-font-weight);
+  line-height: var(--bc-line-height);
+}
+
+/* ── Crumb item wrapper ─────────────────────────────────────────────────────── */
+.prea-breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── Separator ──────────────────────────────────────────────────────────────── */
+.prea-breadcrumb__separator {
+  margin: 0 var(--bc-separator-gap);
+  color: var(--bc-separator);
+  user-select: none;
+  line-height: 1;
+}
+
+/* ── Crumb link / span ──────────────────────────────────────────────────────── */
+.prea-breadcrumb__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bc-gap);
+  height: var(--bc-height);
+  color: var(--bc-text);
+  text-decoration: none;
+  border-radius: 4px;
+  padding: 0 2px;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.prea-breadcrumb__link:hover {
+  color: var(--bc-text-hover);
+}
+
+.prea-breadcrumb__link:hover .prea-breadcrumb__icon {
+  color: var(--bc-icon-hover);
+}
+
+/* ── Active (last) crumb ────────────────────────────────────────────────────── */
+.prea-breadcrumb__item--active .prea-breadcrumb__link {
+  color: var(--bc-text-active);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Icon ───────────────────────────────────────────────────────────────────── */
+.prea-breadcrumb__icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1em;
+  color: var(--bc-icon);
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+
+.prea-breadcrumb__item--active .prea-breadcrumb__icon {
+  color: var(--bc-text-active);
+}

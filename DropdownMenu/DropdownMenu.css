@@ -1,0 +1,180 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA DropdownMenu + GroupDropdownMenu — DropdownMenu.css
+   Values sourced directly from Figma "Components" variable collection,
+   Dropdown/* tokens (dev mode confirmed values).
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Token definitions — Light mode (1:1) ───────────────────────────────────── */
+:root {
+  /* Sizing — Dropdown/Sizing/* */
+  --dd-item-height:     22px;   /* controlHeight (SM item) */
+  --dd-item-height-lg:  32px;   /* controlHeightBig */
+  --dd-padding-item:     4px;   /* PaddingItem — vertical padding in item list */
+  --dd-padding-item-h:   6px;   /* PaddingItemBig — horizontal padding per item */
+  --dd-padding-head-v:   2px;   /* PaddingHead-V — group header vertical padding */
+  --dd-padding-head-h:   8px;   /* PaddingHead-H — group header horizontal padding */
+  --dd-radius:           4px;   /* BorderRadius — per-item border radius */
+  --dd-radius-menu:      6px;   /* BorderRadiusLG — outer menu border radius */
+  --dd-icon-gap:         6px;   /* gap between icon and label */
+
+  /* Typography — Font/* */
+  --dd-font-size:   14px;   /* Font Size/fontSizeLG */
+  --dd-font-weight: 400;    /* Font Weight/Regular */
+  --dd-line-height: 18px;   /* Line Height/lineHeightLG */
+
+  /* Colors — Dropdown/Color/* (Light) */
+  --dd-text:          #202020;   /* Dropdown/Color/Text */
+  --dd-text-danger:   #ff4d4f;
+  --dd-text-disabled: rgba(0,0,0,0.25);
+
+  --dd-bg:            #ffffff;   /* Dropdown/Color/BG-2 */
+  --dd-bg-hover:      rgba(0,0,0,0.06);   /* item hover bg */
+  --dd-bg-head:       #f6f6f6;   /* Dropdown/Color/BG-2b — group header bg */
+
+  --dd-border:        #e1e1e1;   /* Dropdown/Color/Border */
+  --dd-shadow:        0 6px 16px 0 rgba(0,0,0,0.08),
+                      0 3px 6px -4px rgba(0,0,0,0.12),
+                      0 9px 28px 8px rgba(0,0,0,0.05);
+}
+
+/* ── Token overrides — Dark mode (1:2) ──────────────────────────────────────── */
+[data-theme="dark"] {
+  --dd-text:          rgba(255,255,255,0.85);
+  --dd-text-disabled: rgba(255,255,255,0.25);
+
+  --dd-bg:            #1f1f1f;
+  --dd-bg-hover:      rgba(255,255,255,0.08);
+  --dd-bg-head:       #2a2a2a;
+
+  --dd-border:        #3a3a3a;
+  --dd-shadow:        0 6px 16px 0 rgba(0,0,0,0.32),
+                      0 3px 6px -4px rgba(0,0,0,0.48),
+                      0 9px 28px 8px rgba(0,0,0,0.2);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   DropdownMenu
+   ─────────────────────────────────────────────────────────────────────────── */
+.prea-dropdown-menu {
+  background: var(--dd-bg);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-menu);
+  box-shadow: var(--dd-shadow);
+  padding: var(--dd-padding-item) 0;
+  min-width: 150px;
+  display: inline-flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Item ────────────────────────────────────────────────────────────────────── */
+.prea-dropdown-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--dd-icon-gap);
+  height: var(--dd-item-height-lg);
+  padding: 0 var(--dd-padding-item-h);
+  margin: 0 var(--dd-padding-item);
+  border-radius: var(--dd-radius);
+  font-size: var(--dd-font-size);
+  font-weight: var(--dd-font-weight);
+  line-height: var(--dd-line-height);
+  color: var(--dd-text);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.prea-dropdown-menu__item:hover:not(.prea-dropdown-menu__item--disabled) {
+  background: var(--dd-bg-hover);
+}
+
+/* ── Danger ─────────────────────────────────────────────────────────────────── */
+.prea-dropdown-menu__item--danger {
+  color: var(--dd-text-danger);
+}
+
+.prea-dropdown-menu__item--danger:hover:not(.prea-dropdown-menu__item--disabled) {
+  background: rgba(255, 77, 79, 0.06);
+}
+
+/* ── Disabled ────────────────────────────────────────────────────────────────── */
+.prea-dropdown-menu__item--disabled {
+  color: var(--dd-text-disabled);
+  cursor: not-allowed;
+}
+
+/* ── Icon ───────────────────────────────────────────────────────────────────── */
+.prea-dropdown-menu__icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1em;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ── Label ──────────────────────────────────────────────────────────────────── */
+.prea-dropdown-menu__label {
+  flex: 1 0 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Suffix (e.g. chevron) ───────────────────────────────────────────────────── */
+.prea-dropdown-menu__suffix {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  padding-left: 8px;
+  flex-shrink: 0;
+  color: var(--dd-text-disabled);
+  font-size: 0.875em;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   GroupDropdownMenu
+   ─────────────────────────────────────────────────────────────────────────── */
+.prea-group-dropdown-menu {
+  background: var(--dd-bg);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-menu);
+  box-shadow: var(--dd-shadow);
+  min-width: 150px;
+  display: inline-flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Group ───────────────────────────────────────────────────────────────────── */
+.prea-group-dropdown-menu__group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Group header ────────────────────────────────────────────────────────────── */
+.prea-group-dropdown-menu__heading {
+  display: flex;
+  align-items: center;
+  height: var(--dd-item-height-lg);
+  padding: var(--dd-padding-head-v) var(--dd-padding-head-h);
+  background: var(--dd-bg-head);
+  border-bottom: 1px solid var(--dd-border);
+  font-size: var(--dd-font-size);
+  font-weight: 500;
+  line-height: var(--dd-line-height);
+  color: var(--dd-text);
+}
+
+/* ── Group items list ────────────────────────────────────────────────────────── */
+.prea-group-dropdown-menu__items {
+  display: flex;
+  flex-direction: column;
+  padding: var(--dd-padding-item) 0;
+}
+
+/* Reuse the same item style from DropdownMenu */
+.prea-group-dropdown-menu__items .prea-dropdown-menu__item {
+  margin: 0 var(--dd-padding-item);
+}

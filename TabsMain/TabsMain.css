@@ -1,21 +1,63 @@
-/*
- * TabsMain — Scoped styles
- *
- * All colour/spacing values are read from --prea-* CSS custom properties
- * injected by TabsMain.tsx via antd's theme.useToken(). This ensures
- * correct colours in any ConfigProvider theme (light, dark, custom tokens)
- * without requiring cssVar mode to be enabled.
- *
- * Design source: PREA Space Design Library — Figma
- * BEM prefix: .prea-tabs (no collision with antd's .ant-tabs classes)
- */
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA TabsMain — TabsMain.css
+   Values sourced from Figma "Components" collection — TabsMain/* tokens.
+   Light mode in :root, Dark mode overrides in [data-theme="dark"].
+   BEM prefix: .prea-tabs (no collision with antd's .ant-tabs classes)
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Token definitions — Light mode ─────────────────────────────────────────── */
+:root {
+  /* Sizing — TabsMain/Sizing/* */
+  --tabs-padding-xxs:    4px;
+  --tabs-padding-xs:     8px;
+  --tabs-padding-sm:    12px;
+  --tabs-line-width:     1px;
+  --tabs-radius-sm:      4px;
+
+  /* Typography — TabsMain/Typography/* */
+  --tabs-font-size:     13px;   /* fontSizeSM */
+  --tabs-line-height:   1.4;
+
+  /* Motion */
+  --tabs-motion-fast:   0.1s;
+
+  /* Colors — TabsMain/Color/* (Light) */
+  --tabs-bar-bg:           rgba(0,0,0,0.02);   /* tab bar fill — inactive area */
+  --tabs-active-bg:        #ffffff;             /* active tab background */
+  --tabs-hover-bg:         rgba(0,0,0,0.06);   /* inactive tab hover */
+  --tabs-fill:             rgba(0,0,0,0.15);   /* button (close/add) hover fill */
+  --tabs-border:           #d9d9d9;             /* tab border & bottom line */
+  --tabs-content-bg:       #ffffff;             /* content panel background */
+
+  /* Text */
+  --tabs-text:             rgba(0,0,0,0.88);   /* tab label */
+  --tabs-text-secondary:   rgba(0,0,0,0.45);   /* close/add button icon */
+  --tabs-text-disabled:    rgba(0,0,0,0.25);   /* disabled tab label */
+
+  /* Accent */
+  --tabs-primary:          #4096ff;             /* focus-visible outline */
+}
+
+/* ── Token overrides — Dark mode ─────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --tabs-bar-bg:           rgba(255,255,255,0.04);
+  --tabs-active-bg:        #141414;
+  --tabs-hover-bg:         rgba(255,255,255,0.12);
+  --tabs-fill:             rgba(255,255,255,0.18);
+  --tabs-border:           #424242;
+  --tabs-content-bg:       #141414;
+
+  --tabs-text:             rgba(255,255,255,0.85);
+  --tabs-text-secondary:   rgba(255,255,255,0.45);
+  --tabs-text-disabled:    rgba(255,255,255,0.25);
+}
 
 /* ─── Root container ─────────────────────────────────────────── */
 .prea-tabs {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: var(--prea-color-fill-tertiary);
+  background-color: var(--tabs-bar-bg);
 }
 
 /* ─── Tab bar row ────────────────────────────────────────────── */
@@ -30,12 +72,12 @@
   display: flex;
   align-items: stretch;
   width: 100%;
-  background-color: var(--prea-color-fill-quaternary);
-  padding-right: var(--prea-padding-sm);
+  background-color: var(--tabs-bar-bg);
+  padding-right: var(--tabs-padding-sm);
   overflow-x: auto;
   overflow-y: visible;
   scrollbar-width: none;
-  box-shadow: inset 0 -1px 0 0 var(--prea-color-border);
+  box-shadow: inset 0 -1px 0 0 var(--tabs-border);
 }
 .prea-tabs__bar::-webkit-scrollbar {
   display: none;
@@ -45,14 +87,14 @@
 .prea-tabs__tab {
   display: flex;
   align-items: center;
-  gap: var(--prea-padding-sm);
+  gap: var(--tabs-padding-sm);
   flex: 1 0 0;
   min-width: 0;
   max-width: 250px;
-  padding: var(--prea-padding-xxs)
-           var(--prea-padding-xs)
-           var(--prea-padding-xxs)
-           var(--prea-padding-sm);
+  padding: var(--tabs-padding-xxs)
+           var(--tabs-padding-xs)
+           var(--tabs-padding-xxs)
+           var(--tabs-padding-sm);
   position: relative;
   cursor: pointer;
   user-select: none;
@@ -60,19 +102,19 @@
   transition: background-color 0.15s ease;
 
   /* Reserve left/right border space — inactive = transparent */
-  border-left:  var(--prea-line-width) solid transparent;
-  border-right: var(--prea-line-width) solid transparent;
+  border-left:  var(--tabs-line-width) solid transparent;
+  border-right: var(--tabs-line-width) solid transparent;
 }
 
 /*
  * Active tab — left + right border in colorBorder.
- * background-color: colorBgContainer paints over the bar’s inset box-shadow
- * in this column, making the line “disappear” under the active tab.
+ * background-color: colorBgContainer paints over the bar's inset box-shadow
+ * in this column, making the line "disappear" under the active tab.
  */
 .prea-tabs__tab--active {
-  background-color: var(--prea-color-bg-container);
-  border-left-color:  var(--prea-color-border);
-  border-right-color: var(--prea-color-border);
+  background-color: var(--tabs-active-bg);
+  border-left-color:  var(--tabs-border);
+  border-right-color: var(--tabs-border);
 }
 
 /* First tab active — no left border (nothing to connect to on the left edge) */
@@ -82,7 +124,7 @@
 
 /* Hover on inactive tabs */
 .prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover {
-  background-color: var(--prea-color-fill-secondary);
+  background-color: var(--tabs-hover-bg);
 }
 
 /* Disabled tab */
@@ -98,14 +140,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: var(--prea-font-size);
+  font-size: var(--tabs-font-size);
   font-weight: 500;
-  line-height: var(--prea-line-height);
-  color: var(--prea-color-text);
+  line-height: var(--tabs-line-height);
+  color: var(--tabs-text);
 }
 
 .prea-tabs__tab--disabled .prea-tabs__tab-label {
-  color: var(--prea-color-text-disabled);
+  color: var(--tabs-text-disabled);
 }
 
 /* ─── Close (×) button ───────────────────────────────────────── */
@@ -116,23 +158,23 @@
   flex-shrink: 0;
   width: 22px;
   height: 22px;
-  border: var(--prea-line-width) solid transparent;
-  border-radius: var(--prea-border-radius-sm);
+  border: var(--tabs-line-width) solid transparent;
+  border-radius: var(--tabs-radius-sm);
   background: transparent;
   padding: 0;
   cursor: pointer;
-  color: var(--prea-color-text-secondary);
+  color: var(--tabs-text-secondary);
   transition: background-color 0.15s ease, color 0.15s ease;
   line-height: 1;
 }
 
 .prea-tabs__close-btn:hover {
-  background-color: var(--prea-color-fill);
-  color: var(--prea-color-text);
+  background-color: var(--tabs-fill);
+  color: var(--tabs-text);
 }
 
 .prea-tabs__close-btn:focus-visible {
-  outline: 2px solid var(--prea-color-primary);
+  outline: 2px solid var(--tabs-primary);
   outline-offset: 1px;
 }
 
@@ -149,7 +191,7 @@
   align-self: stretch;         /* full bar height */
   background-color: transparent;
   position: relative;
-  transition: background-color var(--prea-motion-fast) ease;
+  transition: background-color var(--tabs-motion-fast) ease;
 }
 
 .prea-tabs__divider::before {
@@ -160,19 +202,19 @@
   transform: translateY(-50%);
   width: 1px;
   height: 16px;
-  background-color: var(--prea-color-border);
-  transition: opacity var(--prea-motion-fast) ease;
+  background-color: var(--tabs-border);
+  transition: opacity var(--tabs-motion-fast) ease;
 }
 
 /*
  * Dividers on BOTH sides of a hovered tab:
- *   • Container → colorFillSecondary (matches hover tab bg, fills the 1px strip)
+ *   • Container → tabs-hover-bg (matches hover tab bg, fills the 1px strip)
  *   • Line (::before) → opacity 0 (hidden)
  * No width change → zero layout shift.
  */
 .prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover + .prea-tabs__divider,
 .prea-tabs__divider:has(+ .prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover) {
-  background-color: var(--prea-color-fill-secondary);
+  background-color: var(--tabs-hover-bg);
 }
 
 .prea-tabs__tab:not(.prea-tabs__tab--active):not(.prea-tabs__tab--disabled):hover + .prea-tabs__divider::before,
@@ -194,12 +236,12 @@
   flex-shrink: 0;
   width: 22px;
   height: 22px;
-  border: var(--prea-line-width) solid transparent;
-  border-radius: var(--prea-border-radius-sm);
+  border: var(--tabs-line-width) solid transparent;
+  border-radius: var(--tabs-radius-sm);
   background: transparent;
   padding: 0;
   cursor: pointer;
-  color: var(--prea-color-text-secondary);
+  color: var(--tabs-text-secondary);
   transition: background-color 0.15s ease, color 0.15s ease;
   line-height: 1;
   margin-left: 4px;
@@ -207,18 +249,18 @@
 }
 
 .prea-tabs__add-btn:hover {
-  background-color: var(--prea-color-fill);
-  color: var(--prea-color-text);
+  background-color: var(--tabs-fill);
+  color: var(--tabs-text);
 }
 
 .prea-tabs__add-btn:focus-visible {
-  outline: 2px solid var(--prea-color-primary);
+  outline: 2px solid var(--tabs-primary);
   outline-offset: 1px;
 }
 
 /* ─── Tab panel (content area) ───────────────────────────────── */
 .prea-tabs__content {
-  background-color: var(--prea-color-bg-container);
+  background-color: var(--tabs-content-bg);
 }
 
 .prea-tabs__panel {
