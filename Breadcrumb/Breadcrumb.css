@@ -3,63 +3,61 @@
   --breadcrumb\/sizing\/paddingtext: 6px;
   --breadcrumb\/sizing\/paddingicon: 2px;
   --breadcrumb\/sizing\/borderradius: 3px;
+
   --breadcrumb\/color\/text: #202020;
-  --breadcrumb\/color\/hover-bg: #e7e7e7;
+
+  /* Hover: text-part and icon-part have DIFFERENT backgrounds */
+  --breadcrumb\/color\/hoverbig:   #e7e7e7;   /* text side — lighter  */
+  --breadcrumb\/color\/hoversmall: #d5d5d5;   /* icon side — darker   */
+
+  /* Active: both sides shift darker */
+  --breadcrumb\/color\/activebig:   #d5d5d5;
+  --breadcrumb\/color\/activesmall: #c1c1c1;
+
   --breadcrumb\/color\/dropdown-bg: #ffffff;
   --breadcrumb\/color\/dropdown-border: #e1e1e1;
-  --breadcrumb\/color\/active-item: #e7e7e7;
 }
 
 /* ─── Breadcrumb container ───────────────────────────────────────────────── */
 .prea-breadcrumb {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0; /* items manage their own spacing */
 }
 
 /* ─── BreadcrumbItem ─────────────────────────────────────────────────────── */
-
 /*
  * Structure (per Figma):
  *
- *   ┌─ BreadcrumbText (left-radius)─┐ ┌─ BreadcrumbIcon (right-radius) ─┐
- *   │  padX: paddingtext             │ │  pad: paddingicon                │
- *   │  "Link Item"                   │ │  icon 14px (›  or  ∨)            │
- *   └────────────────────────────────┘ └──────────────────────────────────┘
+ *   ┌── BreadcrumbText ──────────┐ ┌── BreadcrumbIcon ──┐
+ *   │  px: paddingtext (6px)     │ │  p: paddingicon(2px)│
+ *   │  rounded-tl rounded-bl     │ │  rounded-tr rounded │
+ *   │  "Link Item"  12px         │ │  14px icon          │
+ *   └────────────────────────────┘ └─────────────────────┘
  *
- * Default:  no background, chevron-right
- * Hover:    pill background on both parts, chevron-down (when dropdownItems exist)
- * Active:   same as Hover (dropdown is open)
+ * Total height = 14px icon + 2px top + 2px bottom = 18px
+ *
+ * Hover:  hoverbig on text | hoversmall on icon (two distinct grays)
+ * Active: activebig on text | activesmall on icon
  */
 
 .prea-breadcrumb-item {
-  position: relative; /* dropdown anchoring */
+  position: relative;
   display: flex;
   align-items: center;
   cursor: default;
   color: var(--breadcrumb\/color\/text, #202020);
 }
 
-/* The "pill" = text-part + icon-part together */
+/* The pill = text-part + icon-part inline */
 .prea-breadcrumb-item__pill {
   display: flex;
-  align-items: center;
-  border-radius: var(--breadcrumb\/sizing\/borderradius, 3px);
-  transition: background-color 120ms ease;
+  align-items: stretch; /* both parts stretch to the same height (18px) */
 }
 
-.prea-breadcrumb-item__pill:hover,
-.prea-breadcrumb-item--active .prea-breadcrumb-item__pill {
-  background-color: var(--breadcrumb\/color\/hover-bg, #e7e7e7);
-  cursor: pointer;
-}
-
-/* Text part — left rounded corners */
+/* ─── Text part (left, rounded-tl + rounded-bl) ───────────────────────────── */
 .prea-breadcrumb-item__text {
   display: flex;
   align-items: center;
-  height: 100%;
   padding-inline: var(--breadcrumb\/sizing\/paddingtext, 6px);
   border-radius:
     var(--breadcrumb\/sizing\/borderradius, 3px)
@@ -73,15 +71,21 @@
   white-space: nowrap;
   text-decoration: none;
   color: inherit;
+  transition: background-color 120ms ease;
 }
 
-.prea-breadcrumb-item__text:focus-visible {
-  outline: 2px solid var(--breadcrumb\/color\/text, #202020);
-  outline-offset: 2px;
-  border-radius: var(--breadcrumb\/sizing\/borderradius, 3px);
+/* Hover on text part */
+.prea-breadcrumb-item__pill:hover .prea-breadcrumb-item__text {
+  background-color: var(--breadcrumb\/color\/hoverbig, #e7e7e7);
+  cursor: pointer;
 }
 
-/* Icon part — right rounded corners */
+/* Active (dropdown open) on text part */
+.prea-breadcrumb-item--active .prea-breadcrumb-item__text {
+  background-color: var(--breadcrumb\/color\/activebig, #d5d5d5);
+}
+
+/* ─── Icon part (right, rounded-tr + rounded-br) ──────────────────────────── */
 .prea-breadcrumb-item__icon {
   display: flex;
   align-items: center;
@@ -92,8 +96,21 @@
     var(--breadcrumb\/sizing\/borderradius, 3px)
     var(--breadcrumb\/sizing\/borderradius, 3px)
     0;
+  /* icon is 14px; with 2px pad each side → total height = 18px */
   width: 14px;
-  height: 14px;
+  flex-shrink: 0;
+  transition: background-color 120ms ease;
+}
+
+/* Hover on icon part */
+.prea-breadcrumb-item__pill:hover .prea-breadcrumb-item__icon {
+  background-color: var(--breadcrumb\/color\/hoversmall, #d5d5d5);
+  cursor: pointer;
+}
+
+/* Active (dropdown open) on icon part */
+.prea-breadcrumb-item--active .prea-breadcrumb-item__icon {
+  background-color: var(--breadcrumb\/color\/activesmall, #c1c1c1);
 }
 
 /* ─── Dropdown panel ─────────────────────────────────────────────────────── */
@@ -107,10 +124,9 @@
   background-color: var(--breadcrumb\/color\/dropdown-bg, #fff);
   border: 1px solid var(--breadcrumb\/color\/dropdown-border, #e1e1e1);
   border-radius: var(--dropdown\/sizing\/borderradiuslg, 6px);
-  min-width: 120px;
+  min-width: 100px;
   overflow: hidden;
   padding: var(--dropdown\/sizing\/paddingitem, 4px);
-  /* shadow for elevation */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 

@@ -8,15 +8,15 @@ import './Breadcrumb.css';
 /**
  * BreadcrumbItem
  *
- * Matches Figma "Breadcrumb Item" — a self-contained unit:
- *   [text-part] [icon-part]
+ * Matches Figma "Breadcrumb Item" — a self-contained nav unit:
  *
- * The ">" (chevron-right) lives INSIDE the item, not between items.
+ *   [text-part]  [icon-part]
  *
- * States (all items can reach any state):
- *   • Default  — plain text + chevron-right, no background
- *   • Hover    — pill background, chevron flips to chevron-down (if dropdownItems provided)
- *   • Active   — dropdown is open
+ * Key design rules:
+ * • The ">" (chevron-right) lives INSIDE the item — NOT between items.
+ * • Default: no bg, chevron-right icon (even if item has a dropdown).
+ * • Hover:   text-part → hoverbig (#e7e7e7)  |  icon-part → hoversmall (#d5d5d5)  |  chevron flips to chevron-down.
+ * • Active:  text-part → activebig (#d5d5d5) |  icon-part → activesmall (#c1c1c1) |  dropdown opens.
  */
 export function BreadcrumbItem({
   label,
@@ -26,7 +26,8 @@ export function BreadcrumbItem({
   onClick,
   itemKey,
 }: BreadcrumbItemDef & { itemKey: string }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen]     = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const hasDropdown = Boolean(dropdownItems && dropdownItems.length > 0);
@@ -34,13 +35,13 @@ export function BreadcrumbItem({
   // Close on outside click
   useEffect(() => {
     if (!isOpen) return;
-    function handleClickOutside(e: MouseEvent) {
+    function handleOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
   }, [isOpen]);
 
   function handlePillClick() {
@@ -53,18 +54,28 @@ export function BreadcrumbItem({
 
   function handleOptionClick(optionKey: string) {
     setIsOpen(false);
+    setIsHovered(false);
     if (onDropdownSelect) onDropdownSelect(optionKey);
   }
 
-  const pillCls = [
+  const outerCls = [
     'prea-breadcrumb-item',
     isOpen && 'prea-breadcrumb-item--active',
   ]
     .filter(Boolean)
     .join(' ');
 
-  // Label — link or span
-  const textContent = href ? (
+  // Chevron:
+  // • Default → chevron-right  (even when item has dropdown)
+  // • Hover   → chevron-down   (only if has dropdown)
+  // • Active  → chevron-down
+  const showChevronDown = hasDropdown && (isHovered || isOpen);
+  const chevronIcon = showChevronDown
+    ? <ChevronDown size={14} strokeWidth={1.5} />
+    : <ChevronRight size={14} strokeWidth={1.5} />;
+
+  // Label — link or plain span
+  const textNode = href ? (
     <a href={href} className="prea-breadcrumb-item__text" onClick={(e) => e.preventDefault()}>
       {label}
     </a>
@@ -72,23 +83,14 @@ export function BreadcrumbItem({
     <span className="prea-breadcrumb-item__text">{label}</span>
   );
 
-  // Chevron — down when open/hoverable, right otherwise
-  const chevronIcon =
-    hasDropdown && isOpen ? (
-      <ChevronDown size={14} strokeWidth={1.5} />
-    ) : hasDropdown ? (
-      /* on hover CSS switches to bg; chevron stays right until opened */
-      <ChevronDown size={14} strokeWidth={1.5} />
-    ) : (
-      <ChevronRight size={14} strokeWidth={1.5} />
-    );
-
   return (
-    <div className={pillCls} ref={containerRef}>
-      {/* Pill = text + chevron */}
+    <div className={outerCls} ref={containerRef}>
+      {/* Pill = text-part + icon-part */}
       <div
         className="prea-breadcrumb-item__pill"
         onClick={handlePillClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         role={hasDropdown ? 'button' : undefined}
         tabIndex={hasDropdown ? 0 : undefined}
         aria-haspopup={hasDropdown ? 'listbox' : undefined}
@@ -98,13 +100,13 @@ export function BreadcrumbItem({
           if (e.key === 'Escape') setIsOpen(false);
         }}
       >
-        {textContent}
+        {textNode}
         <span className="prea-breadcrumb-item__icon" aria-hidden>
           {chevronIcon}
         </span>
       </div>
 
-      {/* Dropdown panel — only rendered when open */}
+      {/* Dropdown panel */}
       {isOpen && hasDropdown && (
         <div className="prea-breadcrumb-item__dropdown" role="listbox">
           {dropdownItems!.map((opt) => (
@@ -134,15 +136,15 @@ export function BreadcrumbItem({
 /**
  * Breadcrumb
  *
- * Matches Figma "Breadcrumb" — a horizontal row of BreadcrumbItems.
- * Each item carries its own chevron (">" is NOT a separate separator).
- * Any item can be a dropdown trigger (not only the last).
+ * A horizontal row of BreadcrumbItems.
+ * Each item carries its own chevron (not a standalone separator).
+ * Any item can be a dropdown trigger.
  */
 export function Breadcrumb({ items, className, style }: BreadcrumbProps) {
   const cls = ['prea-breadcrumb', className].filter(Boolean).join(' ');
   return (
     <nav className={cls} aria-label="Breadcrumb" style={style}>
-      <ol style={{ display: 'flex', alignItems: 'center', gap: 0, listStyle: 'none', margin: 0, padding: 0 }}>
+      <ol style={{ display: 'flex', alignItems: 'center', listStyle: 'none', margin: 0, padding: 0 }}>
         {items.map((item) => (
           <li key={item.key}>
             <BreadcrumbItem {...item} itemKey={item.key} />
