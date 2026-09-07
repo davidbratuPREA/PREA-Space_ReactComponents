@@ -1,0 +1,223 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA Kanban — Kanban.css
+   KanbanBoard · KanbanColumn · KanbanProject · KanbanGroupHeader · KanbanItemRow ·
+   KanbanStatusBadge · QuantityBadge · KanbanPriorityBadge
+   Token values read directly from the Figma "Mode" variable collection
+   (PREA Space Design library › Kanban), Light + Dark modes.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Figma design tokens — Light mode ───────────────────────────────────── */
+:root {
+  --kanban\/sizing\/row-sub:       24px;  /* controlHeight_sub  */
+  --kanban\/sizing\/row-main:      30px;  /* controlHeight_main */
+  --kanban\/sizing\/padding:       8px;
+  --kanban\/sizing\/padding-head:  6px;
+  --kanban\/sizing\/padding-sub:   14px;
+  --kanban\/sizing\/padding-item:  12px;
+  --kanban\/sizing\/gap-item:      6px;
+  --kanban\/sizing\/gap:           8px;
+  --kanban\/sizing\/radius:        8px;
+  --kanban\/sizing\/radius-s:      4px;
+  --kanban\/sizing\/board-gap:     10px;
+
+  --kanban\/font\/size:     12px; --kanban\/font\/lineheight:     16px;
+  --kanban\/font\/size-xxl: 18px; --kanban\/font\/lineheight-xxl: 22px;
+  --kanban\/font\/size-sm:  10px; --kanban\/font\/lineheight-sm:  18px;
+
+  --kanban\/color\/bg:        #FFFFFF;
+  --kanban\/color\/head:      #ECECEC;
+  --kanban\/color\/text:      #202020;
+  --kanban\/color\/icon:      #202020;
+  --kanban\/color\/subtext:   #858585;
+  --kanban\/color\/divider:   #E1E1E1;
+  --kanban\/color\/highlight: #10C461;
+  --kanban\/color\/special-icon: #D3B000;
+
+  --kanban\/color\/onhold:        #D84141; --kanban\/color\/onhold-sec:     #FFD8D8;
+  --kanban\/color\/onhold-bg:     #FFE5E5; --kanban\/color\/onhold-border:  #FFC8C8;
+  --kanban\/color\/pending:       #D8A841; --kanban\/color\/pending-sec:    #FFFBD8;
+  --kanban\/color\/pending-bg:    #FFF9E5; --kanban\/color\/pending-border: #FFE4C8;
+  --kanban\/color\/inprogress:    #4179D8; --kanban\/color\/inprogress-sec: #D8EAFF;
+  --kanban\/color\/inprogress-bg: #E5F1FF; --kanban\/color\/inprogress-border: #C8DAFF;
+  --kanban\/color\/done:          #10C461; --kanban\/color\/done-sec:       #DBFFD8;
+  --kanban\/color\/done-bg:       #E5FFE9; --kanban\/color\/done-border:    #C8F5D0;  /* no Figma column for Done; derived */
+}
+
+/* ─── Dark mode ──────────────────────────────────────────────────────────── */
+html[data-theme='dark'] {
+  --kanban\/color\/bg:        #242424;
+  --kanban\/color\/head:      #121212;
+  --kanban\/color\/text:      #FFFFFF;
+  --kanban\/color\/icon:      #FFFFFF;
+  --kanban\/color\/subtext:   #B5B5B5;
+  --kanban\/color\/divider:   #3D3D3D;
+  --kanban\/color\/highlight: #07DB66;
+  --kanban\/color\/special-icon: #FADB3E;
+
+  --kanban\/color\/onhold:        #EBA9AA; --kanban\/color\/onhold-sec:     #550000;
+  --kanban\/color\/onhold-bg:     #331F1F; --kanban\/color\/onhold-border:  #5A4141;
+  --kanban\/color\/pending:       #FFF383; --kanban\/color\/pending-sec:    #3A3920;
+  --kanban\/color\/pending-bg:    #302D1D; --kanban\/color\/pending-border: #645D38;
+  --kanban\/color\/inprogress:    #8CBBFC; --kanban\/color\/inprogress-sec: #041C3E;
+  --kanban\/color\/inprogress-bg: #1A222C; --kanban\/color\/inprogress-border: #324663;
+  --kanban\/color\/done:          #07DB66; --kanban\/color\/done-sec:       #023006;
+  --kanban\/color\/done-bg:       #1A2C1E; --kanban\/color\/done-border:    #32633C;
+}
+
+/* ─── Status colour mapping per status ───────────────────────────────────── */
+.prea-kanban--onHold     { --ks-main: var(--kanban\/color\/onhold);     --ks-sec: var(--kanban\/color\/onhold-sec);     --ks-bg: var(--kanban\/color\/onhold-bg);     --ks-border: var(--kanban\/color\/onhold-border); }
+.prea-kanban--pending    { --ks-main: var(--kanban\/color\/pending);    --ks-sec: var(--kanban\/color\/pending-sec);    --ks-bg: var(--kanban\/color\/pending-bg);    --ks-border: var(--kanban\/color\/pending-border); }
+.prea-kanban--inProgress { --ks-main: var(--kanban\/color\/inprogress); --ks-sec: var(--kanban\/color\/inprogress-sec); --ks-bg: var(--kanban\/color\/inprogress-bg); --ks-border: var(--kanban\/color\/inprogress-border); }
+.prea-kanban--done       { --ks-main: var(--kanban\/color\/done);       --ks-sec: var(--kanban\/color\/done-sec);       --ks-bg: var(--kanban\/color\/done-bg);       --ks-border: var(--kanban\/color\/done-border); }
+
+/* ─── KanbanStatusBadge ──────────────────────────────────────────────────── */
+.prea-kanban-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  box-sizing: border-box;
+  padding: 0 6px;
+  border: 1px solid var(--ks-main);
+  border-radius: 3px;
+  background: var(--ks-sec);
+  color: var(--ks-main);
+  font-size: var(--kanban\/font\/size, 12px);
+  line-height: var(--kanban\/font\/lineheight, 16px);
+  font-weight: 500;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* ─── QuantityBadge ──────────────────────────────────────────────────────── */
+.prea-kanban-qty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  padding: 0 4px;
+  border: 1px solid var(--kanban\/color\/divider, #e1e1e1);
+  border-radius: var(--kanban\/sizing\/radius-s, 4px);
+  background: var(--kanban\/color\/bg, #fff);
+  color: var(--kanban\/color\/text, #202020);
+  font-size: var(--kanban\/font\/size, 12px);
+  line-height: var(--kanban\/font\/lineheight, 16px);
+  font-weight: 500;
+}
+
+/* ─── KanbanPriorityBadge ────────────────────────────────────────────────── */
+.prea-kanban-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 16px;
+  box-sizing: border-box;
+  padding: 0 6px 0 7px;
+  border-radius: 3px;
+  background: var(--kanban\/color\/head, #ececec);
+  color: var(--kanban\/color\/text, #202020);
+  font-size: var(--kanban\/font\/size-sm, 10px);
+  line-height: var(--kanban\/font\/lineheight-sm, 18px);
+  white-space: nowrap;
+}
+.prea-kanban-priority__icon { display: inline-flex; width: 10px; height: 10px; color: var(--kanban\/color\/special-icon, #d3b000); }
+.prea-kanban-priority__icon svg { width: 100%; height: 100%; }
+
+/* ─── KanbanGroupHeader ──────────────────────────────────────────────────── */
+.prea-kanban-group {
+  display: flex;
+  align-items: center;
+  gap: var(--kanban\/sizing\/gap-item, 6px);
+  width: 100%;
+  height: var(--kanban\/sizing\/row-main, 30px);
+  box-sizing: border-box;
+  padding: 0 var(--kanban\/sizing\/padding-head, 6px);
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid var(--kanban\/color\/divider, #e1e1e1);
+  background: var(--kanban\/color\/head, #ececec);
+  color: var(--kanban\/color\/text, #202020);
+  font: inherit;
+  font-size: var(--kanban\/font\/size, 12px);
+  line-height: var(--kanban\/font\/lineheight, 16px);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+.prea-kanban-group--sub {
+  padding: 0 var(--kanban\/sizing\/padding-sub, 14px);
+  background: var(--kanban\/color\/bg, #fff);
+  font-size: var(--kanban\/font\/size-xxl, 18px);
+  line-height: var(--kanban\/font\/lineheight-xxl, 22px);
+}
+.prea-kanban-group--sub.prea-kanban-group--open { border-bottom-color: transparent; }
+.prea-kanban-group__chevron { display: inline-flex; flex-shrink: 0; width: 14px; height: 14px; color: var(--kanban\/color\/icon, #202020); }
+.prea-kanban-group__chevron svg { width: 100%; height: 100%; }
+.prea-kanban-group__title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prea-kanban-group:focus-visible { outline: none; text-decoration: underline; }
+
+/* ─── KanbanItemRow ──────────────────────────────────────────────────────── */
+.prea-kanban-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: var(--kanban\/sizing\/row-sub, 24px);
+  box-sizing: border-box;
+  padding: 0 var(--kanban\/sizing\/padding-item, 12px);
+  background: var(--kanban\/color\/bg, #fff);
+  font-size: var(--kanban\/font\/size, 12px);
+  line-height: var(--kanban\/font\/lineheight, 16px);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.prea-kanban-row__label { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--kanban\/color\/subtext, #858585); }
+.prea-kanban-row__value { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; text-align: right; color: var(--kanban\/color\/text, #202020); }
+.prea-kanban-row--highlight .prea-kanban-row__label,
+.prea-kanban-row--highlight .prea-kanban-row__value { color: var(--kanban\/color\/highlight, #10c461); }
+.prea-kanban-row__icon { display: inline-flex; flex-shrink: 0; width: 14px; height: 14px; color: var(--kanban\/color\/highlight, #10c461); }
+.prea-kanban-row__icon svg { width: 100%; height: 100%; }
+.prea-kanban-row--priority {
+  height: var(--kanban\/sizing\/row-main, 30px);
+  border-bottom: 1px solid var(--kanban\/color\/divider, #e1e1e1);
+}
+
+/* ─── KanbanProject ──────────────────────────────────────────────────────── */
+.prea-kanban-project {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 1px solid var(--kanban\/color\/divider, #e1e1e1);
+  border-radius: var(--kanban\/sizing\/radius, 8px);
+  background: var(--kanban\/color\/bg, #fff);
+  overflow: hidden;
+}
+.prea-kanban-project__body { display: flex; flex-direction: column; }
+.prea-kanban-project__body > .prea-kanban-group--sub:last-child { border-bottom-color: transparent; }
+.prea-kanban-project > .prea-kanban-group--header:last-child { border-bottom-color: transparent; }
+
+/* ─── KanbanColumn ───────────────────────────────────────────────────────── */
+.prea-kanban-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kanban\/sizing\/gap, 8px);
+  box-sizing: border-box;
+  padding: var(--kanban\/sizing\/padding, 8px);
+  border: 1px solid var(--ks-border);
+  border-radius: var(--kanban\/sizing\/radius-s, 4px);
+  background: var(--ks-bg);
+}
+.prea-kanban-column__head { display: flex; align-items: center; gap: 4px; }
+.prea-kanban-column__body { display: flex; flex-direction: column; gap: var(--kanban\/sizing\/gap, 8px); }
+
+/* ─── KanbanBoard ────────────────────────────────────────────────────────── */
+.prea-kanban-board {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--kanban\/sizing\/board-gap, 10px);
+  box-sizing: border-box;
+  padding: var(--kanban\/sizing\/padding, 8px);
+  overflow-x: auto;
+}
