@@ -22,6 +22,7 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `InfoBox` | Data Display | `InfoBox`, `InfoBoxModule`, `BoxLink`, `NavInfoCard` | ✅ Stable |
 | `Kanban` | Data Display | `KanbanBoard`, `KanbanColumn`, `KanbanProject`, `KanbanStatusBadge`, `QuantityBadge` | ✅ Stable |
 | `Inputs` | Data Entry | `TextInput`, `SmallInput`, `ColorInput`, `CreateInput`, `SearchInput`, `SearchListItem` | ✅ Stable |
+| `ColorPicker` | Data Entry | `ColorPicker`, `ColorSwitchItem`, `ColorSwatch` | ✅ Stable |
 | `Filters` | Data Entry | `FilterPanel`, `FilterItem`, `ToggleSwitch`, `StatusBadge`, `FilterRange`, `FilterTabs` | ✅ Stable |
 | `Chat` | Chat | `ChatInput`, `ChatDropdown`, `ChatNotes`, `ChatButton` | ✅ Stable |
 
@@ -32,6 +33,7 @@ PREA-Space_ReactComponents/
 ├── Button/               # one folder per component family
 ├── Breadcrumb/
 ├── Chat/
+├── ColorPicker/
 ├── DataBox/
 ├── Divider/
 ├── Filters/

@@ -1,0 +1,210 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA ColorPicker — ColorPicker.css
+   ColorPicker · ColorSwitchItem · ColorSwatch
+   Token values read directly from the Figma "Mode" variable collection
+   (PREA Space Design library › Colorpicker + Filter), Light + Dark modes.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Figma design tokens — Light mode ───────────────────────────────────── */
+:root {
+  --colorpicker\/sizing\/padding:     10px;
+  --colorpicker\/sizing\/inp-padding: 4px;
+  --colorpicker\/sizing\/inp-gap:     5px;
+  --colorpicker\/sizing\/gap:         6px;
+  --colorpicker\/sizing\/color-gap:   10px;
+  --colorpicker\/sizing\/radius:      4px;
+  --colorpicker\/sizing\/width:       300px;  /* Filter/controlWidth */
+  --colorpicker\/sizing\/area-height: 191px;
+  --colorpicker\/sizing\/bar-width:   10px;
+  --colorpicker\/sizing\/slider:      10px;
+
+  --colorpicker\/color\/bg:           #FCFCFC;  /* Filter/BG        */
+  --colorpicker\/color\/border:       #E1E1E1;  /* Filter/BG-Border */
+  --colorpicker\/color\/bg-hover:     #EDEDED;
+  --colorpicker\/color\/text:         #202020;
+  --colorpicker\/color\/divider:      #E1E1E1;
+  --colorpicker\/color\/btn-primary:  #121212;
+  --colorpicker\/color\/btn-secondary:#707070;
+  --colorpicker\/color\/btn-text:     #F5F5F5;
+  --colorpicker\/shadow:              0 5px 14px rgba(0, 0, 0, 0.3);
+  --colorpicker\/shadow-low:          0 1px 3px rgba(0, 0, 0, 0.1);
+
+  --colorpicker\/font\/size-sm: 10px; --colorpicker\/font\/lineheight-sm: 13px;
+  --colorpicker\/font\/size:    12px; --colorpicker\/font\/lineheight:    16px;
+}
+
+/* ─── Dark mode ──────────────────────────────────────────────────────────── */
+html[data-theme='dark'] {
+  --colorpicker\/color\/bg:           #282828;
+  --colorpicker\/color\/border:       #3D3D3D;
+  --colorpicker\/color\/bg-hover:     #363636;
+  --colorpicker\/color\/text:         #F5F5F5;
+  --colorpicker\/color\/divider:      #3D3D3D;
+  --colorpicker\/color\/btn-primary:  #555555;
+  --colorpicker\/color\/btn-secondary:#383838;
+  --colorpicker\/shadow:              0 5px 14px rgba(0, 0, 0, 0.6);
+  --colorpicker\/shadow-low:          0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Panel ──────────────────────────────────────────────────────────────── */
+.prea-colorpicker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--colorpicker\/sizing\/gap, 6px);
+  box-sizing: border-box;
+  width: var(--colorpicker\/sizing\/width, 300px);
+  border: 1px solid var(--colorpicker\/color\/border, #e1e1e1);
+  border-radius: var(--colorpicker\/sizing\/radius, 4px);
+  background: var(--colorpicker\/color\/bg, #fcfcfc);
+  box-shadow: var(--colorpicker\/shadow);
+  color: var(--colorpicker\/color\/text, #202020);
+  overflow: hidden;
+  user-select: none;
+}
+.prea-colorpicker__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--colorpicker\/sizing\/color-gap, 10px);
+  padding: var(--colorpicker\/sizing\/padding, 10px) var(--colorpicker\/sizing\/padding, 10px) 0;
+}
+.prea-colorpicker__panel { display: flex; gap: 7px; height: var(--colorpicker\/sizing\/area-height, 191px); }
+
+/* saturation / value area */
+.prea-colorpicker__area {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: 2px;
+  background:
+    linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
+    linear-gradient(to right, #fff, rgba(255, 255, 255, 0)),
+    var(--cp-hue, #f00);
+  cursor: crosshair;
+  touch-action: none;
+}
+/* hue bar */
+.prea-colorpicker__hue {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--colorpicker\/sizing\/bar-width, 10px);
+  border-radius: 500px;
+  background: linear-gradient(to bottom, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+  cursor: pointer;
+  touch-action: none;
+}
+/* alpha slider */
+.prea-colorpicker__alpha {
+  position: relative;
+  height: var(--colorpicker\/sizing\/slider, 10px);
+  width: 260px;
+  max-width: 100%;
+  border-radius: 500px;
+  background:
+    linear-gradient(to right, transparent, var(--cp-color, #000)),
+    repeating-conic-gradient(rgba(0, 0, 0, 0.1) 0 25%, transparent 0 50%) 0 0 / 10px 10px;
+  cursor: pointer;
+  touch-action: none;
+}
+.prea-colorpicker__thumb {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  box-sizing: border-box;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.4), inset 0 0 0 0.5px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ─── Rows ───────────────────────────────────────────────────────────────── */
+.prea-colorpicker__rows { display: flex; flex-direction: column; padding: 0 var(--colorpicker\/sizing\/padding, 10px); }
+
+.prea-color-switch {
+  display: flex;
+  align-items: center;
+  gap: var(--colorpicker\/sizing\/inp-gap, 5px);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--colorpicker\/sizing\/inp-padding, 4px);
+  border-radius: var(--colorpicker\/sizing\/radius, 4px);
+  transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+.prea-color-switch:hover,
+.prea-color-switch--active { background: var(--colorpicker\/color\/bg-hover, #ededed); box-shadow: var(--colorpicker\/shadow-low); }
+.prea-color-switch__badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  width: 64px;
+  height: 20px;
+  cursor: pointer;
+}
+.prea-color-switch__dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.prea-color-switch__label {
+  font-size: var(--colorpicker\/font\/size-sm, 10px);
+  line-height: var(--colorpicker\/font\/lineheight-sm, 13px);
+  font-weight: 500;
+  color: var(--colorpicker\/color\/text, #202020);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.prea-color-switch__hex { flex: 1 1 0; min-width: 0; }
+
+/* ─── Preview row ────────────────────────────────────────────────────────── */
+.prea-colorpicker__divider { height: 1px; background: var(--colorpicker\/color\/divider, #e1e1e1); }
+.prea-colorpicker__preview { display: flex; align-items: center; gap: 10px; padding: 0 var(--colorpicker\/sizing\/padding, 10px); }
+.prea-colorpicker__eyedropper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.prea-colorpicker__eyedropper svg { width: 28px; height: 28px; }
+.prea-colorpicker__swatches { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.prea-color-swatch {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 120ms ease;
+}
+.prea-color-swatch--selected,
+.prea-color-swatch:focus-visible { box-shadow: 0 0 0 2px var(--colorpicker\/color\/bg, #fcfcfc), 0 0 0 3px var(--colorpicker\/color\/text, #202020); outline: none; }
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.prea-colorpicker__footer {
+  display: flex;
+  gap: var(--colorpicker\/sizing\/color-gap, 10px);
+  padding: 0 var(--colorpicker\/sizing\/padding, 10px) var(--colorpicker\/sizing\/padding, 10px);
+}
+.prea-colorpicker__btn {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  color: var(--colorpicker\/color\/btn-text, #f5f5f5);
+  font: inherit;
+  font-size: var(--colorpicker\/font\/size, 12px);
+  line-height: var(--colorpicker\/font\/lineheight, 16px);
+  font-weight: 500;
+  cursor: pointer;
+}
+.prea-colorpicker__btn:hover { filter: brightness(1.15); }
+.prea-colorpicker__btn--primary   { background: var(--colorpicker\/color\/btn-primary, #121212); }
+.prea-colorpicker__btn--secondary { background: var(--colorpicker\/color\/btn-secondary, #707070); }
+.prea-colorpicker__btn svg { width: 18px; height: 18px; }
