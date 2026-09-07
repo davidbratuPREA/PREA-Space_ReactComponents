@@ -1,0 +1,50 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA Avatar — Avatar.css
+   Token values from the Figma "Mode" variable collection (Avatar/*), Light + Dark.
+   ────────────────────────────────────────────────────────────────────────────── */
+:root {
+  --avatar\/sizing\/small:  18px;
+  --avatar\/sizing\/medium: 24px;
+  --avatar\/sizing\/big:    28px;
+  --avatar\/color\/bg:           #D5D5D5;
+  --avatar\/color\/icon:         #202020;
+  --avatar\/color\/badge:        #D92D20;
+  --avatar\/color\/badge-stroke: #FFFFFF;
+}
+html[data-theme='dark'] {
+  --avatar\/color\/bg:           #222222;
+  --avatar\/color\/icon:         #D5D5D5;
+  --avatar\/color\/badge:        #F97066;
+  --avatar\/color\/badge-stroke: #3D3D3D;
+}
+
+.prea-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--avatar-size, var(--avatar\/sizing\/medium, 24px));
+  height: var(--avatar-size, var(--avatar\/sizing\/medium, 24px));
+  border-radius: 50%;
+  background: var(--avatar\/color\/bg, #d5d5d5);
+  color: var(--avatar\/color\/icon, #202020);
+  overflow: visible;
+}
+.prea-avatar--small  { --avatar-size: var(--avatar\/sizing\/small, 18px); }
+.prea-avatar--medium { --avatar-size: var(--avatar\/sizing\/medium, 24px); }
+.prea-avatar--big    { --avatar-size: var(--avatar\/sizing\/big, 28px); }
+.prea-avatar__img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.prea-avatar__icon { display: inline-flex; width: 60%; height: 60%; }
+.prea-avatar__icon svg { width: 100%; height: 100%; }
+.prea-avatar__badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--avatar\/color\/badge, #d92d20);
+  box-shadow: 0 0 0 1px var(--avatar\/color\/badge-stroke, #fff);
+}
+.prea-avatar-group { display: inline-flex; align-items: center; }

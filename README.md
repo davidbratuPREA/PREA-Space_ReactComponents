@@ -24,13 +24,16 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `Inputs` | Data Entry | `TextInput`, `SmallInput`, `ColorInput`, `CreateInput`, `SearchInput`, `SearchListItem` | ✅ Stable |
 | `ColorPicker` | Data Entry | `ColorPicker`, `ColorSwitchItem`, `ColorSwatch` | ✅ Stable |
 | `Filters` | Data Entry | `FilterPanel`, `FilterItem`, `ToggleSwitch`, `StatusBadge`, `FilterRange`, `FilterTabs` | ✅ Stable |
+| `Notes` | Chat | `NotesPanel`, `NoteCard`, `NoteThread`, `NoteDivider` | ✅ Stable |
+| `Avatar` | General | `Avatar`, `AvatarGroup` | ✅ Stable |
 | `Chat` | Chat | `ChatInput`, `ChatDropdown`, `ChatNotes`, `ChatButton` | ✅ Stable |
 
 ## Project Structure
 
 ```
 PREA-Space_ReactComponents/
-├── Button/               # one folder per component family
+├── Avatar/               # one folder per component family
+├── Button/
 ├── Breadcrumb/
 ├── Chat/
 ├── ColorPicker/
@@ -42,6 +45,7 @@ PREA-Space_ReactComponents/
 ├── InfoBox/
 ├── Inputs/
 ├── Kanban/
+├── Notes/
 ├── TabsMain/
 │   ├── <Name>.tsx        # component(s)
 │   ├── <Name>.types.ts   # TypeScript interfaces
