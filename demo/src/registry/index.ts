@@ -4,6 +4,8 @@ import { breadcrumbEntry } from './prea-breadcrumb.registry';
 import { dropdownEntry }   from './prea-dropdown.registry';
 import { dividerEntry }    from './prea-divider.registry';
 import { iconsEntry }      from './prea-icons.registry';
+import { dataBoxEntry }    from './prea-databox.registry';
+import { infoBoxEntry }    from './prea-infobox.registry';
 import type { ComponentRegistry } from './types';
 
 export const registry: ComponentRegistry = {
@@ -13,6 +15,8 @@ export const registry: ComponentRegistry = {
   'dropdown':   dropdownEntry,
   'divider':    dividerEntry,
   'icons':      iconsEntry,
+  'databox':    dataBoxEntry,
+  'infobox':    infoBoxEntry,
 };
 
 export const categories = Array.from(

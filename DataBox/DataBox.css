@@ -1,0 +1,250 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA DataBox family — DataBox.css
+   DataPanel › DataGroup › DataBox › DataBoxItem  (+ DataButton)
+   Token values read directly from the Figma "Mode" variable collection
+   (PREA Space Design library), Light + Dark modes.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Figma design tokens — Light mode ───────────────────────────────────── */
+:root {
+  /* Sizing — DataBox/Sizing/* , LayerMenu/Sizing/* , Button/Sizing/* */
+  --databox\/sizing\/padding-lr:        8px;   /* DataPanel horizontal padding */
+  --databox\/sizing\/padding-tb:        8px;   /* DataPanel vertical padding   */
+  --databox\/sizing\/box-padding:       10px;  /* DataBox card inner padding   */
+  --databox\/sizing\/box-radius:        4px;   /* DataBox card radius          */
+  --databox\/sizing\/group-gap:         16px;  /* between infoGroups           */
+  --databox\/sizing\/row-gap:           8px;   /* between rows in a group      */
+  --layermenu\/sizing\/gap:             4px;   /* header icon ↔ title gap      */
+  --layermenu\/sizing\/borderradius:    5px;   /* header radius                */
+  --layermenu\/sizing\/controlheight:   26px;  /* controlHeightCreate          */
+  --layermenu\/sizing\/inset-lv1:       5px;
+  --layermenu\/sizing\/inset-lv2:       10px;
+  --databox\/sizing\/plusbtn:           18px;  /* Button/Sizing/controlHeight/SM */
+  --databox\/sizing\/plusbtn-radius:    4px;   /* Button/Sizing/borderRadius/SM  */
+  --databox\/sizing\/icon:              14px;  /* Icon/Sizing/Icon-14            */
+
+  /* Typography — Small/Regular, Base/Medium */
+  --databox\/font\/size-sm:      10px;
+  --databox\/font\/lineheight-sm: 13px;
+  --databox\/font\/size:         12px;
+  --databox\/font\/lineheight:   16px;
+
+  /* Colors — DataBox/Color/* (Light) */
+  --databox\/color\/bg:           #EDEDED;
+  --databox\/color\/border:       #E1E1E1;
+  --databox\/color\/text:         #202020;
+  --databox\/color\/head-text:    #5D5D5D;
+  --databox\/color\/sub-text:     #484848;
+  --databox\/color\/icon:         #202020;
+  --databox\/color\/plusbtn:      #F1F1F1;
+  --databox\/color\/plusbtn-hover: #E7E7E7;
+  --databox\/color\/plusbtn-icon: #0663E5;
+}
+
+/* ─── Dark mode — DataBox/Color/* (Dark) ─────────────────────────────────── */
+html[data-theme='dark'] {
+  --databox\/color\/bg:           #191919;
+  --databox\/color\/border:       #424242;
+  --databox\/color\/text:         #F5F5F5;
+  --databox\/color\/head-text:    #949494;
+  --databox\/color\/sub-text:     #999999;
+  --databox\/color\/icon:         #F5F5F5;
+  --databox\/color\/plusbtn:      #1B1B1B;
+  --databox\/color\/plusbtn-hover: #313131;
+  --databox\/color\/plusbtn-icon: #66A4FB;
+}
+
+/* ─── DataPanel ──────────────────────────────────────────────────────────── */
+.prea-datapanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--databox\/sizing\/row-gap, 8px);
+  box-sizing: border-box;
+  padding: var(--databox\/sizing\/padding-tb, 8px) var(--databox\/sizing\/padding-lr, 8px);
+}
+
+/* Each direct child = Figma "dataWrapper" (a lv.1 group + its lv.2 children) */
+.prea-datapanel > * {
+  width: 100%;
+}
+
+/* ─── DataGroup ──────────────────────────────────────────────────────────── */
+.prea-datagroup {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  border-radius: var(--layermenu\/sizing\/borderradius, 5px);
+}
+
+.prea-datagroup__head {
+  display: flex;
+  align-items: center;
+  gap: var(--layermenu\/sizing\/gap, 4px);
+  height: var(--layermenu\/sizing\/controlheight, 26px);
+  box-sizing: border-box;
+  padding: 0 var(--layermenu\/sizing\/inset-lv1, 5px);
+  border-radius: var(--layermenu\/sizing\/borderradius, 5px);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  color: var(--databox\/color\/text, #202020);
+}
+.prea-datagroup__head:focus-visible {
+  box-shadow: 0 0 0 2px var(--databox\/color\/plusbtn-icon, #0663e5);
+}
+
+/* Level 2 = nested: 10px left inset, 5px right */
+.prea-datagroup--lv2 > .prea-datagroup__head {
+  padding-left: var(--layermenu\/sizing\/inset-lv2, 10px);
+}
+
+.prea-datagroup__chevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--databox\/sizing\/icon, 14px);
+  height: var(--databox\/sizing\/icon, 14px);
+  color: var(--databox\/color\/icon, #202020);
+}
+.prea-datagroup__chevron svg {
+  width: 100%;
+  height: 100%;
+}
+
+.prea-datagroup__title {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--databox\/font\/size, 12px);
+  font-weight: 500;
+  line-height: var(--databox\/font\/lineheight, 16px);
+  color: var(--databox\/color\/text, #202020);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Body ("Items" frame in Figma) */
+.prea-datagroup__body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--layermenu\/sizing\/gap, 4px);
+  width: 100%;
+  border-radius: var(--layermenu\/sizing\/borderradius, 5px);
+}
+
+/* ─── DataButton (Figma "Data_button") ───────────────────────────────────── */
+.prea-databtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--databox\/sizing\/plusbtn, 18px);
+  height: var(--databox\/sizing\/plusbtn, 18px);
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: var(--databox\/sizing\/plusbtn-radius, 4px);
+  background: var(--databox\/color\/plusbtn, #f1f1f1);
+  color: var(--databox\/color\/plusbtn-icon, #0663e5);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.prea-databtn:hover,
+.prea-databtn:focus-visible {
+  background: var(--databox\/color\/plusbtn-hover, #e7e7e7);
+  outline: none;
+}
+.prea-databtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.prea-databtn svg {
+  width: var(--databox\/sizing\/icon, 14px);
+  height: var(--databox\/sizing\/icon, 14px);
+}
+
+/* ─── DataBox (the card) ─────────────────────────────────────────────────── */
+.prea-databox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--databox\/sizing\/group-gap, 16px);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--databox\/sizing\/box-padding, 10px);
+  border: 1px solid var(--databox\/color\/border, #e1e1e1);
+  border-radius: var(--databox\/sizing\/box-radius, 4px);
+  background: var(--databox\/color\/bg, #ededed);
+  color: var(--databox\/color\/text, #202020);
+}
+
+/* Free-form body (AG Grid slot etc.) */
+.prea-databox--custom {
+  align-items: stretch;
+}
+.prea-databox__custom {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Left column — "Items" */
+.prea-databox__items {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--databox\/sizing\/group-gap, 16px);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.prea-databox__group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--databox\/sizing\/row-gap, 8px);
+  width: 100%;
+}
+
+/* Right column — "subItems": first group top, last group bottom */
+.prea-databox__subitems {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+.prea-databox__subgroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--databox\/sizing\/row-gap, 8px);
+}
+
+/* ─── DataBoxItem (Figma "DataBox_item") ─────────────────────────────────── */
+.prea-databox-item {
+  margin: 0;
+  font-weight: 400;
+}
+.prea-databox-item--head {
+  font-size: var(--databox\/font\/size-sm, 10px);
+  line-height: var(--databox\/font\/lineheight-sm, 13px);
+  color: var(--databox\/color\/head-text, #5d5d5d);
+  white-space: nowrap;
+}
+.prea-databox-item--value {
+  font-size: var(--databox\/font\/size, 12px);
+  line-height: var(--databox\/font\/lineheight, 16px);
+  font-weight: 500;
+  color: var(--databox\/color\/text, #202020);
+}
+.prea-databox-item--subValue {
+  font-size: var(--databox\/font\/size-sm, 10px);
+  line-height: var(--databox\/font\/lineheight-sm, 13px);
+  color: var(--databox\/color\/sub-text, #484848);
+  text-align: right;
+  white-space: nowrap;
+}

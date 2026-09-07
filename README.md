@@ -1,6 +1,6 @@
 # PREA Space — React Components
 
-Custom React component library built on top of **Ant Design v6**, following the **PREA Space Design System**.
+Custom React component library for **PREA Space**, built pixel-perfectly against the **PREA Space Design System** in Figma. Components are standalone React + vanilla CSS (class prefix `prea-*`); `TabsMain` additionally reads Ant Design v6 theme tokens.
 
 ## Live Demo
 
@@ -10,26 +10,44 @@ Deployed automatically to GitHub Pages on every push to `main`.
 
 ## Components
 
-| Component | Category | Status |
-|-----------|----------|--------|
-| `PREATabs` | Navigation | ✅ Stable |
+| Component | Category | Exports | Status |
+|-----------|----------|---------|--------|
+| `TabsMain` | Navigation | `TabsMain` | ✅ Stable |
+| `Button` | General | `Button` | ✅ Stable |
+| `Breadcrumb` | Navigation | `Breadcrumb`, `BreadcrumbItem` | ✅ Stable |
+| `DropdownMenu` | Navigation | `DropdownMenu`, `GroupDropdownMenu` | ✅ Stable |
+| `Divider` | Layout | `Divider` | ✅ Stable |
+| `Icon` | General | `Icon` (lucide-react, PREA `li:` naming) | ✅ Stable |
+| `DataBox` | Data Display | `DataPanel`, `DataGroup`, `DataBox`, `DataBoxItem`, `DataButton` | ✅ Stable |
+| `InfoBox` | Data Display | `InfoBox`, `InfoBoxModule`, `BoxLink`, `NavInfoCard` | ✅ Stable |
 
 ## Project Structure
 
 ```
 PREA-Space_ReactComponents/
-├── PREATabs/          # PREATabs component source
-│   ├── PREATabs.tsx
-│   ├── PREATab.tsx
-│   ├── PREATabs.css
-│   ├── PREATabs.types.ts
-│   └── index.ts
-└── demo/              # Component library showcase (Vite + React)
+├── Button/               # one folder per component family
+├── Breadcrumb/
+├── DataBox/
+├── Divider/
+├── DropdownMenu/
+├── Icon/
+├── InfoBox/
+├── TabsMain/
+│   ├── <Name>.tsx        # component(s)
+│   ├── <Name>.types.ts   # TypeScript interfaces
+│   ├── <Name>.css        # styles — Figma tokens as CSS vars, dark mode via html[data-theme="dark"]
+│   └── index.ts          # barrel export
+├── DesignTokensFigma/    # exported Figma design tokens (Light / Dark)
+└── demo/                 # Component showcase (Vite + React) — deploys to GitHub Pages
     └── src/
-        ├── registry/  # Component registry (add new components here)
-        ├── pages/     # Component detail pages
-        └── components/
+        ├── registry/     # one prea-*.registry.tsx per component (add new components here)
+        ├── pages/        # Welcome + component detail page
+        └── components/   # Layout, Showcase (CodeBlock, PropsTable, DownloadButton)
 ```
+
+## Design tokens & dark mode
+
+Figma is the source of truth for every color and size. Each `.css` file declares its tokens on `:root` (light) and overrides them under `html[data-theme='dark']`. Toggle dark mode by setting `document.documentElement.setAttribute('data-theme', 'dark')`.
 
 ## Running Locally
 
@@ -43,33 +61,26 @@ Open [http://localhost:5173](http://localhost:5173).
 
 ## Adding a New Component
 
-1. Create a folder `/YourComponent/` with the component source files
-2. Add a registry entry at `demo/src/registry/your-component.registry.tsx`
-3. Import and export it in `demo/src/registry/index.ts`
+1. Create a folder `/YourComponent/` with `YourComponent.tsx`, `YourComponent.types.ts`, `YourComponent.css`, `index.ts`
+2. Add a registry entry at `demo/src/registry/prea-yourcomponent.registry.tsx` (imports sources via `?raw` for the ZIP download)
+3. Register it in `demo/src/registry/index.ts`
 4. Push to `main` — the demo deploys automatically
+
+See `HANDOFF.md` for the full conventions and gotchas.
 
 ## Using a Component
 
-Download the ZIP from the live demo page, or copy individual files:
+Download the ZIP from the live demo page, or copy the component folder into your project:
 
 ```tsx
-import { PREATabs } from './PREATabs';
-import type { PREATabItem } from './PREATabs';
-import { useState } from 'react';
+import { DataPanel, DataGroup, DataBox } from './DataBox';
 
-const [items, setItems] = useState<PREATabItem[]>([
-  { key: '1', label: 'Tab One', children: <p>Content 1</p> },
-  { key: '2', label: 'Tab Two', children: <p>Content 2</p> },
-]);
-
-const [activeKey, setActiveKey] = useState('1');
-
-<PREATabs
-  items={items}
-  activeKey={activeKey}
-  onChange={setActiveKey}
-  onEdit={(key, action) => { /* add / remove logic */ }}
-/>
+<DataPanel>
+  <DataGroup title="HeadGroup-lv.1">
+    <DataBox
+      groups={[{ head: 'Head', values: ['Info item value'] }]}
+      subGroups={[['Info subItem value']]}
+    />
+  </DataGroup>
+</DataPanel>
 ```
-
-Components automatically adapt to any `ConfigProvider` theme (light, dark, or custom tokens).

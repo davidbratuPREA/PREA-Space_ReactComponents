@@ -1,0 +1,180 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA InfoBox family — InfoBox.css
+   InfoBox · InfoBoxModule · BoxLink · NavInfoCard
+   Token values read directly from the Figma "Mode" variable collection
+   (PREA Space Design library), Light + Dark modes.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Figma design tokens — Light mode ───────────────────────────────────── */
+:root {
+  /* Sizing — DataBox/Sizing/* */
+  --infobox\/sizing\/padding:        10px;  /* info_padding      */
+  --infobox\/sizing\/padding-bottom: 12px;  /* info_padding-L    */
+  --infobox\/sizing\/gap:            10px;  /* info_gap          */
+  --infobox\/sizing\/radius:         4px;   /* info_borderRadius */
+  --infobox\/sizing\/radius-lg:      6px;   /* info_borderRadiusL */
+  --infobox\/sizing\/module-gap:     12px;  /* DataBox/Sizing/Gap */
+  --infobox\/sizing\/module-padding-lr: 8px; /* padding-LR       */
+  --infobox\/sizing\/module-padding-tb: 8px; /* padding-TB       */
+  --infobox\/sizing\/card-padding:   16px;  /* padding-LinkBox   */
+  --infobox\/sizing\/card-gap:       28px;  /* GapLinkBox        */
+
+  /* Typography */
+  --infobox\/font\/label-size:      11px;
+  --infobox\/font\/value-size:      16px;
+  --infobox\/font\/value-lineheight: 17px;
+  --infobox\/font\/link-size:       13px;  /* Font Size/fontSizeLG   */
+  --infobox\/font\/link-lineheight: 17px;  /* Line Height/lineHeightLG */
+  --infobox\/font\/title-size:      18px;
+  --infobox\/font\/title-lineheight: 20px; /* Line height/text-sm */
+
+  /* Colors — DataBox/Color/* + Divider/Color/BG (Light) */
+  --infobox\/color\/bg:          #FFFFFF;  /* BG3        */
+  --infobox\/color\/module-bg:   #EDEDED;  /* BG         */
+  --infobox\/color\/card-bg:     #FFFFFF;  /* BGLinkBox  */
+  --infobox\/color\/border:      #E1E1E1;  /* Border     */
+  --infobox\/color\/divider:     #E1E1E1;  /* Divider/Color/BG */
+  --infobox\/color\/text:        #202020;  /* Text       */
+  --infobox\/color\/head-text:   #5D5D5D;  /* Head Text  */
+  --infobox\/color\/sub-text:    #484848;  /* sub Text   */
+  --infobox\/color\/link:        #0663E5;  /* Link       */
+  --infobox\/color\/link-hover:  #0054C9;  /* LinkHover  */
+}
+
+/* ─── Dark mode ──────────────────────────────────────────────────────────── */
+html[data-theme='dark'] {
+  --infobox\/color\/bg:          #1E1E1E;
+  --infobox\/color\/module-bg:   #191919;
+  --infobox\/color\/card-bg:     #121212;
+  --infobox\/color\/border:      #424242;
+  --infobox\/color\/divider:     #3D3D3D;
+  --infobox\/color\/text:        #F5F5F5;
+  --infobox\/color\/head-text:   #949494;
+  --infobox\/color\/sub-text:    #999999;
+  --infobox\/color\/link:        #66A4FB;
+  --infobox\/color\/link-hover:  #7EB3FF;
+}
+
+/* ─── InfoBox (Figma "info_box") ─────────────────────────────────────────── */
+.prea-infobox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--infobox\/sizing\/gap, 10px);
+  box-sizing: border-box;
+  padding: var(--infobox\/sizing\/padding, 10px)
+           var(--infobox\/sizing\/padding, 10px)
+           var(--infobox\/sizing\/padding-bottom, 12px);
+  border: 1px solid var(--infobox\/color\/border, #e1e1e1);
+  border-radius: var(--infobox\/sizing\/radius, 4px);
+  background: var(--infobox\/color\/bg, #fff);
+  color: var(--infobox\/color\/text, #202020);
+}
+.prea-infobox__label {
+  margin: 0;
+  width: 100%;
+  font-size: var(--infobox\/font\/label-size, 11px);
+  font-weight: 400;
+  line-height: normal;
+  color: var(--infobox\/color\/head-text, #5d5d5d);
+  overflow-wrap: break-word;
+}
+.prea-infobox__value {
+  margin: 0;
+  font-size: var(--infobox\/font\/value-size, 16px);
+  font-weight: 500;
+  line-height: var(--infobox\/font\/value-lineheight, 17px);
+  color: var(--infobox\/color\/text, #202020);
+  white-space: nowrap;
+}
+
+/* ─── InfoBoxModule (Figma "info_box_module") ────────────────────────────── */
+.prea-infobox-module {
+  display: flex;
+  align-items: center;
+  gap: var(--infobox\/sizing\/module-gap, 12px);
+  box-sizing: border-box;
+  padding: var(--infobox\/sizing\/module-padding-tb, 8px) var(--infobox\/sizing\/module-padding-lr, 8px);
+  background: var(--infobox\/color\/module-bg, #ededed);
+  border-bottom: 1px solid var(--infobox\/color\/divider, #e1e1e1);
+}
+.prea-infobox-module__items {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  gap: var(--infobox\/sizing\/module-gap, 12px);
+}
+
+/* ─── BoxLink (Figma "box_link") ─────────────────────────────────────────── */
+.prea-boxlink {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: var(--infobox\/font\/link-size, 13px);
+  font-weight: 400;
+  line-height: var(--infobox\/font\/link-lineheight, 17px);
+  color: var(--infobox\/color\/link, #0663e5);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+.prea-boxlink:hover,
+.prea-boxlink:focus-visible {
+  color: var(--infobox\/color\/link-hover, #0054c9);
+  text-decoration: underline;
+  text-underline-position: from-font;
+  outline: none;
+}
+
+/* ─── NavInfoCard (Figma "nav_InfoCard") ─────────────────────────────────── */
+.prea-navinfocard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--infobox\/sizing\/card-gap, 28px);
+  box-sizing: border-box;
+  padding: var(--infobox\/sizing\/card-padding, 16px);
+  border: 1px solid var(--infobox\/color\/border, #e1e1e1);
+  border-radius: var(--infobox\/sizing\/radius-lg, 6px);
+  background: var(--infobox\/color\/card-bg, #fff);
+  color: var(--infobox\/color\/text, #202020);
+}
+.prea-navinfocard__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--infobox\/sizing\/module-gap, 12px);
+  width: 100%;
+}
+.prea-navinfocard__title {
+  margin: 0;
+  width: 100%;
+  font-size: var(--infobox\/font\/title-size, 18px);
+  font-weight: 500;
+  line-height: var(--infobox\/font\/title-lineheight, 20px);
+  color: var(--infobox\/color\/text, #202020);
+  overflow-wrap: break-word;
+}
+.prea-navinfocard__description {
+  margin: 0;
+  width: 100%;
+  font-size: var(--infobox\/font\/link-size, 13px);
+  font-weight: 400;
+  line-height: var(--infobox\/font\/link-lineheight, 17px);
+  color: var(--infobox\/color\/sub-text, #484848);
+  overflow-wrap: break-word;
+}
+.prea-navinfocard__links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--infobox\/sizing\/module-gap, 12px);
+}
