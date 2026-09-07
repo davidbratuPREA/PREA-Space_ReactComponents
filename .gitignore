@@ -33,3 +33,6 @@ pnpm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+
+# Claude desktop app output folder
+Claude outputs/
