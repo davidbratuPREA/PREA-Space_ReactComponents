@@ -1,382 +1,287 @@
 /* ──────────────────────────────────────────────────────────────────────────────
    PREA Button — Button.css
-   All values sourced directly from Figma "Components" variable collection,
-   using the exact token values defined in buttonVariables.json.
-   Figma RGBA (0-1 range) → CSS rgb/rgba conversions are documented inline.
+   Token values read directly from the Figma "Mode" variable collection
+   (PREA Space Design library › Buttons), Light + Dark modes.
    ────────────────────────────────────────────────────────────────────────────── */
 
-/* ── Token definitions — Light mode (Figma mode "1:1") ─────────────────────── */
+/* ── Figma design tokens — Light mode ─────────────────────────────────────── */
 :root {
   /* Sizing — Button/Sizing/* */
-  --btn-height-sm:          22px;   /* controlHeight/SM */
-  --btn-height-md:          32px;   /* controlHeight/MD */
-  --btn-height-lg:          40px;   /* controlHeight/LG */
-  --btn-padding-x-sm:       7px;    /* paddingHorizontal/SM */
-  --btn-padding-x-md:       15px;   /* paddingHorizontal/MD */
-  --btn-padding-x-lg:       20px;   /* paddingHorizontal/LG */
-  --btn-padding-x-round-sm: 12px;   /* paddingHorizontalRound/SM */
-  --btn-padding-x-round-md: 16px;   /* paddingHorizontalRound/MD */
-  --btn-padding-x-round-lg: 20px;   /* paddingHorizontalRound/LG */
-  --btn-radius-sm:          4px;    /* borderRadius/SM */
-  --btn-radius-md:          6px;    /* borderRadius/MD */
-  --btn-radius-lg:          8px;    /* borderRadius/LG */
+  --btn-height-sm:          18px;   /* controlHeight/SM */
+  --btn-height-md:          22px;   /* controlHeight/MD */
+  --btn-height-lg:          24px;   /* controlHeight/LG */
+  --btn-padding-x-sm:       6px;    /* paddingHorizontal/SM */
+  --btn-padding-x-md:       8px;    /* paddingHorizontal/MD */
+  --btn-padding-x-lg:       10px;   /* paddingHorizontal/LG */
+  --btn-padding-x-round-sm: 10px;   /* paddingHorizontalRound/SM */
+  --btn-padding-x-round-md: 12px;   /* paddingHorizontalRound/MD */
+  --btn-padding-x-round-lg: 14px;   /* paddingHorizontalRound/LG */
+  --btn-radius:             4px;    /* borderRadius/SM = MD = LG */
   --btn-radius-round-sm:    12px;   /* borderRadiusRound/SM */
   --btn-radius-round-md:    16px;   /* borderRadiusRound/MD */
   --btn-radius-round-lg:    20px;   /* borderRadiusRound/LG */
   --btn-border-width:       1px;    /* borderWidth */
   --btn-outline-width:      2px;    /* outlineWidth */
-  --btn-icon-gap:           8px;    /* iconGap */
+  --btn-icon-gap:           6px;    /* iconGap */
+  --btn-icon-sm:            14px;   /* Icon/Sizing/Icon-14 */
+  --btn-icon-md:            14px;
+  --btn-icon-lg:            18px;   /* Icon/Sizing/Icon-18 */
 
-  /* Typography — Button/Typography/* */
-  --btn-font-size-sm:   12px;  /* fontSize/SM */
-  --btn-font-size-md:   14px;  /* fontSize/MD */
-  --btn-font-size-lg:   16px;  /* fontSize/LG */
-  --btn-font-weight:    400;   /* fontWeight/Normal */
+  /* Typography — Base/Regular (SM, MD) · Base/Medium (LG) */
+  --btn-font-size:      12px;
+  --btn-line-height:    16px;
+  --btn-font-weight:    400;
+  --btn-font-weight-lg: 500;
 
-  /* ── Solid — Button/Color/Solid/* ─────────────────────────────────────────── */
-  /* r:0,g:0,b:0,a:1 */
-  --btn-solid-bg:           #000;
-  --btn-solid-text:         #fff;           /* r:1,g:1,b:1,a:1 */
-  --btn-solid-border:       transparent;    /* r:0,g:0,b:0,a:0 */
-  --btn-solid-bg-hover:     rgba(0,0,0,0.749);
-  --btn-solid-text-hover:   #fff;
-  --btn-solid-bg-active:    rgba(0,0,0,0.8);
-  --btn-solid-text-active:  #fff;
+  /* Solid — Button/Color/Solid/* */
+  --btn-solid-bg:          #000000;
+  --btn-solid-text:        #FFFFFF;
+  --btn-solid-bg-hover:    rgba(0, 0, 0, 0.75);
+  --btn-solid-text-hover:  #FFFFFF;
+  --btn-solid-bg-active:   #000000;
+  --btn-solid-text-active: #FFFFFF;
 
-  /* ── Default — Button/Color/Default/* ─────────────────────────────────────── */
-  --btn-default-bg:            #fff;               /* r:1,g:1,b:1,a:1 */
-  --btn-default-text:          rgba(0,0,0,0.878);  /* r:0,g:0,b:0,a:0.878 */
-  --btn-default-border:        #d9d9d9;            /* r:0.851→217 */
-  --btn-default-bg-hover:      rgba(0,0,0,0.059);  /* subtle gray tint */
-  --btn-default-text-hover:    #4096ff;            /* r:0.251→64, g:0.588→150, b:1→255 */
-  --btn-default-border-hover:  #4096ff;
-  --btn-default-bg-active:     rgba(0,0,0,0.039);
-  --btn-default-text-active:   #0958d9;            /* r:0.035→9, g:0.345→88, b:0.851→217 */
-  --btn-default-border-active: #0958d9;
+  /* Outlined — Button/Color/Outlined/* (also used by Dashed) */
+  --btn-outlined-bg:            transparent;
+  --btn-outlined-text:          #202020;
+  --btn-outlined-border:        #D9D9D9;
+  --btn-outlined-bg-hover:      #FDFEFF;
+  --btn-outlined-text-hover:    #4096FF;
+  --btn-outlined-border-hover:  #4096FF;
+  --btn-outlined-bg-active:     #FDFEFF;
+  --btn-outlined-text-active:   #0958D9;
+  --btn-outlined-border-active: #0958D9;
 
-  /* ── Outlined — Button/Color/Outlined/* ───────────────────────────────────── */
-  /* Dashed variant uses these hover bg colors (richer blue tint on hover) */
-  --btn-outlined-bg-hover:      #e6f4ff;   /* r:0.902→230, g:0.957→244, b:1→255 */
-  --btn-outlined-bg-active:     #bae0ff;   /* r:0.729→186, g:0.878→224, b:1→255 */
+  /* Filled — Button/Color/Filled/* */
+  --btn-filled-bg:          #FFFFFF;
+  --btn-filled-text:        #202020;
+  --btn-filled-border:      transparent;
+  --btn-filled-bg-hover:    #F1F1F1;
+  --btn-filled-text-hover:  #202020;
 
-  /* ── Filled — Button/Color/Filled/* ──────────────────────────────────────── */
-  --btn-filled-bg:       rgba(0,0,0,0.059);
-  --btn-filled-bg-hover: rgba(0,0,0,0.149);
+  /* Text — Button/Color/Text/* */
+  --btn-text-bg:        transparent;
+  --btn-text-text:      #202020;
+  --btn-text-bg-hover:  #F1F1F1;
+  --btn-text-bg-active: #E6E6E6;
 
-  /* ── Text — Button/Color/Text/* ───────────────────────────────────────────── */
-  --btn-text-bg-hover:   rgba(0,0,0,0.059);  /* Button/Color/Text/BG Hover */
-  --btn-text-bg-active:  rgba(0,0,0,0.039);  /* Button/Color/Text/BG Active */
+  /* Link — Button/Color/Link/* */
+  --btn-link-text:        #202020;
+  --btn-link-text-hover:  #69B1FF;
+  --btn-link-text-active: #0958D9;
 
-  /* ── Link — Button/Color/Link/* ───────────────────────────────────────────── */
-  --btn-link-text-hover:  #69b1ff;   /* r:0.412→105, g:0.694→177, b:1→255 */
-  --btn-link-text-active: #0958d9;   /* shared with Default Active */
+  /* Disabled — Button/Color/Disabled/* */
+  --btn-disabled-bg:     rgba(0, 0, 0, 0.04);
+  --btn-disabled-text:   #202020;
+  --btn-disabled-border: #D9D9D9;
 
-  /* ── Disabled — Button/Color/Disabled/* ───────────────────────────────────── */
-  --btn-disabled-bg:     rgba(0,0,0,0.039);
-  --btn-disabled-text:   rgba(0,0,0,0.251);
-  --btn-disabled-border: #d9d9d9;
+  /* Danger Solid — Button/Color/Danger Solid/* */
+  --btn-danger-solid-bg:        #FF4D4F;
+  --btn-danger-solid-text:      #FFFFFF;
+  --btn-danger-solid-bg-hover:  #FF7875;
+  --btn-danger-solid-bg-active: #D9363E;
 
-  /* ── Danger Solid — Button/Color/Danger Solid/* ───────────────────────────── */
-  --btn-danger-solid-bg:        #ff4d4f;   /* r:1,g:0.302→77,b:0.310→79 */
-  --btn-danger-solid-text:      #fff;
-  --btn-danger-solid-bg-hover:  #ff7875;   /* r:1,g:0.471→120,b:0.459→117 */
-  --btn-danger-solid-bg-active: #d9363e;   /* r:0.851→217,g:0.212→54,b:0.243→62 */
+  /* Danger Outlined — Button/Color/Danger Outlined/* */
+  --btn-danger-outlined-text:         #FF4D4F;
+  --btn-danger-outlined-border:       #FF4D4F;
+  --btn-danger-outlined-text-hover:   #FF7875;
+  --btn-danger-outlined-border-hover: #FF7875;
+  --btn-danger-outlined-text-active:  #D9363E;
 
-  /* ── Danger Outlined — Button/Color/Danger Outlined/* ─────────────────────── */
-  --btn-danger-outlined-text:         #ff4d4f;
-  --btn-danger-outlined-border:       #ff4d4f;
-  --btn-danger-outlined-text-hover:   #ff7875;
-  --btn-danger-outlined-border-hover: #ff7875;
-  --btn-danger-outlined-text-active:  #d9363e;
+  /* Utility */
+  --btn-focus-outline: #4096FF;
+
+  /* mapBtn — Map Navigation/Color/* */
+  --mapbtn-icon:       #949494;
+  --mapbtn-icon-hover: #202020;
 }
 
-/* ── Token overrides — Dark mode (Figma mode "1:2") ───────────────────────── */
-[data-theme="dark"] {
-  /* Solid is the same in dark mode per token values */
+/* ── Dark mode ────────────────────────────────────────────────────────────── */
+html[data-theme='dark'] {
+  --btn-solid-text:        #F5F5F5;
+  --btn-solid-text-hover:  #F5F5F5;
+  --btn-solid-text-active: #F5F5F5;
 
-  /* Default */
-  --btn-default-bg:        rgb(20,20,20);         /* r:0.078→20 */
-  --btn-default-text:      rgba(255,255,255,0.851);
-  --btn-default-border:    rgb(66,66,66);          /* r:0.259→66 */
-  --btn-default-bg-hover:  rgba(255,255,255,0.09);
-  --btn-default-bg-active: rgba(255,255,255,0.059);
+  --btn-outlined-text:      #F5F5F5;
+  --btn-outlined-border:    #424242;
+  --btn-outlined-bg-hover:  #112545;
+  --btn-outlined-bg-active: #112545;
 
-  /* Outlined hover tint — dark blue */
-  --btn-outlined-bg-hover:  rgb(17,29,44);   /* r:0.067→17, g:0.114→29, b:0.173→44 */
-  --btn-outlined-bg-active: rgb(17,37,69);   /* r:0.067→17, g:0.145→37, b:0.271→69 */
+  --btn-filled-bg:         #202020;
+  --btn-filled-text:       #FFFFFF;
+  --btn-filled-bg-hover:   #313131;
+  --btn-filled-text-hover: #FFFFFF;
 
-  /* Filled */
-  --btn-filled-bg:       rgba(255,255,255,0.09);
-  --btn-filled-bg-hover: rgba(255,255,255,0.149);
+  --btn-text-text:      #F5F5F5;
+  --btn-text-bg-hover:  #292929;
+  --btn-text-bg-active: #464545;
 
-  /* Text */
-  --btn-text-bg-hover:  rgba(255,255,255,0.09);
-  --btn-text-bg-active: rgba(255,255,255,0.059);
+  --btn-link-text: #F5F5F5;
 
-  /* Disabled */
-  --btn-disabled-bg:     rgba(255,255,255,0.09);
-  --btn-disabled-text:   rgba(255,255,255,0.251);
-  --btn-disabled-border: rgb(66,66,66);
+  --btn-disabled-bg:     rgba(255, 255, 255, 0.09);
+  --btn-disabled-text:   #BEBEBE;
+  --btn-disabled-border: #424242;
+
+  --btn-danger-solid-text: #F5F5F5;
+
+  --mapbtn-icon:       #949494;
+  --mapbtn-icon-hover: #F5F5F5;
 }
 
-/* ── Base button ────────────────────────────────────────────────────────────── */
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 .prea-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--btn-icon-gap);
+  box-sizing: border-box;
+  position: relative;
+  margin: 0;
   border: var(--btn-border-width) solid transparent;
-  border-radius: var(--btn-radius-md);
-  cursor: pointer;
+  border-radius: var(--btn-radius);
   font-family: inherit;
-  font-size: var(--btn-font-size-md);
+  font-size: var(--btn-font-size);
   font-weight: var(--btn-font-weight);
-  line-height: 1;
-  height: var(--btn-height-md);
-  padding: 0 var(--btn-padding-x-md);
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  line-height: var(--btn-line-height);
   white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
   user-select: none;
   outline: none;
-  text-decoration: none;
-  position: relative;
-  box-sizing: border-box;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
 }
 .prea-btn:focus-visible {
-  outline: var(--btn-outline-width) solid #4096ff;
+  outline: var(--btn-outline-width) solid var(--btn-focus-outline);
   outline-offset: 2px;
 }
 
-/* ── Sizes ─────────────────────────────────────────────────────────────────── */
-.prea-btn--sm {
-  height:        var(--btn-height-sm);
-  padding:       0 var(--btn-padding-x-sm);
-  font-size:     var(--btn-font-size-sm);
-  border-radius: var(--btn-radius-sm);
-}
-.prea-btn--md {
-  height:        var(--btn-height-md);
-  padding:       0 var(--btn-padding-x-md);
-  font-size:     var(--btn-font-size-md);
-  border-radius: var(--btn-radius-md);
-}
-.prea-btn--lg {
-  height:        var(--btn-height-lg);
-  padding:       0 var(--btn-padding-x-lg);
-  font-size:     var(--btn-font-size-lg);
-  border-radius: var(--btn-radius-lg);
-}
+/* ── Sizes ────────────────────────────────────────────────────────────────── */
+.prea-btn--sm { height: var(--btn-height-sm); padding: 0 var(--btn-padding-x-sm); --btn-icon-size: var(--btn-icon-sm); }
+.prea-btn--md { height: var(--btn-height-md); padding: 0 var(--btn-padding-x-md); --btn-icon-size: var(--btn-icon-md); }
+.prea-btn--lg { height: var(--btn-height-lg); padding: 0 var(--btn-padding-x-lg); --btn-icon-size: var(--btn-icon-lg); font-weight: var(--btn-font-weight-lg); }
 
-/* ── Solid ─────────────────────────────────────────────────────────────────── */
-.prea-btn--solid {
-  background:   var(--btn-solid-bg);
-  color:        var(--btn-solid-text);
-  border-color: var(--btn-solid-border);
-}
-.prea-btn--solid:hover:not(:disabled) {
-  background: var(--btn-solid-bg-hover);
-  color:      var(--btn-solid-text-hover);
-}
-.prea-btn--solid:active:not(:disabled) {
-  background: var(--btn-solid-bg-active);
-  color:      var(--btn-solid-text-active);
-}
+/* ── Solid ────────────────────────────────────────────────────────────────── */
+.prea-btn--solid { background: var(--btn-solid-bg); color: var(--btn-solid-text); border-color: transparent; }
+.prea-btn--solid:hover:not(:disabled)  { background: var(--btn-solid-bg-hover);  color: var(--btn-solid-text-hover); }
+.prea-btn--solid:active:not(:disabled) { background: var(--btn-solid-bg-active); color: var(--btn-solid-text-active); }
 
-/* ── Default ───────────────────────────────────────────────────────────────── */
-.prea-btn--default {
-  background:   var(--btn-default-bg);
-  color:        var(--btn-default-text);
-  border-color: var(--btn-default-border);
-}
-.prea-btn--default:hover:not(:disabled) {
-  background:   var(--btn-default-bg-hover);
-  color:        var(--btn-default-text-hover);
-  border-color: var(--btn-default-border-hover);
-}
-.prea-btn--default:active:not(:disabled) {
-  background:   var(--btn-default-bg-active);
-  color:        var(--btn-default-text-active);
-  border-color: var(--btn-default-border-active);
-}
+/* ── Outlined ─────────────────────────────────────────────────────────────── */
+.prea-btn--outlined { background: var(--btn-outlined-bg); color: var(--btn-outlined-text); border-color: var(--btn-outlined-border); }
+.prea-btn--outlined:hover:not(:disabled)  { background: var(--btn-outlined-bg-hover);  color: var(--btn-outlined-text-hover);  border-color: var(--btn-outlined-border-hover); }
+.prea-btn--outlined:active:not(:disabled) { background: var(--btn-outlined-bg-active); color: var(--btn-outlined-text-active); border-color: var(--btn-outlined-border-active); }
 
-/* ── Dashed (inherits Default colors + Outlined hover bg) ─────────────────── */
-.prea-btn--dashed {
-  background:   var(--btn-default-bg);
-  color:        var(--btn-default-text);
-  border-style: dashed;
-  border-color: var(--btn-default-border);
-}
-.prea-btn--dashed:hover:not(:disabled) {
-  background:   var(--btn-outlined-bg-hover);   /* Outlined/BG Hover */
-  color:        var(--btn-default-text-hover);
-  border-color: var(--btn-default-border-hover);
-}
-.prea-btn--dashed:active:not(:disabled) {
-  background:   var(--btn-outlined-bg-active);  /* Outlined/BG Active */
-  color:        var(--btn-default-text-active);
-  border-color: var(--btn-default-border-active);
-}
+/* ── Dashed (Outlined colours, dashed border) ─────────────────────────────── */
+.prea-btn--dashed { background: var(--btn-outlined-bg); color: var(--btn-outlined-text); border-style: dashed; border-color: var(--btn-outlined-border); }
+.prea-btn--dashed:hover:not(:disabled)  { background: var(--btn-outlined-bg-hover);  color: var(--btn-outlined-text-hover);  border-color: var(--btn-outlined-border-hover); }
+.prea-btn--dashed:active:not(:disabled) { background: var(--btn-outlined-bg-active); color: var(--btn-outlined-text-active); border-color: var(--btn-outlined-border-active); }
 
-/* ── Text ──────────────────────────────────────────────────────────────────── */
-.prea-btn--text {
-  background:   transparent;
-  color:        var(--btn-default-text);  /* Button/Color/Text/Text */
-  border-color: transparent;
-}
-.prea-btn--text:hover:not(:disabled) {
-  background: var(--btn-text-bg-hover);
-}
-.prea-btn--text:active:not(:disabled) {
-  background: var(--btn-text-bg-active);
-}
+/* ── Filled ───────────────────────────────────────────────────────────────── */
+.prea-btn--filled { background: var(--btn-filled-bg); color: var(--btn-filled-text); border-color: var(--btn-filled-border); }
+.prea-btn--filled:hover:not(:disabled),
+.prea-btn--filled:active:not(:disabled) { background: var(--btn-filled-bg-hover); color: var(--btn-filled-text-hover); }
 
-/* ── Link ──────────────────────────────────────────────────────────────────── */
-.prea-btn--link {
-  background:          transparent;
-  color:               var(--btn-default-text);  /* Button/Color/Link/Text */
-  border-color:        transparent;
-  text-decoration:     underline;
-  text-underline-offset: 3px;
-}
-.prea-btn--link:hover:not(:disabled) {
-  color: var(--btn-link-text-hover);
-}
-.prea-btn--link:active:not(:disabled) {
-  color: var(--btn-link-text-active);
-}
+/* ── Text ─────────────────────────────────────────────────────────────────── */
+.prea-btn--text { background: var(--btn-text-bg); color: var(--btn-text-text); border-color: transparent; }
+.prea-btn--text:hover:not(:disabled)  { background: var(--btn-text-bg-hover); }
+.prea-btn--text:active:not(:disabled) { background: var(--btn-text-bg-active); }
 
-/* ── Danger modifier ───────────────────────────────────────────────────────── */
-.prea-btn--solid.prea-btn--danger {
-  background:   var(--btn-danger-solid-bg);
-  color:        var(--btn-danger-solid-text);
-  border-color: transparent;
-}
-.prea-btn--solid.prea-btn--danger:hover:not(:disabled) {
-  background: var(--btn-danger-solid-bg-hover);
-}
-.prea-btn--solid.prea-btn--danger:active:not(:disabled) {
-  background: var(--btn-danger-solid-bg-active);
-}
+/* ── Link ─────────────────────────────────────────────────────────────────── */
+.prea-btn--link { background: transparent; color: var(--btn-link-text); border-color: transparent; text-decoration: underline; text-underline-offset: 3px; }
+.prea-btn--link:hover:not(:disabled)  { color: var(--btn-link-text-hover); }
+.prea-btn--link:active:not(:disabled) { color: var(--btn-link-text-active); }
 
-.prea-btn--default.prea-btn--danger,
-.prea-btn--dashed.prea-btn--danger {
-  color:        var(--btn-danger-outlined-text);
-  border-color: var(--btn-danger-outlined-border);
-}
-.prea-btn--default.prea-btn--danger:hover:not(:disabled),
-.prea-btn--dashed.prea-btn--danger:hover:not(:disabled) {
-  color:        var(--btn-danger-outlined-text-hover);
-  border-color: var(--btn-danger-outlined-border-hover);
-}
-.prea-btn--default.prea-btn--danger:active:not(:disabled),
-.prea-btn--dashed.prea-btn--danger:active:not(:disabled) {
-  color:        var(--btn-danger-outlined-text-active);
-  border-color: var(--btn-danger-outlined-text-active);
-}
+/* ── Danger ───────────────────────────────────────────────────────────────── */
+.prea-btn--solid.prea-btn--danger { background: var(--btn-danger-solid-bg); color: var(--btn-danger-solid-text); }
+.prea-btn--solid.prea-btn--danger:hover:not(:disabled)  { background: var(--btn-danger-solid-bg-hover); }
+.prea-btn--solid.prea-btn--danger:active:not(:disabled) { background: var(--btn-danger-solid-bg-active); }
+
+.prea-btn--outlined.prea-btn--danger,
+.prea-btn--dashed.prea-btn--danger,
+.prea-btn--filled.prea-btn--danger { color: var(--btn-danger-outlined-text); border-color: var(--btn-danger-outlined-border); }
+.prea-btn--outlined.prea-btn--danger:hover:not(:disabled),
+.prea-btn--dashed.prea-btn--danger:hover:not(:disabled),
+.prea-btn--filled.prea-btn--danger:hover:not(:disabled) { color: var(--btn-danger-outlined-text-hover); border-color: var(--btn-danger-outlined-border-hover); }
+.prea-btn--outlined.prea-btn--danger:active:not(:disabled),
+.prea-btn--dashed.prea-btn--danger:active:not(:disabled),
+.prea-btn--filled.prea-btn--danger:active:not(:disabled) { color: var(--btn-danger-outlined-text-active); border-color: var(--btn-danger-outlined-text-active); }
+.prea-btn--filled.prea-btn--danger { border-color: transparent; }
 
 .prea-btn--text.prea-btn--danger,
-.prea-btn--link.prea-btn--danger {
-  color: var(--btn-danger-outlined-text);
-  text-decoration-color: var(--btn-danger-outlined-text);
-}
+.prea-btn--link.prea-btn--danger { color: var(--btn-danger-outlined-text); text-decoration-color: var(--btn-danger-outlined-text); }
 .prea-btn--text.prea-btn--danger:hover:not(:disabled),
-.prea-btn--link.prea-btn--danger:hover:not(:disabled) {
-  color:      var(--btn-danger-outlined-text-hover);
-  background: rgba(255, 77, 79, 0.06);
-}
+.prea-btn--link.prea-btn--danger:hover:not(:disabled) { color: var(--btn-danger-outlined-text-hover); }
 .prea-btn--text.prea-btn--danger:active:not(:disabled),
-.prea-btn--link.prea-btn--danger:active:not(:disabled) {
-  color: var(--btn-danger-outlined-text-active);
-}
+.prea-btn--link.prea-btn--danger:active:not(:disabled) { color: var(--btn-danger-outlined-text-active); }
 
-/* ── Disabled ──────────────────────────────────────────────────────────────── */
+/* ── Disabled ─────────────────────────────────────────────────────────────── */
 .prea-btn:disabled {
-  cursor:      not-allowed;
-  background:  var(--btn-disabled-bg);
-  color:       var(--btn-disabled-text);
+  cursor: not-allowed;
+  background: var(--btn-disabled-bg);
+  color: var(--btn-disabled-text);
   border-color: var(--btn-disabled-border);
 }
-/* Solid disabled overrides (solid has no border) */
-.prea-btn--solid:disabled {
-  background:  var(--btn-disabled-bg);
-  border-color: transparent;
-}
-/* Text / Link disabled — keep transparent bg */
+.prea-btn--solid:disabled,
+.prea-btn--filled:disabled { border-color: transparent; }
 .prea-btn--text:disabled,
-.prea-btn--link:disabled {
-  background: transparent;
-  border-color: transparent;
-}
+.prea-btn--link:disabled { background: transparent; border-color: transparent; }
 
-/* ── Loading ────────────────────────────────────────────────────────────────── */
-.prea-btn--loading {
-  cursor:         not-allowed;
-  pointer-events: none;
-  opacity:        0.75;
-}
+/* ── Loading ──────────────────────────────────────────────────────────────── */
+.prea-btn--loading { cursor: not-allowed; pointer-events: none; opacity: 0.75; }
 
-/* ── Block ──────────────────────────────────────────────────────────────────── */
-.prea-btn--block {
-  display: flex;
-  width:   100%;
-}
+/* ── Block ────────────────────────────────────────────────────────────────── */
+.prea-btn--block { display: flex; width: 100%; }
 
-/* ── Icon-only (icon prop set, no children text) ────────────────────────────── */
-/* Makes the button a perfect square matching the size height token.            */
-/* shape="circle" still turns it fully round — works in combination.            */
-.prea-btn--icon-only {
-  padding: 0;
-  width:   var(--btn-height-md);  /* fallback */
-  aspect-ratio: 1;
-}
+/* ── Icon-only — a square the size of the control height ─────────────────── */
+.prea-btn--icon-only { padding: 0; aspect-ratio: 1; }
 .prea-btn--icon-only.prea-btn--sm { width: var(--btn-height-sm); }
 .prea-btn--icon-only.prea-btn--md { width: var(--btn-height-md); }
 .prea-btn--icon-only.prea-btn--lg { width: var(--btn-height-lg); }
 
-
-/* ── Shape: Round ────────────────────────────────────────────────────────────── */
-.prea-btn--round { border-radius: 100px; }
-.prea-btn--round.prea-btn--sm { padding: 0 var(--btn-padding-x-round-sm); }
-.prea-btn--round.prea-btn--md { padding: 0 var(--btn-padding-x-round-md); }
-.prea-btn--round.prea-btn--lg { padding: 0 var(--btn-padding-x-round-lg); }
-/* Round + icon-only: keep square, just pill-shaped corners */
+/* ── Shape: round ─────────────────────────────────────────────────────────── */
+.prea-btn--round.prea-btn--sm { border-radius: var(--btn-radius-round-sm); padding: 0 var(--btn-padding-x-round-sm); }
+.prea-btn--round.prea-btn--md { border-radius: var(--btn-radius-round-md); padding: 0 var(--btn-padding-x-round-md); }
+.prea-btn--round.prea-btn--lg { border-radius: var(--btn-radius-round-lg); padding: 0 var(--btn-padding-x-round-lg); }
 .prea-btn--round.prea-btn--icon-only { padding: 0; }
 
-
-/* ── Shape: Circle ───────────────────────────────────────────────────────────── */
-.prea-btn--circle {
-  border-radius: 50%;
-  padding: 0;
-  aspect-ratio: 1;
-}
+/* ── Shape: circle ────────────────────────────────────────────────────────── */
+.prea-btn--circle { border-radius: 50%; padding: 0; aspect-ratio: 1; }
 .prea-btn--circle.prea-btn--sm { width: var(--btn-height-sm); }
 .prea-btn--circle.prea-btn--md { width: var(--btn-height-md); }
 .prea-btn--circle.prea-btn--lg { width: var(--btn-height-lg); }
 
-/* ── Loading Spinner ─────────────────────────────────────────────────────────── */
+/* ── Icon & spinner ───────────────────────────────────────────────────────── */
+.prea-btn__icon,
 .prea-btn__spinner {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width:  1em;
-  height: 1em;
-  animation: prea-btn-spin 0.75s linear infinite;
+  flex-shrink: 0;
+  width: var(--btn-icon-size, 14px);
+  height: var(--btn-icon-size, 14px);
+  line-height: 1;
 }
-.prea-btn__spinner svg {
-  width:   1em;
-  height:  1em;
-  display: block;
-}
-@keyframes prea-btn-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
+.prea-btn__icon svg,
+.prea-btn__spinner svg { width: 100%; height: 100%; display: block; }
+.prea-btn__spinner { animation: prea-btn-spin 0.75s linear infinite; }
+@keyframes prea-btn-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* ── Icon ────────────────────────────────────────────────────────────────────── */
-.prea-btn__icon {
+/* ── MapButton (Figma "mapBtn") ───────────────────────────────────────────── */
+.prea-mapbtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1em;
-  line-height: 1;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: var(--mapbtn-icon, #949494);
+  cursor: pointer;
+  transition: color 0.15s ease;
 }
+.prea-mapbtn:hover,
+.prea-mapbtn:focus-visible,
+.prea-mapbtn--active { color: var(--mapbtn-icon-hover, #202020); outline: none; }
+.prea-mapbtn:disabled { cursor: not-allowed; opacity: 0.5; }
+.prea-mapbtn svg { width: 24px; height: 24px; }

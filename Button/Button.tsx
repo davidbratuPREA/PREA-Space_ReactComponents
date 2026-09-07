@@ -1,28 +1,33 @@
 import React from 'react';
-import type { ButtonProps } from './Button.types';
+import { Icon } from '../Icon';
+import type { ButtonProps, MapButtonProps } from './Button.types';
 import './Button.css';
 
 const SpinnerIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle
-      cx="12" cy="12" r="10"
-      stroke="currentColor" strokeWidth="3"
-      strokeDasharray="40 20"
-      strokeLinecap="round"
-    />
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="40 20" strokeLinecap="round" />
   </svg>
 );
 
+const ICON_PX: Record<NonNullable<ButtonProps['size']>, number> = { sm: 14, md: 14, lg: 18 };
+
+function renderIcon(icon: string | React.ReactNode | undefined, size: number) {
+  if (icon === undefined || icon === null || icon === false) return null;
+  return typeof icon === 'string' ? <Icon name={icon} size={size} /> : icon;
+}
+
 /**
- * PREA Button — the core action primitive of the PREA design system.
+ * Button
  *
- * Supports five variants (solid, default, dashed, text, link),
- * three sizes (sm, md, lg), danger state, loading state, icons,
- * round/circle shapes, and full dark-mode support via `[data-theme="dark"]`.
+ * Matches Figma "Default Button":
+ *   Variant  solid · outlined · dashed · filled · text · link
+ *   Size     sm 18px · md 22px · lg 24px   (12/16 text, lg is medium weight)
+ *   Shape    default (4px) · round · circle
+ *   States   default · hover · active · disabled  (+ danger, loading, icon-only)
  */
 export function Button({
   children,
-  variant = 'default',
+  variant = 'outlined',
   size = 'md',
   danger = false,
   disabled = false,
@@ -37,32 +42,23 @@ export function Button({
   onClick,
   ...rest
 }: ButtonProps) {
-  // Icon-only: has an icon, no visible label, not loading (spinner replaces icon).
-  // Loading spinner counts as a "label" so the button keeps its normal width.
-  const iconOnly = !!icon && children == null && !loading;
+  const hasIcon = icon !== undefined && icon !== null && icon !== false;
+  const iconOnly = hasIcon && children == null && !loading;
 
   const classes = [
     'prea-btn',
     `prea-btn--${variant}`,
     `prea-btn--${size}`,
-    danger   ? 'prea-btn--danger'    : '',
-    loading  ? 'prea-btn--loading'   : '',
-    block    ? 'prea-btn--block'     : '',
-    iconOnly ? 'prea-btn--icon-only' : '',
-    shape !== 'default' ? `prea-btn--${shape}` : '',
+    danger && 'prea-btn--danger',
+    loading && 'prea-btn--loading',
+    block && 'prea-btn--block',
+    iconOnly && 'prea-btn--icon-only',
+    shape !== 'default' && `prea-btn--${shape}`,
     className,
   ].filter(Boolean).join(' ');
 
   const isDisabled = disabled || loading;
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (isDisabled) return;
-    onClick?.(e);
-  };
-
-  const iconNode = !loading && icon ? (
-    <span className="prea-btn__icon">{icon}</span>
-  ) : null;
+  const iconNode = !loading && hasIcon ? <span className="prea-btn__icon">{renderIcon(icon, ICON_PX[size])}</span> : null;
 
   return (
     <button
@@ -71,23 +67,29 @@ export function Button({
       className={classes}
       style={style}
       disabled={isDisabled}
-      onClick={handleClick}
+      onClick={(e) => { if (!isDisabled) onClick?.(e); }}
       aria-busy={loading || undefined}
       {...rest}
     >
-      {loading && (
-        <span className="prea-btn__spinner" aria-hidden="true">
-          <SpinnerIcon />
-        </span>
-      )}
-
+      {loading && <span className="prea-btn__spinner" aria-hidden="true"><SpinnerIcon /></span>}
       {iconPosition === 'start' && iconNode}
-
-      {children != null && (
-        <span className="prea-btn__label">{children}</span>
-      )}
-
+      {children != null && <span className="prea-btn__label">{children}</span>}
       {iconPosition === 'end' && iconNode}
+    </button>
+  );
+}
+
+/**
+ * MapButton
+ *
+ * Matches Figma "mapBtn" (State = Default | Hover): a bare 24px icon in
+ * Map Navigation/Icon (#949494) that turns to IconHover (#202020) on hover.
+ */
+export function MapButton({ icon = 'li:plus', active = false, label, className, type = 'button', ...rest }: MapButtonProps) {
+  const cls = ['prea-mapbtn', active && 'prea-mapbtn--active', className].filter(Boolean).join(' ');
+  return (
+    <button type={type} className={cls} aria-label={label} title={label} aria-pressed={active || undefined} {...rest}>
+      {renderIcon(icon, 24)}
     </button>
   );
 }

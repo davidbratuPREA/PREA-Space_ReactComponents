@@ -1,30 +1,42 @@
 import type React from 'react';
 
-export type ButtonVariant = 'solid' | 'default' | 'dashed' | 'text' | 'link';
+/** Figma "Default Button" › Variant */
+export type ButtonVariant = 'solid' | 'outlined' | 'dashed' | 'filled' | 'text' | 'link';
+/** Figma › Size (small = 18px, middle = 22px, large = 24px) */
 export type ButtonSize = 'sm' | 'md' | 'lg';
+/** Figma › Shape */
 export type ButtonShape = 'default' | 'round' | 'circle';
 export type ButtonHtmlType = 'button' | 'submit' | 'reset';
 
-// React 18 removed `children` from HTMLAttributes — we add it back explicitly.
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
-  /** Button label content. */
+  /** Button label. Omit (with `icon`) for an icon-only square button. */
   children?: React.ReactNode;
-  /** Visual style of the button. Defaults to 'default'. */
+  /** Visual style. Default 'outlined'. */
   variant?: ButtonVariant;
-  /** Size of the button. Defaults to 'md'. */
+  /** Height 18 / 22 / 24 px. Default 'md'. */
   size?: ButtonSize;
-  /** Apply danger/destructive color scheme. */
+  /** Danger / destructive colour scheme. */
   danger?: boolean;
-  /** Show a loading spinner and disable the button. */
+  /** Shows a spinner and blocks interaction. */
   loading?: boolean;
-  /** Icon element placed before or after the label. */
-  icon?: React.ReactNode;
-  /** Where the icon is placed relative to the label. Defaults to 'start'. */
+  /** Icon — a Figma icon name ("li:plus") or any ReactNode. 14px (sm, md) / 18px (lg). */
+  icon?: string | React.ReactNode;
+  /** Icon placement. Default 'start'. */
   iconPosition?: 'start' | 'end';
-  /** Stretch button to the full width of its container. */
+  /** Stretch to the container width. */
   block?: boolean;
-  /** Shape of the button. Defaults to 'default'. */
+  /** Corner shape. Default 'default' (4px). */
   shape?: ButtonShape;
-  /** HTML button type attribute. Defaults to 'button'. */
+  /** HTML type attribute. Default 'button'. */
   htmlType?: ButtonHtmlType;
+}
+
+/** Figma "mapBtn" — 24px icon-only map control */
+export interface MapButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  /** Icon — Figma icon name or ReactNode. Default "li:plus". */
+  icon?: string | React.ReactNode;
+  /** Forces the hover colour. */
+  active?: boolean;
+  /** Accessible label (the button is icon-only). */
+  label: string;
 }
