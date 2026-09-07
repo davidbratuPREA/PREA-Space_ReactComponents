@@ -1,0 +1,113 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA CreateMenu — CreateMenu.css
+   Checkbox · CreateDropdownItem · CreateEntryItem · CreateEntryHead · StatusMenu ·
+   CreateEntryMenu
+   Tokens from Figma "Mode" collection: Panel Menus/*, Dropdown/*, subBG, colorText.
+   ────────────────────────────────────────────────────────────────────────────── */
+:root {
+  --createmenu\/color\/bg:        #FFFFFF;
+  --createmenu\/color\/head-bg:   #F6F6F6;   /* subBG */
+  --createmenu\/color\/border:    #E1E1E1;
+  --createmenu\/color\/text:      #202020;
+  --createmenu\/color\/secondary: #888888;
+  --createmenu\/color\/icon:      #202020;
+  --createmenu\/color\/hover:     #E3E3E3;
+  --createmenu\/color\/danger:    #D92D20;
+  --createmenu\/color\/primary-bg:#202020;   /* black "Erstellen" button */
+  --createmenu\/color\/primary-tx:#F5F5F5;
+  --createmenu\/color\/check-bg:  #202020;
+  --createmenu\/color\/check-mark:#F5F5F5;
+  --createmenu\/sizing\/radius: 6px; --createmenu\/sizing\/item-radius: 4px;
+  --createmenu\/sizing\/item: 23px; --createmenu\/sizing\/entry: 26px; --createmenu\/sizing\/head: 20px;
+  --createmenu\/sizing\/padding: 8px; --createmenu\/sizing\/gap: 6px;
+  --createmenu\/font\/size: 13px; --createmenu\/font\/lineheight: 17px;
+  --createmenu\/font\/size-s: 10px; --createmenu\/font\/lineheight-s: 14px;
+  --createmenu\/font\/size-head: 14px; --createmenu\/font\/lineheight-head: 18px;
+}
+html[data-theme='dark'] {
+  --createmenu\/color\/bg:        #1E1E1E;
+  --createmenu\/color\/head-bg:   #262626;
+  --createmenu\/color\/border:    #3D3D3D;
+  --createmenu\/color\/text:      #F5F5F5;
+  --createmenu\/color\/secondary: #949494;
+  --createmenu\/color\/icon:      #F5F5F5;
+  --createmenu\/color\/hover:     #313131;
+  --createmenu\/color\/primary-bg:#F5F5F5;
+  --createmenu\/color\/primary-tx:#202020;
+  --createmenu\/color\/check-bg:  #F5F5F5;
+  --createmenu\/color\/check-mark:#202020;
+}
+
+/* ─── Checkbox ───────────────────────────────────────────────────────────── */
+.prea-checkbox { display: inline-flex; align-items: center; gap: 8px; color: var(--createmenu\/color\/text, #202020); font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px); cursor: pointer; }
+.prea-checkbox input { position: absolute; opacity: 0; width: 0; height: 0; margin: 0; }
+.prea-checkbox__box {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; box-sizing: border-box; width: 14px; height: 14px;
+  border: 1px solid var(--createmenu\/color\/check-bg, #202020); border-radius: 4px; background: transparent; color: var(--createmenu\/color\/check-mark, #f5f5f5); transition: background-color 100ms ease;
+}
+.prea-checkbox__box svg { width: 10px; height: 10px; opacity: 0; }
+.prea-checkbox input:checked + .prea-checkbox__box { background: var(--createmenu\/color\/check-bg, #202020); }
+.prea-checkbox input:checked + .prea-checkbox__box svg { opacity: 1; }
+.prea-checkbox input:focus-visible + .prea-checkbox__box { outline: 2px solid var(--tabs\/color\/text-active, #0663e5); outline-offset: 1px; }
+.prea-checkbox--disabled { opacity: .5; cursor: not-allowed; }
+
+/* ─── CreateDropdownItem ─────────────────────────────────────────────────── */
+.prea-createitem {
+  display: flex; align-items: center; gap: var(--createmenu\/sizing\/gap, 6px); box-sizing: border-box; width: 100%; height: var(--createmenu\/sizing\/item, 23px);
+  padding: 0 var(--createmenu\/sizing\/gap, 6px); margin: 0; border: none; border-radius: var(--createmenu\/sizing\/item-radius, 4px); background: transparent;
+  color: var(--createmenu\/color\/text, #202020); font: inherit; font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px); font-weight: 500; text-align: left; white-space: nowrap; cursor: pointer;
+}
+.prea-createitem__icon { display: inline-flex; width: 16px; height: 16px; flex-shrink: 0; color: var(--createmenu\/color\/icon, #202020); }
+.prea-createitem__icon svg { width: 100%; height: 100%; }
+.prea-createitem:hover, .prea-createitem:focus-visible { background: var(--createmenu\/color\/hover, #e3e3e3); outline: none; }
+.prea-createitem:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ─── CreateEntryItem / Head ─────────────────────────────────────────────── */
+.prea-entryitem {
+  display: flex; align-items: center; gap: 8px; box-sizing: border-box; width: 100%; height: var(--createmenu\/sizing\/entry, 26px);
+  padding: 0 6px; margin: 0; border: none; border-radius: var(--createmenu\/sizing\/item-radius, 4px); background: transparent;
+  color: var(--createmenu\/color\/text, #202020); font: inherit; font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px); text-align: left; cursor: pointer;
+}
+.prea-entryitem:hover, .prea-entryitem:focus-within { background: var(--createmenu\/color\/hover, #e3e3e3); }
+.prea-entryitem__label { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prea-entryitem__end { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.prea-entryitem__icon { display: inline-flex; width: 12px; height: 12px; color: var(--createmenu\/color\/icon, #202020); }
+.prea-entryitem__icon svg { width: 100%; height: 100%; }
+.prea-entryhead { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; height: var(--createmenu\/sizing\/head, 20px); padding: 0 6px; color: var(--createmenu\/color\/secondary, #888); font-size: var(--createmenu\/font\/size-s, 10px); line-height: var(--createmenu\/font\/lineheight-s, 14px); font-weight: 500; }
+.prea-entryhead__action { padding: 0; border: none; background: none; color: var(--createmenu\/color\/danger, #d92d20); font: inherit; cursor: pointer; }
+.prea-entryhead__action:hover { text-decoration: underline; }
+
+/* ─── StatusMenu ─────────────────────────────────────────────────────────── */
+.prea-statusmenu {
+  display: flex; flex-direction: column; gap: 2px; box-sizing: border-box; width: 150px; padding: 4px;
+  border: 1px solid var(--createmenu\/color\/border, #e1e1e1); border-radius: var(--createmenu\/sizing\/radius, 6px); background: var(--createmenu\/color\/bg, #fff);
+  color: var(--createmenu\/color\/text, #202020); font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px);
+}
+.prea-statusmenu__divider { height: 1px; margin: 2px 0; background: var(--createmenu\/color\/border, #e1e1e1); }
+.prea-statusmenu__option { justify-content: flex-start; gap: 6px; }
+.prea-statusmenu__option--active { background: var(--createmenu\/color\/hover, #e3e3e3); }
+.prea-statusmenu__edit { display: flex; align-items: center; gap: 4px; padding: 0 2px; }
+.prea-statusmenu__edit .prea-input-box, .prea-statusmenu__edit input { min-width: 0; flex: 1 1 0; }
+
+/* ─── CreateEntryMenu ────────────────────────────────────────────────────── */
+.prea-createmenu {
+  display: flex; flex-direction: column; box-sizing: border-box; width: 250px; overflow: hidden;
+  border: 1px solid var(--createmenu\/color\/border, #e1e1e1); border-radius: var(--createmenu\/sizing\/radius, 6px); background: var(--createmenu\/color\/bg, #fff);
+  color: var(--createmenu\/color\/text, #202020); font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px);
+}
+.prea-createmenu__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; box-sizing: border-box; height: 34px; padding: 0 6px 0 12px;
+  background: var(--createmenu\/color\/head-bg, #f6f6f6); border-bottom: 1px solid var(--createmenu\/color\/border, #e1e1e1);
+}
+.prea-createmenu__title { display: flex; align-items: center; gap: 6px; font-size: var(--createmenu\/font\/size-head, 14px); line-height: var(--createmenu\/font\/lineheight-head, 18px); font-weight: 500; }
+.prea-createmenu__body { display: flex; flex-direction: column; gap: 2px; padding: var(--createmenu\/sizing\/padding, 8px) 4px; }
+.prea-createmenu__footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 8px; border-top: 1px solid var(--createmenu\/color\/border, #e1e1e1); }
+.prea-createmenu__footer-end { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.prea-createmenu__primary {
+  display: inline-flex; align-items: center; justify-content: center; height: 24px; box-sizing: border-box; padding: 0 10px; margin: 0; border: none; border-radius: 4px;
+  background: var(--createmenu\/color\/primary-bg, #202020); color: var(--createmenu\/color\/primary-tx, #f5f5f5); font: inherit; font-size: 12px; font-weight: 500; white-space: nowrap; cursor: pointer;
+}
+.prea-createmenu__primary:hover { opacity: .9; }
+.prea-createmenu__primary:disabled { opacity: .5; cursor: not-allowed; }
+.prea-createmenu__field { display: flex; flex-direction: column; gap: 6px; padding: 4px; }
+.prea-createmenu__label { color: var(--createmenu\/color\/secondary, #888); font-size: var(--createmenu\/font\/size-s, 10px); line-height: var(--createmenu\/font\/lineheight-s, 14px); }

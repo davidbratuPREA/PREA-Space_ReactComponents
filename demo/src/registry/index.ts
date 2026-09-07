@@ -12,6 +12,9 @@ import { filtersEntry }    from './prea-filters.registry';
 import { kanbanEntry }     from './prea-kanban.registry';
 import { colorPickerEntry } from './prea-colorpicker.registry';
 import { notesEntry }      from './prea-notes.registry';
+import { navigationEntry } from './prea-navigation.registry';
+import { mapNavEntry }     from './prea-mapnav.registry';
+import { createMenuEntry } from './prea-createmenu.registry';
 import type { ComponentRegistry } from './types';
 
 export const registry: ComponentRegistry = {
@@ -29,6 +32,9 @@ export const registry: ComponentRegistry = {
   'kanban':     kanbanEntry,
   'colorpicker': colorPickerEntry,
   'notes':      notesEntry,
+  'navigation': navigationEntry,
+  'mapnav':     mapNavEntry,
+  'createmenu': createMenuEntry,
 };
 
 export const categories = Array.from(
