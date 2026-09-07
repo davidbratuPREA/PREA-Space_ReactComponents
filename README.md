@@ -20,6 +20,7 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `Icon` | General | `Icon` (lucide-react, PREA `li:` naming) | ✅ Stable |
 | `DataBox` | Data Display | `DataPanel`, `DataGroup`, `DataBox`, `DataBoxItem`, `DataButton` | ✅ Stable |
 | `InfoBox` | Data Display | `InfoBox`, `InfoBoxModule`, `BoxLink`, `NavInfoCard` | ✅ Stable |
+| `Inputs` | Data Entry | `TextInput`, `SmallInput`, `ColorInput`, `CreateInput`, `SearchInput`, `SearchListItem` | ✅ Stable |
 | `Chat` | Chat | `ChatInput`, `ChatDropdown`, `ChatNotes`, `ChatButton` | ✅ Stable |
 
 ## Project Structure
@@ -34,6 +35,7 @@ PREA-Space_ReactComponents/
 ├── DropdownMenu/
 ├── Icon/
 ├── InfoBox/
+├── Inputs/
 ├── TabsMain/
 │   ├── <Name>.tsx        # component(s)
 │   ├── <Name>.types.ts   # TypeScript interfaces

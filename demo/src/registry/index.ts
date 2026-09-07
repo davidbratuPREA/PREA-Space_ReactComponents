@@ -7,6 +7,7 @@ import { iconsEntry }      from './prea-icons.registry';
 import { dataBoxEntry }    from './prea-databox.registry';
 import { infoBoxEntry }    from './prea-infobox.registry';
 import { chatEntry }       from './prea-chat.registry';
+import { inputsEntry }     from './prea-inputs.registry';
 import type { ComponentRegistry } from './types';
 
 export const registry: ComponentRegistry = {
@@ -19,6 +20,7 @@ export const registry: ComponentRegistry = {
   'databox':    dataBoxEntry,
   'infobox':    infoBoxEntry,
   'chat':       chatEntry,
+  'inputs':     inputsEntry,
 };
 
 export const categories = Array.from(
