@@ -1,0 +1,368 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA Chat family — Chat.css
+   ChatButton · ChatDropdown · ChatInput · ChatNotes
+   Token values read directly from the Figma "Mode" variable collection
+   (PREA Space Design library), Light + Dark modes.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Figma design tokens — Light mode ───────────────────────────────────── */
+:root {
+  /* Sizing — Chat/Sizing/*, MainMenu/Sizing/*, Dropdown/Sizing/* */
+  --chat\/sizing\/borderradius:      8px;   /* card radius              */
+  --chat\/sizing\/btn-radius:        4px;   /* btn_borderRadius         */
+  --chat\/sizing\/padding:           12px;  /* card padding             */
+  --chat\/sizing\/padding-top:       14px;
+  --chat\/sizing\/gap:               4px;   /* dropdown trigger gap     */
+  --chat\/sizing\/gap-l:             6px;   /* button gap / sub strip   */
+  --chat\/sizing\/btn-padding-lr:    8px;   /* chat_btn horizontal      */
+  --chat\/sizing\/btn-padding-l:     6px;   /* dropdown trigger left    */
+  --chat\/sizing\/btn-padding-r:     3px;   /* dropdown trigger right   */
+  --chat\/sizing\/controlheight:     32px;  /* MainMenu/controlHeight   */
+  --chat\/sizing\/trigger-height:    22px;
+  --chat\/sizing\/input-gap:         26px;  /* textarea ↔ action row    */
+  --chat\/sizing\/panel-width:       274px;
+  --chat\/sizing\/panel-radius:      6px;   /* Dropdown/BorderRadiusLG  */
+  --chat\/sizing\/item-height:       23px;  /* Dropdown/ControlHeight   */
+  --chat\/sizing\/item-radius:       4px;
+  --chat\/sizing\/item-padding:      4px;   /* Dropdown/PaddingItem     */
+  --chat\/sizing\/item-icongap:      6px;   /* Dropdown/IconGap         */
+  --chat\/sizing\/search-height:     28px;
+  --chat\/sizing\/notes-padding:     8px;
+
+  /* Typography */
+  --chat\/font\/size:        12px;  --chat\/font\/lineheight:     16px;  /* Base */
+  --chat\/font\/size-lg:     13px;  --chat\/font\/lineheight-lg:  17px;  /* Large */
+  --chat\/font\/size-xxl:    18px;  --chat\/font\/lineheight-xxl: 22px;  /* XXL */
+  --chat\/font\/lineheight-xs: 18px;                                     /* text-xs (search) */
+
+  /* Colors — Chat/Color/* (Light) */
+  --chat\/color\/bg:             #FFFFFF;
+  --chat\/color\/sub-bg:         #FCFCFC;
+  --chat\/color\/border:         #E1E1E1;  /* Divider/Color/BG */
+  --chat\/color\/text:           #202020;
+  --chat\/color\/icon:           #202020;
+  --chat\/color\/deftext:        #808080;  /* placeholder */
+  --chat\/color\/btn-bg:         #E7E7E7;
+  --chat\/color\/btn-bg-active:  #D5D5D5;
+  --chat\/color\/btn-border:     #C4C4C4;
+  --chat\/color\/primary:        #0663E5;  /* Toggle/Color/btn-Active */
+  --chat\/color\/primary-icon:   #FFFFFF;
+  /* Dropdown panel — Dropdown/Color/* (Light) */
+  --chat\/color\/panel-bg:       #FFFFFF;
+  --chat\/color\/panel-border:   #E1E1E1;
+  --chat\/color\/item-hover:     #E7E7E7;
+  /* chat_notes bar */
+  --chat\/color\/notes-bg:       #FFFFFF;  /* DataPanelBG */
+  --chat\/shadow\/notes:         0 -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ─── Dark mode ──────────────────────────────────────────────────────────── */
+html[data-theme='dark'] {
+  --chat\/color\/bg:             #202020;
+  --chat\/color\/sub-bg:         #121212;
+  --chat\/color\/border:         #3D3D3D;
+  --chat\/color\/text:           #F5F5F5;
+  --chat\/color\/icon:           #F5F5F5;
+  --chat\/color\/deftext:        #808080;
+  --chat\/color\/btn-bg:         #292929;
+  --chat\/color\/btn-bg-active:  #3A3A3A;
+  --chat\/color\/btn-border:     #484848;
+  --chat\/color\/primary:        #408DFA;
+  --chat\/color\/primary-icon:   #FFFFFF;
+  --chat\/color\/panel-bg:       #3A3A3A;
+  --chat\/color\/panel-border:   #3D3D3D;
+  --chat\/color\/item-hover:     #2A2A2A;
+  --chat\/color\/notes-bg:       #303030;
+  --chat\/shadow\/notes:         0 -4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ─── ChatButton (Figma "chat_btn") ──────────────────────────────────────── */
+.prea-chat-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--chat\/sizing\/gap-l, 6px);
+  height: var(--chat\/sizing\/controlheight, 32px);
+  min-width: var(--chat\/sizing\/controlheight, 32px);
+  box-sizing: border-box;
+  padding: 0 var(--chat\/sizing\/btn-padding-lr, 8px);
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: var(--chat\/sizing\/btn-radius, 4px);
+  background: var(--chat\/color\/btn-bg, #e7e7e7);
+  color: var(--chat\/color\/text, #202020);
+  font: inherit;
+  font-size: var(--chat\/font\/size, 12px);
+  line-height: var(--chat\/font\/lineheight, 16px);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.prea-chat-btn__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--chat\/color\/icon, #202020);
+}
+.prea-chat-btn__icon svg { width: 100%; height: 100%; }
+.prea-chat-btn:hover,
+.prea-chat-btn:focus-visible,
+.prea-chat-btn--active {
+  background: var(--chat\/color\/btn-bg-active, #d5d5d5);
+  border-color: var(--chat\/color\/btn-border, #c4c4c4);
+  outline: none;
+}
+.prea-chat-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+
+/* primary — the blue send button */
+.prea-chat-btn--primary {
+  background: var(--chat\/color\/primary, #0663e5);
+  border-color: transparent;
+}
+.prea-chat-btn--primary .prea-chat-btn__icon { color: var(--chat\/color\/primary-icon, #fff); }
+.prea-chat-btn--primary:hover,
+.prea-chat-btn--primary:focus-visible,
+.prea-chat-btn--primary.prea-chat-btn--active {
+  background: var(--chat\/color\/primary, #0663e5);
+  border-color: transparent;
+  filter: brightness(0.92);
+}
+
+/* ─── ChatDropdown (Figma "dropdown_chat") ───────────────────────────────── */
+.prea-chat-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+.prea-chat-dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--chat\/sizing\/gap, 4px);
+  height: var(--chat\/sizing\/trigger-height, 22px);
+  box-sizing: border-box;
+  padding: 0 var(--chat\/sizing\/btn-padding-r, 3px) 0 var(--chat\/sizing\/btn-padding-l, 6px);
+  margin: 0;
+  border: none;
+  border-radius: var(--chat\/sizing\/btn-radius, 4px);
+  background: transparent;
+  color: var(--chat\/color\/text, #202020);
+  font: inherit;
+  font-size: var(--chat\/font\/size-lg, 13px);
+  font-weight: 500;
+  line-height: var(--chat\/font\/lineheight-lg, 17px);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.prea-chat-dropdown__trigger:hover,
+.prea-chat-dropdown__trigger:focus-visible {
+  background: var(--chat\/color\/btn-bg, #e7e7e7);
+  outline: none;
+}
+.prea-chat-dropdown--open > .prea-chat-dropdown__trigger {
+  background: var(--chat\/color\/btn-bg-active, #d5d5d5);
+}
+.prea-chat-dropdown__trigger-icon,
+.prea-chat-dropdown__chevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--chat\/color\/icon, #202020);
+}
+.prea-chat-dropdown__trigger-icon svg,
+.prea-chat-dropdown__chevron svg { width: 100%; height: 100%; }
+
+/* Panel (Figma "chat_Dropdown") — anchored 10px below the trigger, 3px left */
+.prea-chat-dropdown__panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: -3px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: var(--chat\/sizing\/panel-width, 274px);
+  box-sizing: border-box;
+  padding: 0 0 6px;
+  border: 1px solid var(--chat\/color\/panel-border, #e1e1e1);
+  border-radius: var(--chat\/sizing\/panel-radius, 6px);
+  background: var(--chat\/color\/panel-bg, #fff);
+  color: var(--chat\/color\/text, #202020);
+}
+
+/* search row */
+.prea-chat-dropdown__search {
+  padding: 0 8px;
+}
+.prea-chat-dropdown__search-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--chat\/sizing\/search-height, 28px);
+  box-sizing: border-box;
+  padding: 6px 1px;
+  border-bottom: 1px solid var(--chat\/color\/panel-border, #e1e1e1);
+}
+.prea-chat-dropdown__search-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--chat\/color\/icon, #202020);
+}
+.prea-chat-dropdown__search-input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--chat\/color\/text, #202020);
+  font: inherit;
+  font-size: var(--chat\/font\/size, 12px);
+  line-height: var(--chat\/font\/lineheight-xs, 18px);
+  outline: none;
+}
+.prea-chat-dropdown__search-input::placeholder { color: var(--chat\/color\/text, #202020); opacity: 1; }
+
+/* item list */
+.prea-chat-dropdown__list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px;
+  margin: 0;
+  list-style: none;
+}
+.prea-chat-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: var(--chat\/sizing\/item-icongap, 6px);
+  height: var(--chat\/sizing\/item-height, 23px);
+  box-sizing: border-box;
+  padding: 0 var(--chat\/sizing\/item-padding, 4px);
+  border: none;
+  border-radius: var(--chat\/sizing\/item-radius, 4px);
+  background: transparent;
+  color: var(--chat\/color\/text, #202020);
+  font: inherit;
+  font-size: var(--chat\/font\/size, 12px);
+  line-height: var(--chat\/font\/lineheight, 16px);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  width: 100%;
+}
+.prea-chat-dropdown__item:hover,
+.prea-chat-dropdown__item:focus-visible {
+  background: var(--chat\/color\/item-hover, #e7e7e7);
+  outline: none;
+}
+.prea-chat-dropdown__item:disabled { cursor: not-allowed; opacity: 0.5; }
+.prea-chat-dropdown__item-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: var(--chat\/color\/icon, #202020);
+}
+.prea-chat-dropdown__item-icon svg { width: 100%; height: 100%; }
+.prea-chat-dropdown__item-label {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.prea-chat-dropdown__empty {
+  padding: 4px 10px;
+  font-size: var(--chat\/font\/size, 12px);
+  line-height: var(--chat\/font\/lineheight, 16px);
+  color: var(--chat\/color\/deftext, #808080);
+}
+.prea-chat-dropdown__divider {
+  height: 1px;
+  width: 100%;
+  background: var(--chat\/color\/panel-border, #e1e1e1);
+}
+
+/* ─── ChatInput (Figma "chat_menu") ──────────────────────────────────────── */
+.prea-chat-input {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  color: var(--chat\/color\/text, #202020);
+}
+
+/* chatHead */
+.prea-chat-input__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--chat\/sizing\/input-gap, 26px);
+  box-sizing: border-box;
+  padding: var(--chat\/sizing\/padding-top, 14px) var(--chat\/sizing\/padding, 12px) var(--chat\/sizing\/padding, 12px);
+  border: 1px solid var(--chat\/color\/border, #e1e1e1);
+  border-radius: var(--chat\/sizing\/borderradius, 8px);
+  background: var(--chat\/color\/bg, #fff);
+}
+.prea-chat-input--with-sub .prea-chat-input__head {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.prea-chat-input__textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: var(--chat\/color\/text, #202020);
+  font: inherit;
+  font-size: var(--chat\/font\/size-xxl, 18px);
+  line-height: var(--chat\/font\/lineheight-xxl, 22px);
+  resize: none;
+  outline: none;
+  overflow-y: auto;
+}
+.prea-chat-input__textarea::placeholder {
+  color: var(--chat\/color\/deftext, #808080);
+  opacity: 1;
+}
+.prea-chat-input__textarea:disabled { cursor: not-allowed; opacity: 0.6; }
+
+/* action row: [attach] [model] ............ [send] */
+.prea-chat-input__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--chat\/sizing\/gap-l, 6px);
+}
+.prea-chat-input__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--chat\/sizing\/gap-l, 6px);
+}
+
+/* chatSub */
+.prea-chat-input__sub {
+  display: flex;
+  align-items: center;
+  gap: var(--chat\/sizing\/gap-l, 6px);
+  box-sizing: border-box;
+  padding: var(--chat\/sizing\/gap-l, 6px) var(--chat\/sizing\/padding, 12px);
+  border: 1px solid var(--chat\/color\/border, #e1e1e1);
+  border-top: none;
+  border-radius: 0 0 var(--chat\/sizing\/borderradius, 8px) var(--chat\/sizing\/borderradius, 8px);
+  background: var(--chat\/color\/sub-bg, #fcfcfc);
+}
+
+/* ─── ChatNotes (Figma "chat_notes") ─────────────────────────────────────── */
+.prea-chat-notes {
+  box-sizing: border-box;
+  padding: var(--chat\/sizing\/notes-padding, 8px);
+  border-top: 1px solid var(--chat\/color\/border, #e1e1e1);
+  background: var(--chat\/color\/notes-bg, #fff);
+  box-shadow: var(--chat\/shadow\/notes, 0 -4px 10px rgba(0, 0, 0, 0.2));
+}

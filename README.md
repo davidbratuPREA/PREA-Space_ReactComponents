@@ -20,6 +20,7 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `Icon` | General | `Icon` (lucide-react, PREA `li:` naming) | ✅ Stable |
 | `DataBox` | Data Display | `DataPanel`, `DataGroup`, `DataBox`, `DataBoxItem`, `DataButton` | ✅ Stable |
 | `InfoBox` | Data Display | `InfoBox`, `InfoBoxModule`, `BoxLink`, `NavInfoCard` | ✅ Stable |
+| `Chat` | Chat | `ChatInput`, `ChatDropdown`, `ChatNotes`, `ChatButton` | ✅ Stable |
 
 ## Project Structure
 
@@ -27,6 +28,7 @@ Deployed automatically to GitHub Pages on every push to `main`.
 PREA-Space_ReactComponents/
 ├── Button/               # one folder per component family
 ├── Breadcrumb/
+├── Chat/
 ├── DataBox/
 ├── Divider/
 ├── DropdownMenu/
