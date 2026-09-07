@@ -1,0 +1,304 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   PREA Filters — Filters.css
+   ToggleSwitch · StatusBadge · FilterItem · FilterGroupHead · FilterTabs ·
+   FilterPanel · FilterSection · FilterRange
+   Token values read directly from the Figma "Mode" variable collection
+   (PREA Space Design library › Filters), Light + Dark modes.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Figma design tokens — Light mode ───────────────────────────────────── */
+:root {
+  /* Toggle/Sizing/*, Toggle/Color/* */
+  --toggle\/sizing\/width:        32px;
+  --toggle\/sizing\/height:       18px;
+  --toggle\/sizing\/padding:      3px;
+  --toggle\/sizing\/radius:       4px;
+  --toggle\/sizing\/btn:          12px;
+  --toggle\/sizing\/btn-radius:   3px;
+  --toggle\/sizing\/border:       1px;
+  --toggle\/color\/bg-default:    #D7D7D7;
+  --toggle\/color\/bg-active:     #FFFFFF;
+  --toggle\/color\/btn-default:   #626262;
+  --toggle\/color\/btn-active:    #0663E5;
+  --toggle\/color\/border:        #E1E1E1;
+
+  /* Filter/Sizing/*, Filter/Color/* */
+  --filter\/sizing\/padding:      8px;    /* sub item indent */
+  --filter\/sizing\/icongap:      6px;
+  --filter\/sizing\/gap:          10px;
+  --filter\/sizing\/radius:       4px;
+  --filter\/sizing\/border:       1px;
+  --filter\/sizing\/width:        300px;
+  --filter\/sizing\/inset:        10px;   /* panel horizontal padding */
+  --filter\/color\/bg:            #FCFCFC;
+  --filter\/color\/border:        #E1E1E1;
+  --filter\/color\/bg-head:       #FFFFFF;
+  --filter\/color\/btn-primary:   #121212;
+  --filter\/color\/btn-primary-text: #F5F5F5;  /* Inputs/inputActive-W */
+  --filter\/color\/btn-secondary: #707070;
+  --filter\/color\/text:          #202020;  /* Inputs/inputActive */
+  --filter\/color\/text-off:      #858585;  /* Inputs/inputDefault */
+  --filter\/color\/description:   #858585;
+  --filter\/color\/divider:       #E1E1E1;
+  --filter\/shadow:               0 5px 14px rgba(0, 0, 0, 0.3);
+  /* status badges */
+  --filter\/color\/yellow:        #F8C335;  --filter\/color\/yellow-bg: rgba(110, 93, 6, 0.05);
+  --filter\/color\/red:           #FF4651;  --filter\/color\/red-bg:    rgba(135, 19, 26, 0.05);
+  --filter\/color\/green:         #45BF6D;  --filter\/color\/green-bg:  rgba(16, 67, 33, 0.05);
+
+  /* Tabs/* (secondary tabs in the panel header) */
+  --tabs\/color\/text:            #202020;
+  --tabs\/color\/secondary:       #484848;
+  --tabs\/sizing\/padding:        6px;
+  --tabs\/sizing\/gap:            4px;
+
+  /* Typography */
+  --filter\/font\/size:    12px; --filter\/font\/lineheight:    16px;
+  --filter\/font\/size-sm: 10px; --filter\/font\/lineheight-sm: 13px;
+}
+
+/* ─── Dark mode ──────────────────────────────────────────────────────────── */
+html[data-theme='dark'] {
+  --toggle\/color\/bg-default:    #313131;
+  --toggle\/color\/bg-active:     #191919;
+  --toggle\/color\/btn-active:    #408DFA;
+  --toggle\/color\/border:        #525252;
+
+  --filter\/color\/bg:            #282828;
+  --filter\/color\/border:        #3D3D3D;
+  --filter\/color\/bg-head:       #121212;
+  --filter\/color\/btn-primary:   #555555;
+  --filter\/color\/btn-secondary: #383838;
+  --filter\/color\/text:          #F5F5F5;
+  --filter\/color\/text-off:      #B7B7B7;
+  --filter\/color\/description:   #D6D6D6;
+  --filter\/color\/divider:       #3D3D3D;
+  --filter\/shadow:               0 5px 14px rgba(0, 0, 0, 0.6);
+  --filter\/color\/yellow-bg:     rgba(110, 93, 6, 0.15);
+  --filter\/color\/red-bg:        rgba(135, 19, 26, 0.15);
+  --filter\/color\/green-bg:      rgba(16, 67, 33, 0.15);
+
+  --tabs\/color\/text:            #F5F5F5;
+  --tabs\/color\/secondary:       #E1E1E1;
+}
+
+/* ─── ToggleSwitch ───────────────────────────────────────────────────────── */
+.prea-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: var(--toggle\/sizing\/width, 32px);
+  height: var(--toggle\/sizing\/height, 18px);
+  box-sizing: border-box;
+  padding: 0 var(--toggle\/sizing\/padding, 3px);
+  margin: 0;
+  border: var(--toggle\/sizing\/border, 1px) solid var(--toggle\/color\/border, #e1e1e1);
+  border-radius: var(--toggle\/sizing\/radius, 4px);
+  background: var(--toggle\/color\/bg-default, #d7d7d7);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+.prea-toggle__knob {
+  width: var(--toggle\/sizing\/btn, 12px);
+  height: var(--toggle\/sizing\/btn, 12px);
+  border-radius: var(--toggle\/sizing\/btn-radius, 3px);
+  background: var(--toggle\/color\/btn-default, #626262);
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+.prea-toggle--on { background: var(--toggle\/color\/bg-active, #fff); }
+.prea-toggle--on .prea-toggle__knob {
+  background: var(--toggle\/color\/btn-active, #0663e5);
+  transform: translateX(calc(var(--toggle\/sizing\/width, 32px) - var(--toggle\/sizing\/btn, 12px) - 2 * var(--toggle\/sizing\/padding, 3px) - 2 * var(--toggle\/sizing\/border, 1px)));
+}
+.prea-toggle:focus-visible { outline: 2px solid var(--toggle\/color\/btn-active, #0663e5); outline-offset: 2px; }
+.prea-toggle:disabled { cursor: not-allowed; opacity: 0.5; }
+
+/* ─── StatusBadge ────────────────────────────────────────────────────────── */
+.prea-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border: 1px solid;
+  border-radius: 3.636px;
+}
+.prea-status-badge svg { width: 20px; height: 20px; display: block; }
+.prea-status-badge--in_planung     { border-color: var(--filter\/color\/yellow, #f8c335); background: var(--filter\/color\/yellow-bg); color: var(--filter\/color\/yellow, #f8c335); }
+.prea-status-badge--im_baut        { border-color: var(--filter\/color\/red, #ff4651);    background: var(--filter\/color\/red-bg);    color: var(--filter\/color\/red, #ff4651); }
+.prea-status-badge--fertiggestellt { border-color: var(--filter\/color\/green, #45bf6d);  background: var(--filter\/color\/green-bg);  color: var(--filter\/color\/green, #45bf6d); }
+
+/* ─── FilterItem ─────────────────────────────────────────────────────────── */
+.prea-filter-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--filter\/color\/text, #202020);
+}
+.prea-filter-item--sub { padding-left: var(--filter\/sizing\/padding, 8px); }
+.prea-filter-item__text {
+  display: flex;
+  align-items: center;
+  gap: var(--filter\/sizing\/icongap, 6px);
+  min-width: 0;
+  cursor: pointer;
+}
+.prea-filter-item__icon { display: inline-flex; flex-shrink: 0; width: 14px; height: 14px; color: var(--filter\/color\/text, #202020); }
+.prea-filter-item__icon svg { width: 100%; height: 100%; }
+.prea-filter-item__label {
+  font-size: var(--filter\/font\/size, 12px);
+  line-height: var(--filter\/font\/lineheight, 16px);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.prea-filter-item--off .prea-filter-item__label { font-weight: 400; color: var(--filter\/color\/text-off, #858585); }
+.prea-filter-item--off .prea-filter-item__icon  { color: var(--filter\/color\/text-off, #858585); }
+.prea-filter-item--disabled { opacity: 0.5; }
+.prea-filter-item--disabled .prea-filter-item__text { cursor: not-allowed; }
+
+/* ─── FilterGroupHead ────────────────────────────────────────────────────── */
+.prea-filter-group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 2px 0;
+  margin: 0;
+  font-size: var(--filter\/font\/size-sm, 10px);
+  line-height: var(--filter\/font\/lineheight-sm, 13px);
+  color: var(--filter\/color\/description, #858585);
+}
+.prea-filter-group-head__title { font-weight: 500; text-transform: uppercase; white-space: nowrap; }
+.prea-filter-group-head__hint  { flex: 1 1 0; min-width: 0; font-weight: 400; }
+
+/* ─── FilterTabs (TabsSecondary) ─────────────────────────────────────────── */
+.prea-filter-tabs { display: flex; align-items: center; gap: var(--tabs\/sizing\/gap, 4px); }
+.prea-filter-tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  box-sizing: border-box;
+  padding: 0 var(--tabs\/sizing\/padding, 6px);
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: var(--tabs\/color\/secondary, #484848);
+  font: inherit;
+  font-size: var(--filter\/font\/size, 12px);
+  line-height: var(--filter\/font\/lineheight, 16px);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.prea-filter-tabs__tab--active { color: var(--tabs\/color\/text, #202020); font-weight: 500; border-bottom-color: var(--tabs\/color\/text, #202020); }
+.prea-filter-tabs__tab:focus-visible { outline: none; color: var(--tabs\/color\/text, #202020); }
+
+/* ─── FilterPanel ────────────────────────────────────────────────────────── */
+.prea-filter-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--filter\/sizing\/gap, 10px);
+  box-sizing: border-box;
+  width: var(--filter\/sizing\/width, 300px);
+  border: var(--filter\/sizing\/border, 1px) solid var(--filter\/color\/border, #e1e1e1);
+  border-radius: var(--filter\/sizing\/radius, 4px);
+  background: var(--filter\/color\/bg, #fcfcfc);
+  box-shadow: var(--filter\/shadow);
+  color: var(--filter\/color\/text, #202020);
+  overflow: hidden;
+}
+.prea-filter-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 0 var(--filter\/sizing\/inset, 10px);
+  border-bottom: 1px solid var(--filter\/color\/divider, #e1e1e1);
+  background: var(--filter\/color\/bg-head, #fff);
+}
+.prea-filter-panel__close {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: var(--filter\/color\/text, #202020);
+  cursor: pointer;
+}
+.prea-filter-panel__close svg { width: 100%; height: 100%; }
+.prea-filter-panel__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--filter\/sizing\/gap, 10px);
+  min-height: 0;
+  overflow-y: auto;
+}
+.prea-filter-panel__body > .prea-filter-section + .prea-filter-section {
+  border-top: 1px solid var(--filter\/color\/divider, #e1e1e1);
+  padding-top: var(--filter\/sizing\/gap, 10px);
+}
+.prea-filter-panel__body > .prea-filter-section:first-child { padding-top: 4px; }
+.prea-filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--filter-section-gap, 6px);
+  box-sizing: border-box;
+  padding: 0 var(--filter\/sizing\/inset, 10px);
+}
+.prea-filter-panel__footer {
+  display: flex;
+  gap: var(--filter\/sizing\/gap, 10px);
+  flex-shrink: 0;
+  padding: var(--filter\/sizing\/gap, 10px) var(--filter\/sizing\/inset, 10px);
+  border-top: 1px solid var(--filter\/color\/divider, #e1e1e1);
+}
+.prea-filter-panel__btn {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 4px;
+  font: inherit;
+  font-size: var(--filter\/font\/size, 12px);
+  line-height: var(--filter\/font\/lineheight, 16px);
+  font-weight: 500;
+  cursor: pointer;
+  transition: filter 120ms ease;
+}
+.prea-filter-panel__btn:hover { filter: brightness(1.15); }
+.prea-filter-panel__btn--primary   { background: var(--filter\/color\/btn-primary, #121212); color: var(--filter\/color\/btn-primary-text, #f5f5f5); }
+.prea-filter-panel__btn--secondary { background: var(--filter\/color\/btn-secondary, #707070); color: #f5f5f5; }
+.prea-filter-panel__btn svg { width: 18px; height: 18px; }
+
+/* ─── FilterRange ────────────────────────────────────────────────────────── */
+.prea-filter-range { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.prea-filter-range__label {
+  margin: 0;
+  padding: 0 6px;
+  font-size: var(--filter\/font\/size-sm, 10px);
+  line-height: var(--filter\/font\/lineheight-sm, 13px);
+  color: var(--filter\/color\/description, #858585);
+}
+.prea-filter-range__row { display: flex; align-items: center; gap: 8px; }
+.prea-filter-range__sep {
+  flex-shrink: 0;
+  font-size: var(--filter\/font\/size-sm, 10px);
+  line-height: var(--filter\/font\/lineheight-sm, 13px);
+  color: var(--filter\/color\/description, #858585);
+}

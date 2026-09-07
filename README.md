@@ -21,6 +21,7 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `DataBox` | Data Display | `DataPanel`, `DataGroup`, `DataBox`, `DataBoxItem`, `DataButton` | ✅ Stable |
 | `InfoBox` | Data Display | `InfoBox`, `InfoBoxModule`, `BoxLink`, `NavInfoCard` | ✅ Stable |
 | `Inputs` | Data Entry | `TextInput`, `SmallInput`, `ColorInput`, `CreateInput`, `SearchInput`, `SearchListItem` | ✅ Stable |
+| `Filters` | Data Entry | `FilterPanel`, `FilterItem`, `ToggleSwitch`, `StatusBadge`, `FilterRange`, `FilterTabs` | ✅ Stable |
 | `Chat` | Chat | `ChatInput`, `ChatDropdown`, `ChatNotes`, `ChatButton` | ✅ Stable |
 
 ## Project Structure
@@ -32,6 +33,7 @@ PREA-Space_ReactComponents/
 ├── Chat/
 ├── DataBox/
 ├── Divider/
+├── Filters/
 ├── DropdownMenu/
 ├── Icon/
 ├── InfoBox/
