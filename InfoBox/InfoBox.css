@@ -13,6 +13,8 @@
   --infobox\/sizing\/gap:            10px;  /* info_gap          */
   --infobox\/sizing\/radius:         4px;   /* info_borderRadius */
   --infobox\/sizing\/radius-lg:      6px;   /* info_borderRadiusL */
+  /* Fixed tile height = padding 10 + label 2×13 + gap 10 + value 17 + padding 12 */
+  --infobox\/sizing\/height:         75px;
   --infobox\/sizing\/module-gap:     12px;  /* DataBox/Sizing/Gap */
   --infobox\/sizing\/module-padding-lr: 8px; /* padding-LR       */
   --infobox\/sizing\/module-padding-tb: 8px; /* padding-TB       */
@@ -21,6 +23,8 @@
 
   /* Typography */
   --infobox\/font\/label-size:      11px;
+  --infobox\/font\/label-lineheight: 13px;  /* Line Height/lineHeightSM */
+  --infobox\/font\/label-lines:     2;     /* label area always reserves 2 lines */
   --infobox\/font\/value-size:      16px;
   --infobox\/font\/value-lineheight: 17px;
   --infobox\/font\/link-size:       13px;  /* Font Size/fontSizeLG   */
@@ -60,8 +64,11 @@ html[data-theme='dark'] {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   gap: var(--infobox\/sizing\/gap, 10px);
   box-sizing: border-box;
+  height: var(--infobox\/sizing\/height, 75px);   /* fixed — 1- and 2-line labels align */
+  flex-shrink: 0;
   padding: var(--infobox\/sizing\/padding, 10px)
            var(--infobox\/sizing\/padding, 10px)
            var(--infobox\/sizing\/padding-bottom, 12px);
@@ -75,9 +82,15 @@ html[data-theme='dark'] {
   width: 100%;
   font-size: var(--infobox\/font\/label-size, 11px);
   font-weight: 400;
-  line-height: normal;
+  line-height: var(--infobox\/font\/label-lineheight, 13px);
   color: var(--infobox\/color\/head-text, #5d5d5d);
   overflow-wrap: break-word;
+  /* always occupy exactly 2 lines; longer labels are clamped with an ellipsis */
+  min-height: calc(var(--infobox\/font\/label-lines, 2) * var(--infobox\/font\/label-lineheight, 13px));
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--infobox\/font\/label-lines, 2);
+  overflow: hidden;
 }
 .prea-infobox__value {
   margin: 0;
