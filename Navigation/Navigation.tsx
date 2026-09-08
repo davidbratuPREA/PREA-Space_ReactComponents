@@ -3,7 +3,7 @@ import { Icon } from '../Icon';
 import type {
   MainNavItemProps, NavDropdownItemProps, NavSectionHeadProps, MainNavProps,
   BottomNavProps, BottomNavButtonProps, PathMenuProps, IconButtonProps,
-  TabsProps, PanelTabsProps, ToggleDataMenuProps, SearchPanelProps,
+  TabsProps, PanelTabsProps, ToggleDataMenuProps, SearchPanelProps, MainNavDividerProps,
 } from './Navigation.types';
 import './Navigation.css';
 
@@ -33,15 +33,21 @@ export function IconButton({ icon, label, variant = 'plain', size = 22, active, 
 }
 
 /* ─── NavDropdownItem ────────────────────────────────────────────────────── */
-export function NavDropdownItem({ label, active, onClick, href, className }: NavDropdownItemProps) {
+export function NavDropdownItem({ label, icon, active, onClick, href, className }: NavDropdownItemProps) {
   const cls = cx('prea-navdrop', active && 'prea-navdrop--active', className);
-  if (href) return <a className={cls} href={href} aria-current={active ? 'page' : undefined} onClick={onClick}>{label}</a>;
-  return <button type="button" className={cls} aria-current={active ? 'page' : undefined} onClick={onClick}>{label}</button>;
+  const content = (
+    <>
+      {icon && <span className="prea-navdrop__icon">{renderIcon(icon, 16)}</span>}
+      <span className="prea-navdrop__label">{label}</span>
+    </>
+  );
+  if (href) return <a className={cls} href={href} aria-current={active ? 'page' : undefined} onClick={onClick}>{content}</a>;
+  return <button type="button" className={cls} aria-current={active ? 'page' : undefined} onClick={onClick}>{content}</button>;
 }
 
 /* ─── MainNavItem ────────────────────────────────────────────────────────── */
 export function MainNavItem({
-  icon, label, expanded = true, active, children, open, onOpenChange, onClick, href, title, className,
+  icon, label, expanded = true, active, children, open, onOpenChange, onClick, href, title, flyoutTitle, className,
 }: MainNavItemProps) {
   const hasChildren = React.Children.count(children) > 0;
   const [innerOpen, setInnerOpen] = useState(!!active);
@@ -84,7 +90,12 @@ export function MainNavItem({
     >
       {href ? <a href={href} {...btnProps}>{content}</a> : <button type="button" {...btnProps}>{content}</button>}
       {expanded && hasChildren && isOpen && <div className="prea-navitem__children" role="group">{children}</div>}
-      {!expanded && hasChildren && hover && <div className="prea-navitem__flyout" role="menu">{children}</div>}
+      {!expanded && hasChildren && hover && (
+        <div className="prea-navitem__flyout" role="menu">
+          <div className="prea-navitem__flyout-headwrap"><div className="prea-navitem__flyout-head">{flyoutTitle ?? title ?? label}</div></div>
+          <div className="prea-navitem__flyout-items">{children}</div>
+        </div>
+      )}
     </div>
   );
 }
@@ -100,7 +111,7 @@ export function NavSectionHead({ title, actionLabel, onAction, className }: NavS
 }
 
 /* ─── MainNav ────────────────────────────────────────────────────────────── */
-export function MainNav({ expanded = true, onToggle, logo, title = 'SPACE', children, footer, height = '100vh', className, style }: MainNavProps) {
+export function MainNav({ expanded = true, onToggle, logo, title = 'SPACE', children, footer, height = 1080, className, style }: MainNavProps) {
   return (
     <nav
       className={cx('prea-mainnav', expanded ? 'prea-mainnav--open' : 'prea-mainnav--close', className)}
@@ -129,7 +140,9 @@ export function MainNav({ expanded = true, onToggle, logo, title = 'SPACE', chil
   );
 }
 
-export function MainNavDivider() { return <div className="prea-mainnav__divider" role="separator" />; }
+export function MainNavDivider({ size = 'md', className }: MainNavDividerProps = {}) {
+  return <div className={cx('prea-mainnav__divider', size === 'sm' && 'prea-mainnav__divider--sm', className)} role="separator" />;
+}
 
 /* ─── BottomNav ──────────────────────────────────────────────────────────── */
 export function BottomNavButton({ icon, children, variant = 'plain', className, type = 'button', ...rest }: BottomNavButtonProps) {

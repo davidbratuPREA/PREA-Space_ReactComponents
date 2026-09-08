@@ -17,12 +17,16 @@ export interface MainNavItemProps {
   href?: string;
   /** Accessible label — needed when collapsed. */
   title?: string;
+  /** Head text of the collapsed hover flyout (Figma "DropdownBig Head"). Defaults to `title` / `label`. */
+  flyoutTitle?: React.ReactNode;
   className?: string;
 }
 
 /* ─── NavDropdownItem (Figma "navItem-dropdown") ─────────────────────────── */
 export interface NavDropdownItemProps {
   label: React.ReactNode;
+  /** Optional 16px icon — only rendered inside the collapsed flyout (Figma DropdownBig Item). */
+  icon?: string | React.ReactNode;
   active?: boolean;
   onClick?: () => void;
   href?: string;
@@ -50,10 +54,16 @@ export interface MainNavProps {
   children?: React.ReactNode;
   /** Bottom part (project lists, settings, user). */
   footer?: React.ReactNode;
-  /** Height. Default "100vh". */
+  /** Height. Figma: 1080px (default). */
   height?: number | string;
   className?: string;
   style?: React.CSSProperties;
+}
+
+export interface MainNavDividerProps {
+  /** md = 11px (5 + 1 + 5, Figma footer dividers) · sm = 7px (3 + 1 + 3, header divider). */
+  size?: 'md' | 'sm';
+  className?: string;
 }
 
 /* ─── BottomNav (Figma "bottomNav") ──────────────────────────────────────── */

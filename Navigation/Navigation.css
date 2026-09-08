@@ -23,6 +23,15 @@
   --mainmenu\/color\/btn-hover: #F1F1F1;
   --mainmenu\/color\/btn-active:#E6E6E6;
   --mainmenu\/color\/border:    #E1E1E1;   /* Divider/BG */
+  --mainmenu\/sizing\/height:    1080px;
+  --mainmenu\/sizing\/divider-sm: 3px;      /* Divider 7px  = 3 + 1 + 3  */
+  --mainmenu\/sizing\/divider:    5px;      /* Divider 11px = 5 + 1 + 5  */
+  /* Flyout (Figma GroupDropdown Menu on collapsed hover) — Dropdown/* tokens */
+  --mainmenu\/flyout\/bg:        #FFFFFF;   /* Dropdown/BG-2  */
+  --mainmenu\/flyout\/head-bg:   #F6F6F6;   /* Dropdown/BG-2b */
+  --mainmenu\/flyout\/hover:     #E7E7E7;   /* Dropdown/ItemHover */
+  --mainmenu\/flyout\/border:    #E1E1E1;
+  --mainmenu\/flyout\/text:      #202020;
 
   /* BottomNav */
   --bottomnav\/sizing\/padding-h: 8px; --bottomnav\/sizing\/padding-v: 4px;
@@ -54,12 +63,17 @@ html[data-theme='dark'] {
   --mainmenu\/color\/bg:        #1E1E1E;
   --mainmenu\/color\/icon:      #F5F5F5;
   --mainmenu\/color\/text:      #F5F5F5;
-  --mainmenu\/color\/secondary: #E1E1E1;
+  --mainmenu\/color\/secondary: #C3C3C3;
   --mainmenu\/color\/secondary-active: #F5F5F5;
   --mainmenu\/color\/group-txt: #949494;
   --mainmenu\/color\/btn-hover: #313131;
   --mainmenu\/color\/btn-active:#464545;
   --mainmenu\/color\/border:    #3D3D3D;
+  --mainmenu\/flyout\/bg:        #1B1B1B;
+  --mainmenu\/flyout\/head-bg:   #222222;
+  --mainmenu\/flyout\/hover:     #2A2A2A;
+  --mainmenu\/flyout\/border:    #3D3D3D;
+  --mainmenu\/flyout\/text:      #F5F5F5;
   --bottomnav\/color\/bg:        #1B1B1B;
   --bottomnav\/color\/border:    #424242;
   --bottomnav\/color\/text:      #F5F5F5;
@@ -89,7 +103,7 @@ html[data-theme='dark'] {
 /* ─── MainNav ────────────────────────────────────────────────────────────── */
 .prea-mainnav {
   display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
-  box-sizing: border-box; height: 100vh;
+  box-sizing: border-box; height: var(--mainmenu\/sizing\/height, 1080px);
   border-right: 1px solid var(--mainmenu\/color\/border, #e1e1e1);
   background: var(--mainmenu\/color\/bg, #fff); color: var(--mainmenu\/color\/text, #202020);
   font-size: var(--nav\/font\/size-lg, 13px); line-height: var(--nav\/font\/lineheight-lg, 17px);
@@ -97,6 +111,8 @@ html[data-theme='dark'] {
 }
 .prea-mainnav--open  { width: var(--mainmenu\/sizing\/width-open, 280px); padding: 0 8px 12px; }
 .prea-mainnav--close { width: var(--mainmenu\/sizing\/width-close, 48px); padding: 10px 6px 12px; align-items: center; }
+.prea-mainnav--close .prea-mainnav__header, .prea-mainnav--close .prea-mainnav__footer { gap: 2px; overflow: visible; }
+.prea-mainnav--close { overflow: visible; } /* flyouts must escape the rail */
 .prea-mainnav__header, .prea-mainnav__footer { display: flex; flex-direction: column; gap: 4px; width: 100%; min-height: 0; }
 .prea-mainnav__footer { gap: 2px; }
 .prea-mainnav__header { flex: 1 1 auto; overflow-y: auto; }
@@ -104,7 +120,8 @@ html[data-theme='dark'] {
 .prea-mainnav__logo { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .prea-mainnav__logo-divider { width: 1px; height: 24px; background: var(--mainmenu\/color\/border, #e1e1e1); }
 .prea-mainnav__title { font-weight: 500; white-space: nowrap; }
-.prea-mainnav__divider { height: 1px; margin: 6px 0 5px; background: var(--mainmenu\/color\/border, #e1e1e1); flex-shrink: 0; }
+.prea-mainnav__divider { width: 100%; box-sizing: content-box; height: 1px; padding: var(--mainmenu\/sizing\/divider, 5px) 0; flex-shrink: 0; background-clip: content-box; background-color: var(--mainmenu\/color\/border, #e1e1e1); }
+.prea-mainnav__divider--sm { padding: var(--mainmenu\/sizing\/divider-sm, 3px) 0; }
 .prea-mainnav--close .prea-mainnav__brand { height: auto; padding: 0; }
 .prea-mainnav--close .prea-mainnav__header,
 .prea-mainnav--close .prea-mainnav__footer { align-items: center; }
@@ -129,13 +146,19 @@ html[data-theme='dark'] {
 .prea-navitem__chevron { display: inline-flex; width: 20px; height: 20px; flex-shrink: 0; transition: transform 150ms ease; }
 .prea-navitem__chevron svg { width: 100%; height: 100%; }
 .prea-navitem__children { display: flex; flex-direction: column; width: 100%; }
-/* collapsed flyout */
-.prea-navitem__flyout {
-  position: absolute; left: calc(100% + 14px); top: 0; z-index: 1000; min-width: 154px; box-sizing: border-box;
-  border: 1px solid var(--mainmenu\/color\/border, #e1e1e1); border-radius: 6px; background: var(--mainmenu\/color\/bg, #fff);
-  padding: 4px 8px; display: flex; flex-direction: column;
-}
+/* collapsed flyout — Figma "GroupDropdown Menu": left 46px, top 0, 154px wide */
 .prea-navitem--collapsed { position: relative; }
+.prea-navitem__flyout {
+  position: absolute; left: calc(var(--mainmenu\/sizing\/controlheight, 32px) + 14px); top: 0; z-index: 1000; width: 154px; box-sizing: border-box;
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--mainmenu\/flyout\/border, #e1e1e1); border-radius: 6px; background: var(--mainmenu\/flyout\/bg, #fff);
+  color: var(--mainmenu\/flyout\/text, #202020); font-size: var(--nav\/font\/size-lg, 13px); line-height: var(--nav\/font\/lineheight-lg, 17px); font-weight: 400;
+}
+/* invisible bridge over the 14px gap so the pointer can travel into the flyout */
+.prea-navitem__flyout::before { content: ''; position: absolute; left: -15px; top: 0; width: 15px; height: 100%; }
+.prea-navitem__flyout-head { display: flex; align-items: center; height: 32px; box-sizing: border-box; padding: 0 6px; margin: 2px 8px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prea-navitem__flyout-headwrap { background: var(--mainmenu\/flyout\/head-bg, #f6f6f6); border-bottom: 1px solid var(--mainmenu\/flyout\/border, #e1e1e1); }
+.prea-navitem__flyout-items { display: flex; flex-direction: column; padding: 4px 8px; }
 
 /* ─── NavDropdownItem ────────────────────────────────────────────────────── */
 .prea-navdrop {
@@ -145,9 +168,11 @@ html[data-theme='dark'] {
   text-align: left; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;
 }
 .prea-navdrop:hover, .prea-navdrop:focus-visible, .prea-navdrop--active { color: var(--mainmenu\/color\/secondary-active, #202020); outline: none; }
-/* inside a flyout the rows are 32px with 6px padding (DropdownBig Item) */
-.prea-navitem__flyout .prea-navdrop { padding: 0 6px; border-radius: 4px; color: var(--mainmenu\/color\/text, #202020); }
-.prea-navitem__flyout .prea-navdrop:hover { background: var(--mainmenu\/color\/btn-hover, #f1f1f1); }
+/* inside a flyout the rows are DropdownBig Items: 32px, padding 6, gap 8, 16px icon */
+.prea-navitem__flyout .prea-navdrop { display: flex; align-items: center; gap: 8px; padding: 0 6px; border-radius: 4px; color: var(--mainmenu\/flyout\/text, #202020); }
+.prea-navitem__flyout .prea-navdrop:hover, .prea-navitem__flyout .prea-navdrop:focus-visible, .prea-navitem__flyout .prea-navdrop--active { background: var(--mainmenu\/flyout\/hover, #e7e7e7); }
+.prea-navdrop__icon { display: inline-flex; width: 16px; height: 16px; flex-shrink: 0; }
+.prea-navdrop__icon svg { width: 100%; height: 100%; }
 
 /* ─── NavSectionHead ─────────────────────────────────────────────────────── */
 .prea-navsection { display: flex; align-items: center; justify-content: space-between; padding: 8px; font-weight: 500; }
