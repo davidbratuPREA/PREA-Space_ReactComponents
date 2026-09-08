@@ -40,11 +40,31 @@ html[data-theme='dark'] {
   overflow: hidden;
 }
 
-/* Inner items wrapper — adds padding around the group */
+/* Inner items wrapper — adds padding around the group (Figma "dropdownGroup") */
 .prea-dropdown-menu__group {
   display: flex;
   flex-direction: column;
   padding: var(--dropdown\/sizing\/paddingitem, 4px);
+}
+
+/* 1 px divider between groups */
+.prea-dropdown-menu__divider {
+  height: 1px;
+  background-color: var(--dropdown\/color\/border, #e1e1e1);
+}
+
+/* ─── Version=Lvl2 — first panel + sub-menu side by side, 4 px gap ───────── */
+.prea-dropdown-menu-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  vertical-align: top;
+}
+.prea-dropdown-menu--lvl2 {
+  position: absolute;
+  top: 0;
+  left: calc(100% + var(--dropdown\/sizing\/paddingitem, 4px));
+  z-index: 1000;
 }
 
 /* ─── DropdownItem ───────────────────────────────────────────────────────── */
@@ -62,9 +82,13 @@ html[data-theme='dark'] {
   color: var(--dropdown\/color\/text, #202020);
 }
 
-.prea-dropdown-item:hover:not(.prea-dropdown-item--disabled) {
+.prea-dropdown-item:hover:not(.prea-dropdown-item--disabled),
+.prea-dropdown-item--open {
   background-color: var(--dropdown\/color\/itemhover, #e7e7e7);
 }
+
+/* Toggle state — ToggleBtn replaces the chevron */
+.prea-dropdown-item__toggle { flex-shrink: 0; }
 
 /* Danger state */
 .prea-dropdown-item--danger {

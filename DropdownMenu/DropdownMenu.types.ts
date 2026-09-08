@@ -1,17 +1,17 @@
 import React from 'react';
 
 /** Single row state — matches Figma "Dropdown Item" states */
-export type DropdownItemState = 'default' | 'hover' | 'danger';
+export type DropdownItemState = 'default' | 'hover' | 'danger' | 'toggle';
 
 export interface DropdownItemDef {
   key: string;
   /** Label text */
   label: string;
   /**
-   * Optional icon — ReactNode rendered on the left (14 px).
-   * In the Figma design this is always a lucide icon (e.g. li:atom).
+   * Optional icon rendered on the left (14 px) — a Figma icon name
+   * ("li:paperclip", "gmail") or any ReactNode.
    */
-  icon?: React.ReactNode;
+  icon?: string | React.ReactNode;
   /**
    * Optional right-side element.
    * Figma default: a chevron-right icon — pass false to hide it.
@@ -22,10 +22,33 @@ export interface DropdownItemDef {
   /** Grays the item out — no hover interaction */
   disabled?: boolean;
   onClick?: (key: string) => void;
+  /**
+   * Figma "Version=Lvl2": hovering this item opens a second Dropdown Menu
+   * right beside the first one (4 px gap). Pass a flat list or a list of
+   * groups (divider between groups). The chevron is shown automatically.
+   */
+  children?: DropdownItemDef[] | DropdownItemDef[][];
+  /**
+   * Figma "State=Toggle": a 32×18 ToggleBtn at the right instead of the
+   * chevron. Clicking the row toggles it.
+   */
+  toggle?: {
+    checked?: boolean;
+    defaultChecked?: boolean;
+    onChange?: (checked: boolean) => void;
+  };
 }
 
 export interface DropdownMenuProps {
-  items: DropdownItemDef[];
+  /** Flat item list (single group). */
+  items?: DropdownItemDef[];
+  /** Grouped items — a 1 px divider is rendered between groups (Figma "dropdownGroup"). */
+  groups?: DropdownItemDef[][];
+  /** Key of the item whose sub-menu is open initially (uncontrolled). */
+  defaultOpenKey?: string;
+  /** Controlled open sub-menu key. */
+  openKey?: string | null;
+  onOpenKeyChange?: (key: string | null) => void;
   className?: string;
   style?: React.CSSProperties;
 }

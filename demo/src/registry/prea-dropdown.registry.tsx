@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Atom } from 'lucide-react';
 import { DropdownMenu, GroupDropdownMenu } from '../../../DropdownMenu';
 import type { ComponentEntry } from './types';
@@ -23,8 +23,49 @@ const headingStyle: React.CSSProperties = {
 };
 
 function DropdownDemo() {
+  const [gmail, setGmail] = useState(true);
+  const [drive, setDrive] = useState(true);
+  const [cal, setCal] = useState(false);
+  const [log, setLog] = useState('');
+  const lvl2Groups = [
+    [
+      { key: 'files',   label: 'Dateien / Fotos hinzufügen', icon: 'li:paperclip',   showChevron: false, onClick: setLog },
+      { key: 'project', label: 'Zum Projekt hinzufügen',     icon: 'li:folder-plus', showChevron: false, onClick: setLog },
+    ],
+    [
+      { key: 'skills',  label: 'Skills',              icon: 'li:file-06',    showChevron: false, onClick: setLog },
+      { key: 'plugins', label: 'Plugins hinzufügen',  icon: 'li:zap-square', showChevron: false, onClick: setLog },
+      {
+        key: 'connectors', label: 'Konnektoren', icon: 'li:unplug',
+        children: [
+          [
+            { key: 'add',    label: 'Konnektor hinzufügen',  icon: 'li:plus',        showChevron: false, onClick: setLog },
+            { key: 'manage', label: 'Konnektoren verwalten', icon: 'li:dataflow-01', showChevron: false, onClick: setLog },
+          ],
+          [
+            { key: 'gmail', label: 'Gmail',    icon: 'gmail',           toggle: { checked: gmail, onChange: setGmail } },
+            { key: 'drive', label: 'Drive',    icon: 'google-drive',    toggle: { checked: drive, onChange: setDrive } },
+            { key: 'cal',   label: 'Kalender', icon: 'google-calendar', toggle: { checked: cal,   onChange: setCal } },
+          ],
+        ],
+      },
+    ],
+  ];
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+
+      {/* ── Lvl2 ──────────────────────────────────────────────────────── */}
+      <div>
+        <p style={headingStyle}>DropdownMenu — Version Lvl2 (hover „Konnektoren“ → sub-menu opens beside · Toggle items)</p>
+        <div style={{ display: 'flex', gap: 48, alignItems: 'flex-start' }}>
+          <DropdownMenu groups={lvl2Groups} />
+          <div style={{ paddingBottom: 8 }}>
+            <p style={{ ...headingStyle, marginBottom: 8 }}>static preview (defaultOpenKey)</p>
+            <DropdownMenu groups={lvl2Groups} openKey="connectors" />
+          </div>
+        </div>
+        <p style={{ fontSize: 11, color: '#888', margin: '8px 0 0' }}>{log ? `clicked → ${log}` : ' '} · Gmail {gmail ? 'on' : 'off'} · Drive {drive ? 'on' : 'off'} · Kalender {cal ? 'on' : 'off'}</p>
+      </div>
 
       {/* ── DropdownMenu ──────────────────────────────────────────────── */}
       <div>
@@ -120,6 +161,28 @@ import { Atom } from 'lucide-react';
   ]}
 />
 
+// Version Lvl2 — grouped items (divider between groups), a sub-menu on hover, toggle rows
+<DropdownMenu
+  groups={[
+    [
+      { key: 'files',   label: 'Dateien / Fotos hinzufügen', icon: 'li:paperclip',   showChevron: false },
+      { key: 'project', label: 'Zum Projekt hinzufügen',     icon: 'li:folder-plus', showChevron: false },
+    ],
+    [
+      { key: 'skills',     label: 'Skills',      icon: 'li:file-06', showChevron: false },
+      { key: 'connectors', label: 'Konnektoren', icon: 'li:unplug',
+        children: [
+          [{ key: 'add', label: 'Konnektor hinzufügen', icon: 'li:plus', showChevron: false }],
+          [
+            { key: 'gmail', label: 'Gmail', icon: 'gmail',        toggle: { checked: gmail, onChange: setGmail } },
+            { key: 'drive', label: 'Drive', icon: 'google-drive', toggle: { checked: drive, onChange: setDrive } },
+          ],
+        ],
+      },
+    ],
+  ]}
+/>
+
 // GroupDropdownMenu — text-only grouped items (32px)
 <GroupDropdownMenu
   groups={[
@@ -139,7 +202,7 @@ export const dropdownEntry: ComponentEntry = {
   id: 'dropdown',
   name: 'Dropdown',
   category: 'Navigation',
-  description: 'Two dropdown components from the PREA design system: DropdownMenu (23px items with icon/label/chevron) and GroupDropdownMenu (32px text-only items with group headings).',
+  description: 'Dropdown components from the PREA design system: DropdownMenu (23px items with icon/label/chevron, grouped with dividers; Version Lvl2 opens a sub-menu beside the panel on hover; Toggle items with a 32×18 switch) and GroupDropdownMenu (32px text-only items with group headings).',
   status: 'stable',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=29-462',
   files: [
@@ -151,8 +214,12 @@ export const dropdownEntry: ComponentEntry = {
   ],
   usage: USAGE,
   props: [
-    { name: 'items',       type: 'DropdownItemDef[]',   default: '—',    required: true,  description: 'Array of menu items. Each item has key, label, optional icon and showChevron.' },
-    { name: 'groups',      type: 'DropdownGroup[]',     default: '—',    required: true,  description: '(GroupDropdownMenu) Array of groups. Each group has heading and items.' },
+    { name: 'items',       type: 'DropdownItemDef[]',   default: '—',    required: false, description: 'Flat list of menu items. Each item has key, label, optional icon (Figma icon name or node) and showChevron.' },
+    { name: 'groups',      type: 'DropdownItemDef[][]', default: '—',    required: false, description: 'Grouped items — a 1px divider is rendered between groups.' },
+    { name: 'item.children', type: 'DropdownItemDef[] | DropdownItemDef[][]', default: '—', required: false, description: 'Version Lvl2: hovering the item opens a second panel beside the first (4px gap).' },
+    { name: 'item.toggle', type: '{ checked?, defaultChecked?, onChange? }', default: '—', required: false, description: 'State Toggle: ToggleSwitch at the right instead of the chevron.' },
+    { name: 'openKey / defaultOpenKey / onOpenKeyChange', type: 'string | null', default: '—', required: false, description: 'Controlled / initial open sub-menu.' },
+    { name: 'groups (GroupDropdownMenu)', type: 'DropdownGroup[]', default: '—', required: true, description: 'Array of groups. Each group has heading and items.' },
     { name: 'className',   type: 'string',              default: '—',    required: false, description: 'Additional CSS class for the container.' },
     { name: 'style',       type: 'React.CSSProperties', default: '—',    required: false, description: 'Inline styles for the container.' },
   ],
