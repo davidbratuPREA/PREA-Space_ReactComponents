@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '../Icon';
 import type {
   MainNavItemProps, NavDropdownItemProps, NavSectionHeadProps, MainNavProps,
@@ -52,6 +52,12 @@ export function MainNavItem({
   const hasChildren = React.Children.count(children) > 0;
   const [innerOpen, setInnerOpen] = useState(!!active);
   const [hover, setHover] = useState(false);
+  // Flyout closes with a short grace period so the pointer can travel across the gap.
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelClose = () => { if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; } };
+  const openFlyout = () => { cancelClose(); setHover(true); };
+  const closeFlyout = () => { cancelClose(); closeTimer.current = setTimeout(() => setHover(false), 250); };
+  useEffect(() => cancelClose, []);
   const isOpen = open ?? innerOpen;
   const setOpen = (v: boolean) => { setInnerOpen(v); onOpenChange?.(v); };
 
@@ -85,8 +91,10 @@ export function MainNavItem({
   return (
     <div
       className={cx('prea-navitem', expanded ? 'prea-navitem--expanded' : 'prea-navitem--collapsed', active && 'prea-navitem--active', className)}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseEnter={openFlyout}
+      onMouseLeave={closeFlyout}
+      onFocus={openFlyout}
+      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) closeFlyout(); }}
     >
       {href ? <a href={href} {...btnProps}>{content}</a> : <button type="button" {...btnProps}>{content}</button>}
       {expanded && hasChildren && isOpen && <div className="prea-navitem__children" role="group">{children}</div>}

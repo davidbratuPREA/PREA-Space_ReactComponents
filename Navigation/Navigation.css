@@ -155,7 +155,7 @@ html[data-theme='dark'] {
   color: var(--mainmenu\/flyout\/text, #202020); font-size: var(--nav\/font\/size-lg, 13px); line-height: var(--nav\/font\/lineheight-lg, 17px); font-weight: 400;
 }
 /* invisible bridge over the 14px gap so the pointer can travel into the flyout */
-.prea-navitem__flyout::before { content: ''; position: absolute; left: -15px; top: 0; width: 15px; height: 100%; }
+.prea-navitem__flyout::before { content: ''; position: absolute; left: -24px; top: -6px; width: 24px; height: calc(100% + 12px); }
 .prea-navitem__flyout-head { display: flex; align-items: center; height: 32px; box-sizing: border-box; padding: 0 6px; margin: 2px 8px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .prea-navitem__flyout-headwrap { background: var(--mainmenu\/flyout\/head-bg, #f6f6f6); border-bottom: 1px solid var(--mainmenu\/flyout\/border, #e1e1e1); }
 .prea-navitem__flyout-items { display: flex; flex-direction: column; padding: 4px 8px; }
