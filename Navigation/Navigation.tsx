@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useId, useRef, useState } from 'react';
 import { Icon } from '../Icon';
 import type {
   MainNavItemProps, NavDropdownItemProps, NavSectionHeadProps, MainNavProps,
@@ -45,14 +45,29 @@ export function NavDropdownItem({ label, icon, active, onClick, href, className 
   return <button type="button" className={cls} aria-current={active ? 'page' : undefined} onClick={onClick}>{content}</button>;
 }
 
+/* ─── Flyout coordination — only one collapsed flyout open per MainNav ────── */
+type FlyoutCtx = { openId: string | null; setOpenId: (id: string | null) => void } | null;
+const FlyoutContext = createContext<FlyoutCtx>(null);
+
 /* ─── MainNavItem ────────────────────────────────────────────────────────── */
 export function MainNavItem({
   icon, label, expanded = true, active, children, open, onOpenChange, onClick, href, title, flyoutTitle, className,
 }: MainNavItemProps) {
   const hasChildren = React.Children.count(children) > 0;
   const [innerOpen, setInnerOpen] = useState(!!active);
-  const [hover, setHover] = useState(false);
-  // Flyout closes with a short grace period so the pointer can travel across the gap.
+  // Flyout state: shared through MainNav so hovering another item closes this one
+  // immediately; closing on leave has a short grace period so the pointer can
+  // travel across the gap into the flyout.
+  const id = useId();
+  const ctx = useContext(FlyoutContext);
+  const ctxRef = useRef(ctx); ctxRef.current = ctx; // latest value for the delayed close
+  const [localHover, setLocalHover] = useState(false);
+  const hover = ctx ? ctx.openId === id : localHover;
+  const setHover = (v: boolean) => {
+    const c = ctxRef.current;
+    if (c) { if (v) c.setOpenId(id); else if (c.openId === id) c.setOpenId(null); }
+    else setLocalHover(v);
+  };
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cancelClose = () => { if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; } };
   const openFlyout = () => { cancelClose(); setHover(true); };
@@ -120,7 +135,9 @@ export function NavSectionHead({ title, actionLabel, onAction, className }: NavS
 
 /* ─── MainNav ────────────────────────────────────────────────────────────── */
 export function MainNav({ expanded = true, onToggle, logo, title = 'SPACE', children, footer, height = 1080, className, style }: MainNavProps) {
+  const [openId, setOpenId] = useState<string | null>(null);
   return (
+    <FlyoutContext.Provider value={{ openId, setOpenId }}>
     <nav
       className={cx('prea-mainnav', expanded ? 'prea-mainnav--open' : 'prea-mainnav--close', className)}
       style={{ height, ...style }}
@@ -145,6 +162,7 @@ export function MainNav({ expanded = true, onToggle, logo, title = 'SPACE', chil
       </div>
       {footer && <div className="prea-mainnav__footer">{footer}</div>}
     </nav>
+    </FlyoutContext.Provider>
   );
 }
 
