@@ -16,7 +16,7 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `Button` | General | `Button` | ✅ Stable |
 | `Breadcrumb` | Navigation | `Breadcrumb`, `BreadcrumbItem` | ✅ Stable |
 | `DropdownMenu` | Navigation | `DropdownMenu`, `GroupDropdownMenu` | ✅ Stable |
-| `Navigation` | Navigation | `MainNav`, `MainNavItem`, `NavDropdownItem`, `NavSectionHead`, `PathMenu`, `PanelTabs`, `Tabs`, `BottomNav`, `IconButton`, `ToggleDataMenu`, `SearchPanel` | ✅ Stable |
+| `Navigation` | Navigation | `MainNav`, `MainNavItem`, `MainNavUser`, `NavDropdownItem`, `NavSectionHead`, `PathMenu`, `PanelTabs`, `Tabs`, `BottomNav`, `IconButton`, `ToggleDataMenu`, `SearchPanel` | ✅ Stable |
 | `MapNav` | Navigation | `MapNav`, `MapNavGroup`, `Compass`, `MapLayersMenu`, `MapLayerItem`, `LayerButton` | ✅ Stable |
 | `CreateMenu` | Navigation | `CreateEntryMenu`, `CreateDropdownItem`, `CreateEntryItem`, `CreateEntryHead`, `StatusMenu`, `Checkbox` | ✅ Stable |
 | `Divider` | Layout | `Divider` | ✅ Stable |

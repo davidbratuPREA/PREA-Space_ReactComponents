@@ -1,5 +1,5 @@
 export {
-  MainNav, MainNavDivider, MainNavItem, NavDropdownItem, NavSectionHead,
+  MainNav, MainNavDivider, MainNavUser, MainNavItem, NavDropdownItem, NavSectionHead,
   BottomNav, BottomNavButton, PathMenu, ToolDivider, IconButton,
   Tabs, PanelTabs, ToggleDataMenu, SearchPanel,
 } from './Navigation';

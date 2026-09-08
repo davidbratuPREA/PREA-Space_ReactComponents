@@ -126,6 +126,17 @@ html[data-theme='dark'] {
 .prea-mainnav--close .prea-mainnav__header,
 .prea-mainnav--close .prea-mainnav__footer { align-items: center; }
 
+/* ─── MainNavUser — Figma "User": 28px avatar at 6px, name at 42px ────────── */
+.prea-mainnav__user {
+  display: flex; align-items: center; gap: 8px; width: 100%; height: 28px; box-sizing: border-box; padding: 0 6px; margin: 0;
+  border: none; border-radius: 4px; background: transparent; color: var(--mainmenu\/color\/text, #202020);
+  font: inherit; font-weight: 500; text-align: left; cursor: pointer; transition: background-color 120ms ease;
+}
+.prea-mainnav__user:hover, .prea-mainnav__user:focus-visible { background: var(--mainmenu\/color\/btn-hover, #f1f1f1); outline: none; }
+.prea-mainnav__user--collapsed { width: 36px; justify-content: center; padding: 0 4px; }
+.prea-mainnav__user-avatar { display: inline-flex; width: 28px; height: 28px; flex-shrink: 0; }
+.prea-mainnav__user-name { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
 /* ─── MainNavItem ────────────────────────────────────────────────────────── */
 .prea-navitem { display: flex; flex-direction: column; width: 100%; }
 .prea-navitem__btn {

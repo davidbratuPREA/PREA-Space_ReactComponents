@@ -60,6 +60,16 @@ export interface MainNavProps {
   style?: React.CSSProperties;
 }
 
+/* ─── MainNavUser (Figma "User" row: 28px Avatar + name) ─────────────────── */
+export interface MainNavUserProps {
+  name: React.ReactNode;
+  /** Avatar node (use <Avatar size="big" />). */
+  avatar: React.ReactNode;
+  expanded?: boolean;
+  onClick?: () => void;
+  className?: string;
+}
+
 export interface MainNavDividerProps {
   /** md = 11px (5 + 1 + 5, Figma footer dividers) · sm = 7px (3 + 1 + 3, header divider). */
   size?: 'md' | 'sm';

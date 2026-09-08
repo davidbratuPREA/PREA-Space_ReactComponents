@@ -3,7 +3,7 @@ import { Icon } from '../Icon';
 import type {
   MainNavItemProps, NavDropdownItemProps, NavSectionHeadProps, MainNavProps,
   BottomNavProps, BottomNavButtonProps, PathMenuProps, IconButtonProps,
-  TabsProps, PanelTabsProps, ToggleDataMenuProps, SearchPanelProps, MainNavDividerProps,
+  TabsProps, PanelTabsProps, ToggleDataMenuProps, SearchPanelProps, MainNavDividerProps, MainNavUserProps,
 } from './Navigation.types';
 import './Navigation.css';
 
@@ -163,6 +163,23 @@ export function MainNav({ expanded = true, onToggle, logo, title = 'SPACE', chil
       {footer && <div className="prea-mainnav__footer">{footer}</div>}
     </nav>
     </FlyoutContext.Provider>
+  );
+}
+
+/* ─── MainNavUser ────────────────────────────────────────────────────────── */
+export function MainNavUser({ name, avatar, expanded = true, onClick, className }: MainNavUserProps) {
+  const label = typeof name === 'string' ? name : undefined;
+  return (
+    <button
+      type="button"
+      className={cx('prea-mainnav__user', !expanded && 'prea-mainnav__user--collapsed', className)}
+      onClick={onClick}
+      aria-label={expanded ? undefined : label}
+      title={expanded ? undefined : label}
+    >
+      <span className="prea-mainnav__user-avatar">{avatar}</span>
+      {expanded && <span className="prea-mainnav__user-name">{name}</span>}
+    </button>
   );
 }
 

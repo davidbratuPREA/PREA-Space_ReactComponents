@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  MainNav, MainNavDivider, MainNavItem, NavDropdownItem, NavSectionHead,
+  MainNav, MainNavDivider, MainNavUser, MainNavItem, NavDropdownItem, NavSectionHead,
   BottomNav, BottomNavButton, PathMenu, ToolDivider, IconButton, Tabs, PanelTabs, ToggleDataMenu, SearchPanel,
 } from '../../../Navigation';
 import { Breadcrumb } from '../../../Breadcrumb';
@@ -56,7 +56,7 @@ function NavDemo() {
       <MainNavItem expanded icon="li:languages" label="Deutsch" onClick={() => setLog('Deutsch')} />
       <MainNavItem expanded icon="li:settings" label="System" onClick={() => setLog('System')} />
       <MainNavDivider />
-      <MainNavItem expanded icon={<Avatar size="big" />} label="Gabriel Khodzitski" title="Gabriel Khodzitski" onClick={() => setLog('User')} />
+      <MainNavUser expanded avatar={<Avatar size="big" />} name="Gabriel Khodzitski" onClick={() => setLog('User')} />
     </>
   );
   const closedFooter = (
@@ -75,7 +75,7 @@ function NavDemo() {
       <MainNavItem expanded={false} icon="li:languages" title="Deutsch" />
       <MainNavItem expanded={false} icon="li:settings" title="System" />
       <MainNavDivider />
-      <MainNavItem expanded={false} icon={<Avatar size="big" />} title="Gabriel Khodzitski" />
+      <MainNavUser expanded={false} avatar={<Avatar size="big" />} name="Gabriel Khodzitski" onClick={() => setLog('User')} />
     </>
   );
 
@@ -177,7 +177,7 @@ function NavDemo() {
   );
 }
 
-const USAGE = `import { MainNav, MainNavItem, NavDropdownItem, NavSectionHead, MainNavDivider,
+const USAGE = `import { MainNav, MainNavItem, NavDropdownItem, NavSectionHead, MainNavDivider, MainNavUser,
          PathMenu, IconButton, ToolDivider, PanelTabs, BottomNav, BottomNavButton } from './Navigation';
 // Requires ./Icon. PathMenu pairs with ./Breadcrumb and ./Inputs (SearchInput).
 
@@ -186,7 +186,7 @@ const [open, setOpen] = useState(true);
   footer={<>
     <MainNavItem expanded={open} icon="li:moon" label="Dark Mode" onClick={toggleTheme} />
     <MainNavDivider />
-    <MainNavItem expanded={open} icon={<Avatar size="big" src={user.avatar} />} label={user.name} title={user.name} />
+    <MainNavUser expanded={open} avatar={<Avatar size="big" src={user.avatar} />} name={user.name} onClick={openProfile} />
   </>}>
   <MainNavItem expanded={open} icon="message-square-plus" label="New Chat" onClick={newChat} />
   <MainNavDivider />
@@ -228,6 +228,7 @@ export const navigationEntry: ComponentEntry = {
     { name: 'MainNavItem.icon / label / active', type: 'string | ReactNode / ReactNode / boolean', default: '—', required: false, description: '32px row; icon 16px expanded, 20px collapsed.' },
     { name: 'MainNavItem.children', type: 'NavDropdownItem[]', default: '—', required: false, description: 'Nested list (chevron) when expanded; hover flyout (GroupDropdown: head + 32px items, 154px, at +14px) when collapsed.' },
     { name: 'MainNavItem.flyoutTitle', type: 'ReactNode', default: 'title / label', required: false, description: 'Head text of the collapsed flyout.' },
+    { name: 'MainNavUser.name / avatar / expanded', type: 'ReactNode / ReactNode / boolean', default: '—', required: false, description: 'Figma "User" row: 28px avatar, name at 42px; avatar only when collapsed.' },
     { name: 'MainNavDivider.size', type: "'md' | 'sm'", default: "'md'", required: false, description: '11px (footer) or 7px (header) divider.' },
     { name: 'NavDropdownItem.label / active', type: 'ReactNode / boolean', default: '—', required: false, description: '32px row, 32px indent, grey → dark when active.' },
     { name: 'PathMenu.breadcrumb / tools / search', type: 'ReactNode', default: '—', required: false, description: 'Middle breadcrumb, right tool buttons, search input.' },
