@@ -114,7 +114,7 @@ export const notesEntry: ComponentEntry = {
   name: 'Notes',
   category: 'Chat',
   description: 'Threaded notes from the Figma Notes page: NotesPanel, NoteCard (author, hover actions, like/react, reply summary), NoteThread (back + white comment cards), NoteDivider — plus the Avatar component (3 sizes, icon/image, badge).',
-  status: 'stable',
+  status: 'pending',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=261-615',
   files: [
     { name: 'Notes/Notes.tsx',        content: notesSrc },

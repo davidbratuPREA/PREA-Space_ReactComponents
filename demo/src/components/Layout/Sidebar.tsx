@@ -94,7 +94,7 @@ export function Sidebar() {
                   {item.name}
                   {item.status !== 'stable' && (
                     <span className={`sidebar__status sidebar__status--${item.status}`}>
-                      {item.status === 'beta' ? 'Beta' : 'Soon'}
+                      {item.status === 'pending' ? 'Pending' : item.status === 'beta' ? 'Beta' : 'Soon'}
                     </span>
                   )}
                 </NavLink>

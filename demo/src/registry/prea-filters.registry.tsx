@@ -160,7 +160,7 @@ export const filtersEntry: ComponentEntry = {
   name: 'Filters',
   category: 'Data Entry',
   description: 'Filter building blocks from the Figma Filters page: FilterPanel (tabs, sections, apply/reset footer), FilterItem with ToggleSwitch (item, sub-item, status variants), FilterGroupHead, FilterRange, FilterTabs and StatusBadge.',
-  status: 'stable',
+  status: 'pending',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=88-4554',
   files: [
     { name: 'FilterPanel.tsx',   content: filterPanelSrc },

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ComponentStatus = 'stable' | 'beta' | 'coming-soon';
+export type ComponentStatus = 'stable' | 'pending' | 'beta' | 'coming-soon';
 
 export interface PropDef {
   name: string;

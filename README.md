@@ -17,17 +17,17 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `Breadcrumb` | Navigation | `Breadcrumb`, `BreadcrumbItem` | ✅ Stable |
 | `DropdownMenu` | Navigation | `DropdownMenu`, `GroupDropdownMenu` | ✅ Stable |
 | `Navigation` | Navigation | `MainNav`, `MainNavItem`, `MainNavUser`, `NavDropdownItem`, `NavSectionHead`, `PathMenu`, `PanelTabs`, `Tabs`, `BottomNav`, `IconButton`, `ToggleDataMenu`, `SearchPanel` | ✅ Stable |
-| `MapNav` | Navigation | `MapNav`, `MapNavGroup`, `Compass`, `MapLayersMenu`, `MapLayerItem`, `LayerButton` | ✅ Stable |
-| `CreateMenu` | Navigation | `CreateEntryMenu`, `CreateDropdownItem`, `CreateEntryItem`, `CreateEntryHead`, `StatusMenu`, `Checkbox` | ✅ Stable |
+| `MapNav` | Navigation | `MapNav`, `MapNavGroup`, `Compass`, `MapLayersMenu`, `MapLayerItem`, `LayerButton` | 🟠 Pending |
+| `CreateMenu` | Navigation | `CreateEntryMenu`, `CreateDropdownItem`, `CreateEntryItem`, `CreateEntryHead`, `StatusMenu`, `Checkbox` | 🟠 Pending |
 | `Divider` | Layout | `Divider` | ✅ Stable |
 | `Icon` | General | `Icon` (lucide-react, PREA `li:` naming) | ✅ Stable |
 | `DataBox` | Data Display | `DataPanel`, `DataGroup`, `DataBox`, `DataBoxItem`, `DataButton` | ✅ Stable |
 | `InfoBox` | Data Display | `InfoBox`, `InfoBoxModule`, `BoxLink`, `NavInfoCard` | ✅ Stable |
-| `Kanban` | Data Display | `KanbanBoard`, `KanbanColumn`, `KanbanProject`, `KanbanStatusBadge`, `QuantityBadge` | ✅ Stable |
+| `Kanban` | Data Display | `KanbanBoard`, `KanbanColumn`, `KanbanProject`, `KanbanStatusBadge`, `QuantityBadge` | 🟠 Pending |
 | `Inputs` | Data Entry | `TextInput`, `SmallInput`, `ColorInput`, `CreateInput`, `SearchInput`, `SearchListItem` | ✅ Stable |
 | `ColorPicker` | Data Entry | `ColorPicker`, `ColorSwitchItem`, `ColorSwatch` | ✅ Stable |
-| `Filters` | Data Entry | `FilterPanel`, `FilterItem`, `ToggleSwitch`, `StatusBadge`, `FilterRange`, `FilterTabs` | ✅ Stable |
-| `Notes` | Chat | `NotesPanel`, `NoteCard`, `NoteThread`, `NoteDivider` | ✅ Stable |
+| `Filters` | Data Entry | `FilterPanel`, `FilterItem`, `ToggleSwitch`, `StatusBadge`, `FilterRange`, `FilterTabs` | 🟠 Pending |
+| `Notes` | Chat | `NotesPanel`, `NoteCard`, `NoteThread`, `NoteDivider` | 🟠 Pending |
 | `Avatar` | General | `Avatar`, `AvatarGroup` | ✅ Stable |
 | `Chat` | Chat | `ChatInput`, `ChatDropdown`, `ChatNotes`, `ChatButton` | ✅ Stable |
 

@@ -34,7 +34,7 @@ export function ComponentPage() {
         <p className="comp-page__desc">{entry.description}</p>
         <div className="comp-page__meta">
           <span className="comp-page__tag">
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: entry.status === 'stable' ? '#22c55e' : '#f59e0b', flexShrink: 0 }} />
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: entry.status === 'stable' ? '#22c55e' : entry.status === 'pending' ? '#f97316' : '#f59e0b', flexShrink: 0 }} />
             {entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
           </span>
           <span className="comp-page__tag">
