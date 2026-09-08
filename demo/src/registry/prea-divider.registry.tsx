@@ -11,7 +11,7 @@ import dividerCss    from '../../../Divider/Divider.css?raw';
 const headingStyle: React.CSSProperties = {
   fontSize: 12,
   fontWeight: 500,
-  color: '#888',
+  color: 'var(--text-secondary)',
   marginBottom: 12,
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
@@ -24,15 +24,15 @@ function DividerDemo() {
       <div>
         <p style={headingStyle}>Horizontal</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 320 }}>
-          <span style={{ fontSize: 12, color: '#202020' }}>Content above</span>
+          <span style={{ fontSize: 12, color: 'var(--text-primary)' }}>Content above</span>
           <Divider orientation="horizontal" />
-          <span style={{ fontSize: 12, color: '#202020' }}>Content below</span>
+          <span style={{ fontSize: 12, color: 'var(--text-primary)' }}>Content below</span>
         </div>
       </div>
 
       <div>
         <p style={headingStyle}>Vertical</p>
-        <div style={{ display: 'flex', alignItems: 'center', fontSize: 12, color: '#202020' }}>
+        <div style={{ display: 'flex', alignItems: 'center', fontSize: 12, color: 'var(--text-primary)' }}>
           <span>Left content</span>
           <Divider orientation="vertical" style={{ height: 14, margin: '0 8px' }} />
           <span>Right content</span>

@@ -13,7 +13,7 @@ import iconIndex     from '../../../Icon/index.ts?raw';
 const SIZES = [10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 36, 48] as const;
 
 const headingStyle: React.CSSProperties = {
-  fontSize: 12, fontWeight: 500, color: '#888', marginBottom: 12,
+  fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 12,
   textTransform: 'uppercase', letterSpacing: '0.05em',
 };
 
@@ -69,7 +69,7 @@ function IconDemo() {
           {SIZES.map((size) => (
             <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
               <Icon name="li:atom" size={size} />
-              <span style={{ fontSize: 10, color: '#aaa' }}>{size}</span>
+              <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{size}</span>
             </div>
           ))}
         </div>
@@ -82,14 +82,14 @@ function IconDemo() {
             { color: 'currentColor', label: 'Inherit' },
             { color: '#0663e5',      label: 'Link' },
             { color: '#d92d20',      label: 'Danger' },
-            { color: '#888',         label: 'Muted' },
+            { color: 'var(--text-secondary)',         label: 'Muted' },
           ].map(({ color, label }) => (
             <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
               <div style={{ display: 'flex', gap: 8 }}>
                 <Icon name="li:atom" size={20} color={color} />
                 <Icon name="home" size={20} color={color} />
               </div>
-              <span style={{ fontSize: 10, color: '#aaa' }}>{label}</span>
+              <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{label}</span>
             </div>
           ))}
         </div>
@@ -114,7 +114,7 @@ function IconDemo() {
           if (!names.length) return null;
           return (
             <div key={g.title} style={{ marginBottom: 24 }}>
-              <p style={{ fontSize: 11, color: '#aaa', margin: '0 0 6px' }}>{g.title} · {names.length}</p>
+              <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: '0 0 6px' }}>{g.title} · {names.length}</p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(84px, 1fr))', gap: 4 }}>
                 {names.map((n) => <IconCell key={n} name={n} />)}
               </div>

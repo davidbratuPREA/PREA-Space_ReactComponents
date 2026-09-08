@@ -16,7 +16,7 @@ const AtomIcon = <Atom size={14} strokeWidth={1.5} />;
 const headingStyle: React.CSSProperties = {
   fontSize: 12,
   fontWeight: 500,
-  color: '#888',
+  color: 'var(--text-secondary)',
   marginBottom: 12,
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
@@ -64,7 +64,7 @@ function DropdownDemo() {
             <DropdownMenu groups={lvl2Groups} openKey="connectors" />
           </div>
         </div>
-        <p style={{ fontSize: 11, color: '#888', margin: '8px 0 0' }}>{log ? `clicked → ${log}` : ' '} · Gmail {gmail ? 'on' : 'off'} · Drive {drive ? 'on' : 'off'} · Kalender {cal ? 'on' : 'off'}</p>
+        <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: '8px 0 0' }}>{log ? `clicked → ${log}` : ' '} · Gmail {gmail ? 'on' : 'off'} · Drive {drive ? 'on' : 'off'} · Kalender {cal ? 'on' : 'off'}</p>
       </div>
 
       {/* ── DropdownMenu ──────────────────────────────────────────────── */}

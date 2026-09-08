@@ -15,7 +15,7 @@ import avatarIndex from '../../../Avatar/index.ts?raw';
 
 // ─── Demo ─────────────────────────────────────────────────────────────────
 const headingStyle: React.CSSProperties = {
-  fontSize: 12, fontWeight: 500, color: '#888', marginBottom: 12,
+  fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 12,
   textTransform: 'uppercase', letterSpacing: '0.05em',
 };
 // tiny inline avatar so the demo has no external image dependency
@@ -57,7 +57,7 @@ function NotesDemo() {
             </>
           )}
         </NotesPanel>
-        {log && <p style={{ fontSize: 11, color: '#888', margin: '8px 0 0' }}>{log}</p>}
+        {log && <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: '8px 0 0' }}>{log}</p>}
       </div>
 
       <div>

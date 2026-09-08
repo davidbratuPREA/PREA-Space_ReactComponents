@@ -92,11 +92,11 @@ export function Sidebar() {
                   }
                 >
                   {item.name}
-                  <span
-                    className={`sidebar__status sidebar__status--${item.status}`}
-                  >
-                    {item.status === 'stable' ? 'Stable' : item.status === 'beta' ? 'Beta' : 'Soon'}
-                  </span>
+                  {item.status !== 'stable' && (
+                    <span className={`sidebar__status sidebar__status--${item.status}`}>
+                      {item.status === 'beta' ? 'Beta' : 'Soon'}
+                    </span>
+                  )}
                 </NavLink>
               ) : (
                 <div

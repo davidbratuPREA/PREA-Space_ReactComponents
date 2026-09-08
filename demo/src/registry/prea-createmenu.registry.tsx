@@ -10,7 +10,7 @@ import types from '../../../CreateMenu/CreateMenu.types.ts?raw';
 import css   from '../../../CreateMenu/CreateMenu.css?raw';
 import index from '../../../CreateMenu/index.ts?raw';
 
-const headingStyle: React.CSSProperties = { fontSize: 12, fontWeight: 500, color: '#888', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' };
+const headingStyle: React.CSSProperties = { fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' };
 const STATUSES: StatusOption[] = [
   { key: 'plan', status: 'in_planung', label: 'In Planung' },
   { key: 'bau',  status: 'im_baut', label: 'Im Bau' },
@@ -69,7 +69,7 @@ function CreateMenuDemo() {
             <StatusMenu options={STATUSES} value={status} onChange={setStatus} onCreate={(n) => setLog(`neuer Status: ${n}`)} />
           </div>
         </div>
-        {log && <p style={{ fontSize: 11, color: '#888', margin: '8px 0 0' }}>{log}</p>}
+        {log && <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: '8px 0 0' }}>{log}</p>}
       </div>
 
       <div>

@@ -14,7 +14,7 @@ import navTypes from '../../../Navigation/Navigation.types.ts?raw';
 import navCss   from '../../../Navigation/Navigation.css?raw';
 import navIndex from '../../../Navigation/index.ts?raw';
 
-const headingStyle: React.CSSProperties = { fontSize: 12, fontWeight: 500, color: '#888', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' };
+const headingStyle: React.CSSProperties = { fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' };
 const PROJECTS = ['Berlin Mitte', 'Potsdamer Platz', 'Hafencity', 'Frankfurt Westend'];
 const DEEPSTREET = ['Map', 'Projekte', 'Portfolio', 'Accounts', 'Kontakte'];
 
@@ -101,7 +101,7 @@ function NavDemo() {
             <MainNavItem expanded={false} icon="li:globe-02" title="Karte" />
           </MainNav>
         </div>
-        {log && <p style={{ fontSize: 11, color: '#888', margin: '8px 0 0' }}>clicked → {log}</p>}
+        {log && <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: '8px 0 0' }}>clicked → {log}</p>}
       </div>
 
       <div>
@@ -162,7 +162,7 @@ function NavDemo() {
             <BottomNavButton icon="li:layers" variant="grey">Ebenen</BottomNavButton>
           </BottomNav>
           <BottomNav editMode={true} onExitEdit={() => setEdit(false)} />
-          {edit && <p style={{ fontSize: 11, color: '#888', margin: 0 }}>edit mode on (first bar's „Bearbeiten“) — press „Beenden“ above</p>}
+          {edit && <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: 0 }}>edit mode on (first bar's „Bearbeiten“) — press „Beenden“ above</p>}
         </div>
       </div>
 

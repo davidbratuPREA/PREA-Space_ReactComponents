@@ -16,7 +16,7 @@ import dataBoxIndex   from '../../../DataBox/index.ts?raw';
 const headingStyle: React.CSSProperties = {
   fontSize: 12,
   fontWeight: 500,
-  color: '#888',
+  color: 'var(--text-secondary)',
   marginBottom: 12,
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
@@ -80,7 +80,7 @@ function DataBoxDemo() {
             <DataBox minHeight={143}><AgPlaceholder /></DataBox>
           </DataGroup>
         </DataPanel>
-        {log && <p style={{ fontSize: 11, color: '#888', marginTop: 8 }}>{log}</p>}
+        {log && <p style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 8 }}>{log}</p>}
       </div>
 
       <div>

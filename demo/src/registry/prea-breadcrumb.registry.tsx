@@ -19,7 +19,7 @@ const assetOptions = [
 const headingStyle: React.CSSProperties = {
   fontSize: 12,
   fontWeight: 500,
-  color: '#888',
+  color: 'var(--text-secondary)',
   marginBottom: 12,
   textTransform: 'uppercase',
   letterSpacing: '0.05em',

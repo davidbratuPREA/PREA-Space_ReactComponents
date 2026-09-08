@@ -14,11 +14,11 @@ const VARIANTS: ButtonVariant[] = ['solid', 'outlined', 'dashed', 'filled', 'tex
 const SIZES: ButtonSize[] = ['sm', 'md', 'lg'];
 
 const headingStyle: React.CSSProperties = {
-  fontSize: 12, fontWeight: 500, color: '#888', marginBottom: 12,
+  fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 12,
   textTransform: 'uppercase', letterSpacing: '0.05em',
 };
 const row: React.CSSProperties = { display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 };
-const label: React.CSSProperties = { fontSize: 10, color: '#aaa', width: 56, flexShrink: 0 };
+const label: React.CSSProperties = { fontSize: 10, color: 'var(--text-muted)', width: 56, flexShrink: 0 };
 
 function ButtonsDemo() {
   const [size, setSize] = useState<ButtonSize>('md');

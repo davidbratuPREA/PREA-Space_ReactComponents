@@ -8,7 +8,7 @@ import types from '../../../MapNav/MapNav.types.ts?raw';
 import css   from '../../../MapNav/MapNav.css?raw';
 import index from '../../../MapNav/index.ts?raw';
 
-const headingStyle: React.CSSProperties = { fontSize: 12, fontWeight: 500, color: '#888', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' };
+const headingStyle: React.CSSProperties = { fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' };
 
 function MapNavDemo() {
   const [heading, setHeading] = useState(35);
@@ -45,7 +45,7 @@ function MapNavDemo() {
             <div style={{ display: 'flex', gap: 4 }}>
               <LayerButton icon="li:info-1" label="Info" /><LayerButton icon="li:panels-top-left" label="Panel" /><LayerButton icon="li:funnel" label="Filter" /><LayerButton icon="li:colors" label="Farben" /><LayerButton icon="li:eye" label="Sichtbar" active />
             </div>
-            <p style={{ fontSize: 11, color: '#888', margin: 0 }}>heading {heading}° · {mode}{log ? ` · ${log}` : ''}</p>
+            <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: 0 }}>heading {heading}° · {mode}{log ? ` · ${log}` : ''}</p>
           </div>
         </div>
       </div>

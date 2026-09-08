@@ -14,7 +14,7 @@ import filtersIndex   from '../../../Filters/index.ts?raw';
 
 // ─── Demo ─────────────────────────────────────────────────────────────────
 const headingStyle: React.CSSProperties = {
-  fontSize: 12, fontWeight: 500, color: '#888', marginBottom: 12,
+  fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 12,
   textTransform: 'uppercase', letterSpacing: '0.05em',
 };
 const TABS = [{ key: 'a', label: 'Tab item' }, { key: 'b', label: 'Tab item' }, { key: 'c', label: 'Tab item' }];
@@ -116,7 +116,7 @@ function FiltersDemo() {
             </div>
           </div>
         </div>
-        {log && <p style={{ fontSize: 11, color: '#888', margin: 0 }}>{log}</p>}
+        {log && <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: 0 }}>{log}</p>}
       </div>
 
     </div>

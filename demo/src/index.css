@@ -60,24 +60,29 @@
 }
 
 [data-theme='dark'] {
-  --bg-page: #212121;
-  --bg-sidebar: #1a1a1a;
-  --bg-sidebar-item-hover: #2a2a2a;
-  --bg-sidebar-item-active: #303030;
-  --bg-card: #272727;
-  --bg-preview: #2a2a2a;
-  --bg-preview-dot: #333333;
+  /* Neutral grey ramp — every text/bg pair below clears WCAG AA (≥ 4.5:1) */
+  --bg-page: #1b1b1d;
+  --bg-sidebar: #141416;
+  --bg-sidebar-item-hover: #26262a;
+  --bg-sidebar-item-active: #303036;
+  --bg-card: #232326;
+  --bg-preview: #2c2c30;          /* clearly lighter than the card so the frame reads */
+  --bg-preview-dot: #45454b;
 
-  --text-primary: #f0f0f0;
-  --text-secondary: #999999;
-  --text-muted: #666666;
+  --text-primary: #f4f4f5;        /* 16.5:1 on card */
+  --text-secondary: #b8b8be;      /*  8.6:1 on card */
+  --text-muted: #8e8e96;          /*  4.9:1 on card, 4.2:1 on preview — captions only */
 
-  --border: #333333;
-  --border-subtle: #2a2a2a;
+  --border: #3a3a40;
+  --border-subtle: #2e2e33;
+  --accent: #3b8cff;              /* lighter accent for links/text on dark (5.1:1) */
+  --accent-hover: #5b9fff;
+  --accent-subtle: rgba(59, 140, 255, 0.14);
+  --accent-border: rgba(59, 140, 255, 0.4);
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.55);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.65);
 }
 
 /* ─── Reset ─────────────────────────────────────────────────── */
@@ -135,7 +140,7 @@ body {
 }
 
 [data-theme='dark'] .header {
-  background: rgba(26, 26, 26, 0.8);
+  background: rgba(20, 20, 22, 0.85);
 }
 
 .header__brand {
@@ -361,6 +366,8 @@ body {
   background: rgba(251, 191, 36, 0.12);
   color: #f59e0b;
 }
+[data-theme='dark'] .sidebar__status--stable { background: rgba(74, 222, 128, 0.16); color: #4ade80; }
+[data-theme='dark'] .sidebar__status--beta   { background: rgba(251, 191, 36, 0.16); color: #fbbf24; }
 
 .sidebar__status--coming-soon {
   background: var(--bg-preview);
