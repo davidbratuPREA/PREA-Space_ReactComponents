@@ -51,30 +51,51 @@ function MapNavDemo() {
       </div>
 
       <div>
-        <p style={headingStyle}>MapLayersMenu — 314px · hover a layer row for the 5 layerBtn actions · levels 1/2/3</p>
-        <MapLayersMenu
-          onClose={() => setLog('close')}
-          onRemoveActive={() => setLog('remove all active')}
-          activeLayers={
-            <>
-              <MapLayerItem label="Bebauungsplan" {...vis('Bebauungsplan')} onInfo={() => setLog('info Bebauungsplan')} />
-              <MapLayerItem label="Verkehr" {...vis('Verkehr')} onInfo={() => setLog('info Verkehr')} />
-            </>
-          }
-        >
-          <MapLayerItem label="Grundlagen" defaultOpen>
-            <MapLayerItem level={2} label="Flurstücke" onClick={() => setLog('Flurstücke')} />
-            <MapLayerItem level={2} label="Gebäude" defaultOpen>
-              <MapLayerItem level={3} label="Wohnen" />
-              <MapLayerItem level={3} label="Gewerbe" />
+        <p style={headingStyle}>MapLayersMenu — 314px · head group with „Aktive Ebenen“ · groups / subgroups / layers · hover a row for the layerBtn actions</p>
+        <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
+          <MapLayersMenu
+            onClose={() => setLog('close')}
+            onRemoveActive={() => setLog('remove all active')}
+            activeLayers={
+              <>
+                <MapLayerItem label="Bebauungsplan" {...vis('Bebauungsplan')} onInfo={() => setLog('info Bebauungsplan')} />
+                <MapLayerItem label="Verkehr" {...vis('Verkehr')} onInfo={() => setLog('info Verkehr')} />
+                <MapLayerItem label="Flurstücke" />
+              </>
+            }
+          >
+            <MapLayerItem label="Grundlagen">
+              <MapLayerItem label="Flurstücke" onClick={() => setLog('Flurstücke')} />
+              <MapLayerItem label="Gebäude" />
             </MapLayerItem>
-          </MapLayerItem>
-          <MapLayerItem label="Planung">
-            <MapLayerItem level={2} label="Flächennutzungsplan" />
-            <MapLayerItem level={2} label="Bebauungsplan" />
-          </MapLayerItem>
-          <MapLayerItem label="Umwelt" />
-        </MapLayersMenu>
+            <MapLayerItem label="Nutzung" defaultOpen>
+              <MapLayerItem label="Wohnen" />
+              <MapLayerItem label="Gewerbe" />
+              <MapLayerItem label="Mischgebiet" />
+            </MapLayerItem>
+            <MapLayerItem label="Planung">
+              <MapLayerItem label="Flächennutzungsplan" />
+            </MapLayerItem>
+            <MapLayerItem label="Verkehr" defaultOpen>
+              <MapLayerItem kind="subgroup" label="ÖPNV">
+                <MapLayerItem label="Haltestellen" />
+              </MapLayerItem>
+              <MapLayerItem kind="subgroup" label="Straßen" defaultOpen>
+                <MapLayerItem label="Autobahnen" />
+                <MapLayerItem label="Bundesstraßen" />
+                <MapLayerItem label="Radwege" />
+              </MapLayerItem>
+            </MapLayerItem>
+            <MapLayerItem label="Umwelt"><MapLayerItem label="Lärm" /></MapLayerItem>
+            <MapLayerItem label="Demografie"><MapLayerItem label="Einwohner" /></MapLayerItem>
+            <MapLayerItem label="Wirtschaft"><MapLayerItem label="Gewerbeflächen" /></MapLayerItem>
+          </MapLayersMenu>
+          <MapLayersMenu onClose={() => setLog('close')} style={{ alignSelf: 'flex-start' }}>
+            <MapLayerItem label="Grundlagen"><MapLayerItem label="Flurstücke" /></MapLayerItem>
+            <MapLayerItem label="Planung"><MapLayerItem label="Bebauungsplan" /></MapLayerItem>
+            <MapLayerItem kind="layer" label="Umwelt" />
+          </MapLayersMenu>
+        </div>
       </div>
     </div>
   );
@@ -95,11 +116,17 @@ import { MapButton } from './Button';
   </MapNavGroup>
 </MapNav>
 
+// Rows pick their icon from kind (group / subgroup / layer / active) and indent
+// automatically by nesting depth (level 1 → 2 → 3).
 <MapLayersMenu onClose={close} onRemoveActive={clearLayers}
   activeLayers={active.map((l) => <MapLayerItem key={l.id} label={l.name} visible={l.visible} onVisibleChange={(v) => toggle(l, v)} />)}>
   {tree.map((g) => (
-    <MapLayerItem key={g.id} label={g.name}>
-      {g.children.map((l) => <MapLayerItem key={l.id} level={2} label={l.name} onClick={() => add(l)} />)}
+    <MapLayerItem key={g.id} label={g.name}>                       // li:folder
+      {g.subgroups.map((sg) => (
+        <MapLayerItem key={sg.id} kind="subgroup" label={sg.name}>  // li:layers-three
+          {sg.layers.map((l) => <MapLayerItem key={l.id} label={l.name} onClick={() => add(l)} />)}  // li:layer-single
+        </MapLayerItem>
+      ))}
     </MapLayerItem>
   ))}
 </MapLayersMenu>
@@ -109,7 +136,7 @@ export const mapNavEntry: ComponentEntry = {
   id: 'mapnav',
   name: 'Map Navigation',
   category: 'Navigation',
-  description: 'Map controls from the Figma Menus page: MapNav column (compass + 36px MapButton groups), Compass, MapLayersMenu (314px panel with head, active layers and layer tree), MapLayerItem (20px rows, 3 indent levels, hover action row) and the 18px LayerButton.',
+  description: 'Map controls from the Figma Menus page: MapNav column (compass + 36px MapButton groups), Compass, MapLayersMenu (314px panel: head group with title + „Aktive Ebenen“, then the layer tree), MapLayerItem (20px rows with folder / layers / layer icons, 3 indent levels, hover action row) and the 18px LayerButton.',
   status: 'stable',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=69-1177',
   files: [
@@ -122,7 +149,9 @@ export const mapNavEntry: ComponentEntry = {
   props: [
     { name: 'MapNav.heading / onResetHeading / showCompass', type: 'number / () => void / boolean', default: '0 / — / true', required: false, description: 'Compass on top of the groups.' },
     { name: 'MapNavGroup.children', type: 'MapButton[]', default: '—', required: true, description: '36px pill, 5px padding, 10px gap.' },
-    { name: 'MapLayerItem.label / level', type: 'ReactNode / 1 | 2 | 3', default: '— / 1', required: false, description: 'Indent 14 / 34 / 56 px.' },
+    { name: 'MapLayerItem.label / level', type: 'ReactNode / 1 | 2 | 3', default: '— / nesting depth', required: false, description: 'Chevron slot 14 / 34 px, level 3 indent 56 px.' },
+    { name: 'MapLayerItem.kind / icon', type: "'group' | 'subgroup' | 'layer' | 'active' / string | ReactNode", default: 'group if children else layer', required: false, description: 'Default 14px icon: folder / layers-three / layer-single / eye.' },
+    { name: 'MapLayerItem.trailing', type: 'ReactNode', default: '—', required: false, description: 'Always-visible right element (Figma „Entfernen“).' },
     { name: 'MapLayerItem.children / defaultOpen / open', type: 'ReactNode / boolean', default: '—', required: false, description: 'Chevron + nested rows.' },
     { name: 'MapLayerItem.visible / onVisibleChange', type: 'boolean / (v) => void', default: 'true', required: false, description: 'Eye / eye-closed action.' },
     { name: 'MapLayerItem.onInfo / onPanel / onFilter / onColors', type: '() => void', default: '—', required: false, description: 'Hover actions (info-1, panels-top-left, funnel, colors).' },

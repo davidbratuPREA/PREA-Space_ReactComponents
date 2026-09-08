@@ -33,16 +33,29 @@ export interface LayerButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBu
 }
 
 /* ─── MapLayerItem (Figma "map-layer_item") ──────────────────────────────── */
+export type MapLayerKind = 'group' | 'subgroup' | 'layer' | 'active';
+
 export interface MapLayerItemProps {
   label: React.ReactNode;
-  /** Indentation level 1 · 2 · 3 (Figma LayerMenu/lvl-1..3 → 14 / 34 / 56 px). */
+  /**
+   * Row type — sets the default 14px icon:
+   * group → li:folder · subgroup → li:layers-three · layer → li:layer-single · active → li:eye
+   * Default: 'group' when the row has children, otherwise 'layer'.
+   */
+  kind?: MapLayerKind;
+  /** Custom icon (Figma icon name or node) — overrides the kind icon. */
+  icon?: string | React.ReactNode;
+  /**
+   * Indentation level 1 · 2 · 3 (Figma Level: chevron slot 14 / 34 px, level 3 padding 56 px).
+   * Defaults to the parent's level + 1 when nested, 1 at the root.
+   */
   level?: 1 | 2 | 3;
-  /** Has a chevron and children. */
+  /** Nested rows (rendered with a chevron; click the row to toggle). */
   children?: React.ReactNode;
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  /** Layer is visible on the map (eye icon). */
+  /** Layer is visible on the map (eye / eye-closed hover action). */
   visible?: boolean;
   onVisibleChange?: (visible: boolean) => void;
   onInfo?: () => void;
@@ -51,8 +64,10 @@ export interface MapLayerItemProps {
   onColors?: () => void;
   /** Extra buttons rendered in the hover action row. */
   actions?: React.ReactNode;
-  /** Hide the default hover actions. */
+  /** Hide the hover actions (Figma State=Hover layerBtns). */
   hideActions?: boolean;
+  /** Always-visible element at the right (Figma Level=Active "Entfernen"). */
+  trailing?: React.ReactNode;
   onClick?: () => void;
   className?: string;
 }
@@ -61,12 +76,15 @@ export interface MapLayerItemProps {
 export interface MapLayersMenuProps {
   title?: React.ReactNode;
   onClose?: () => void;
-  /** "Aktive Ebenen" section. */
+  /** "Aktive Ebenen" row inside the head group (Figma Level=Active). Omit `activeLayers` to hide it. */
   activeTitle?: React.ReactNode;
+  /** Active layer rows (rendered at level 2 under the "Aktive Ebenen" row). */
   activeLayers?: React.ReactNode;
+  activeOpen?: boolean;
+  onActiveOpenChange?: (open: boolean) => void;
   onRemoveActive?: () => void;
   removeLabel?: React.ReactNode;
-  /** Available layer tree. */
+  /** Available layer tree (Figma layersGroup). */
   children?: React.ReactNode;
   /** Width. Figma 314. */
   width?: number | string;
