@@ -20,13 +20,14 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `MapNav` | Navigation | `MapNav`, `MapNavGroup`, `MapNavGlobe`, `Compass`, `MapLayersMenu`, `MapLayerItem`, `LayerButton` | ✅ Stable |
 | `CreateMenu` | Navigation | `CreateEntryMenu`, `CreateEntryStep`, `CreateEntryList`, `CreateDropdownItem`, `CreateEntryItem`, `CreateEntryHead`, `StatusMenu`, `Checkbox` | ✅ Stable |
 | `Divider` | Layout | `Divider` | ✅ Stable |
+| `Scrollbar` | Foundation | global scrollbar style (`import "./Scrollbar"`) | ✅ Stable |
 | `Icon` | General | `Icon` (lucide-react, PREA `li:` naming) | ✅ Stable |
 | `DataBox` | Data Display | `DataPanel`, `DataGroup`, `DataBox`, `DataBoxItem`, `DataButton` | ✅ Stable |
 | `InfoBox` | Data Display | `InfoBox`, `InfoBoxModule`, `BoxLink`, `NavInfoCard` | ✅ Stable |
-| `Kanban` | Data Display | `KanbanBoard`, `KanbanColumn`, `KanbanProject`, `KanbanStatusBadge`, `QuantityBadge` | 🟠 Pending |
+| `Kanban` | Data Display | `KanbanBoard`, `KanbanColumn`, `KanbanProject`, `KanbanStatusBadge`, `QuantityBadge` | ✅ Stable |
 | `Inputs` | Data Entry | `TextInput`, `SmallInput`, `ColorInput`, `CreateInput`, `SearchInput`, `SearchListItem` | ✅ Stable |
 | `ColorPicker` | Data Entry | `ColorPicker`, `ColorSwitchItem`, `ColorSwatch` | ✅ Stable |
-| `Filters` | Data Entry | `FilterPanel`, `FilterItem`, `ToggleSwitch`, `StatusBadge`, `FilterRange`, `FilterTabs` | 🟠 Pending |
+| `Filters` | Data Entry | `FilterPanel`, `FilterItem`, `ToggleSwitch`, `StatusBadge`, `FilterRange`, `FilterTabs` | ✅ Stable |
 | `Notes` | Chat | `NotesPanel`, `NoteCard`, `NoteThread`, `NoteDivider` | 🟠 Pending |
 | `Avatar` | General | `Avatar`, `AvatarGroup` | ✅ Stable |
 | `Chat` | Chat | `ChatInput`, `ChatDropdown`, `ChatNotes`, `ChatButton` | ✅ Stable |
@@ -52,6 +53,7 @@ PREA-Space_ReactComponents/
 ├── MapNav/
 ├── Navigation/
 ├── Notes/
+├── Scrollbar/           # global 3px scrollbar style (CSS only)
 ├── TabsMain/
 │   ├── <Name>.tsx        # component(s)
 │   ├── <Name>.types.ts   # TypeScript interfaces
