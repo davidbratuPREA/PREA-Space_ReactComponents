@@ -26,7 +26,7 @@ export function ComponentPage() {
   };
 
   return (
-    <div className="comp-page">
+    <div className={entry.layout === 'wide' ? 'comp-page comp-page--wide' : 'comp-page'}>
       {/* ── Header ─────────────────────────────────────────── */}
       <div className="comp-page__header">
         <div className="comp-page__eyebrow">{entry.category}</div>

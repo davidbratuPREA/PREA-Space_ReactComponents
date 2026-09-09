@@ -21,7 +21,7 @@
   --kanban\/sizing\/board-gap:     10px;
 
   --kanban\/font\/size:     12px; --kanban\/font\/lineheight:     16px;
-  --kanban\/font\/size-xxl: 18px; --kanban\/font\/lineheight-xxl: 22px;
+  --kanban\/font\/size-xl:  14px; --kanban\/font\/lineheight-xl:  18px;   /* ExtraLarge/Medium */
   --kanban\/font\/size-sm:  10px; --kanban\/font\/lineheight-sm:  18px;
 
   --kanban\/color\/bg:        #FFFFFF;
@@ -149,8 +149,8 @@ html[data-theme='dark'] {
 .prea-kanban-group--sub {
   padding: 0 var(--kanban\/sizing\/padding-sub, 14px);
   background: var(--kanban\/color\/bg, #fff);
-  font-size: var(--kanban\/font\/size-xxl, 18px);
-  line-height: var(--kanban\/font\/lineheight-xxl, 22px);
+  font-size: var(--kanban\/font\/size-xl, 14px);
+  line-height: var(--kanban\/font\/lineheight-xl, 18px);
 }
 .prea-kanban-group--sub.prea-kanban-group--open { border-bottom-color: transparent; }
 .prea-kanban-group__chevron { display: inline-flex; flex-shrink: 0; width: 14px; height: 14px; color: var(--kanban\/color\/icon, #202020); }

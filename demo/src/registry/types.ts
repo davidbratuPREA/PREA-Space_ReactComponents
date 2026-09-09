@@ -22,6 +22,8 @@ export interface ComponentEntry {
   description: string;
   status: ComponentStatus;
   figmaUrl?: string;
+  /** 'wide' widens the page (1400px) so broad previews such as boards fit without horizontal scrolling. */
+  layout?: 'default' | 'wide';
   files: ComponentFile[];
   usage: string;
   props: PropDef[];

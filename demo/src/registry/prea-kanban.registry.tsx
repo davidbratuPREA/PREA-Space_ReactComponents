@@ -106,6 +106,7 @@ export const kanbanEntry: ComponentEntry = {
   category: 'Data Display',
   description: 'Project kanban from the Figma Kanban page: KanbanBoard › KanbanColumn (status-coloured) › KanbanProject (collapsible header, sub-groups, item rows, priority badge) plus KanbanStatusBadge, QuantityBadge and KanbanPriorityBadge.',
   status: 'pending',
+  layout: 'wide',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=207-11740',
   files: [
     { name: 'Kanban.tsx',      content: kanbanSrc },
