@@ -60,12 +60,32 @@ export interface CreateEntryMenuProps {
   title?: React.ReactNode;
   onClose?: () => void;
   onBack?: () => void;
-  /** Body. */
+  /** Body — CreateDropdownItems (step 1) or a <CreateEntryStep/> (step 2). */
   children?: React.ReactNode;
-  /** Footer (buttons). */
+  /** Footer row with a top border (Figma 350px list version). */
   footer?: React.ReactNode;
   /** Width. Figma 250 (steps) / 350 (list). */
   width?: number | string;
+  /** Height — fixed across steps. Figma 161 (steps) / 470 (list). */
+  height?: number | string;
   className?: string;
   style?: React.CSSProperties;
+}
+
+/* ─── CreateEntryStep (Figma "createEntryMenu" Step=2 body) ──────────────── */
+export interface CreateEntryStepProps {
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  /** Optional secondary row under the input (Figma "Projekt hinzufügen"). */
+  addLabel?: React.ReactNode;
+  addIcon?: string | React.ReactNode;
+  onAdd?: () => void;
+  /** Black full-width button at the bottom (Figma "Erstellen"). */
+  submitLabel?: React.ReactNode;
+  onSubmit?: (value: string) => void;
+  submitDisabled?: boolean;
+  autoFocus?: boolean;
+  className?: string;
 }

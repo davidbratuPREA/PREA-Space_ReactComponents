@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Icon } from '../Icon';
 import { StatusBadge } from '../Filters';
-import { IconButton } from '../Navigation';
+import { LayerButton } from '../MapNav';
 import { CreateInput } from '../Inputs';
 import type {
-  CheckboxProps, CreateDropdownItemProps, CreateEntryItemProps, CreateEntryHeadProps, StatusMenuProps, CreateEntryMenuProps,
+  CheckboxProps, CreateDropdownItemProps, CreateEntryItemProps, CreateEntryHeadProps, StatusMenuProps, CreateEntryMenuProps, CreateEntryStepProps,
 } from './CreateMenu.types';
 import './CreateMenu.css';
 
@@ -90,7 +90,7 @@ export function StatusMenu({ options, value, onChange, onCreate, createLabel = '
       {editing ? (
         <div className="prea-statusmenu__edit">
           <CreateInput width="100%" autoFocus value={name} placeholder="Status" onChange={(v) => setName(v)} onKeyDown={(e) => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') setEditing(false); }} />
-          <IconButton size={18} icon="check-done" label="Speichern" onClick={commit} />
+          <LayerButton icon="li:check-done" label="Speichern" onClick={commit} />
         </div>
       ) : (
         <CreateDropdownItem icon="plus" label={createLabel} onClick={() => setEditing(true)} />
@@ -100,18 +100,40 @@ export function StatusMenu({ options, value, onChange, onCreate, createLabel = '
 }
 
 /* ─── CreateEntryMenu ────────────────────────────────────────────────────── */
-export function CreateEntryMenu({ title = 'Erstellen', onClose, onBack, children, footer, width = 250, className, style }: CreateEntryMenuProps) {
+export function CreateEntryMenu({ title = 'Erstellen', onClose, onBack, children, footer, width = 250, height = 161, className, style }: CreateEntryMenuProps) {
   return (
-    <div className={cx('prea-createmenu', className)} style={{ width, ...style }} role="dialog" aria-label={typeof title === 'string' ? title : undefined}>
+    <div className={cx('prea-createmenu', className)} style={{ width, height, ...style }} role="dialog" aria-label={typeof title === 'string' ? title : undefined}>
       <div className="prea-createmenu__head">
-        <span className="prea-createmenu__title">
-          {onBack && <IconButton icon="arrow-left" label="Zurück" onClick={onBack} />}
-          {title}
-        </span>
-        {onClose && <IconButton icon="X-close" label="Schließen" onClick={onClose} />}
+        {onBack && <LayerButton icon="li:arrow-left" label="Zurück" onClick={onBack} />}
+        <span className="prea-createmenu__title">{title}</span>
+        {onClose && <LayerButton icon="li:X-close" label="Schließen" onClick={onClose} />}
       </div>
       <div className="prea-createmenu__body">{children}</div>
       {footer && <div className="prea-createmenu__footer">{footer}</div>}
+    </div>
+  );
+}
+
+/* ─── CreateEntryStep — Figma Step=2 body: input · "+ Projekt hinzufügen" · black button */
+export function CreateEntryStep({
+  value, defaultValue = '', onChange, placeholder = 'Name', addLabel, addIcon = 'li:plus', onAdd,
+  submitLabel = 'Erstellen', onSubmit, submitDisabled, autoFocus, className,
+}: CreateEntryStepProps) {
+  const [inner, setInner] = useState(defaultValue);
+  const val = value ?? inner;
+  const disabled = submitDisabled ?? val.trim() === '';
+  const submit = () => { if (!disabled) onSubmit?.(val); };
+  return (
+    <div className={cx('prea-createstep', className)}>
+      <div className="prea-createstep__items">
+        <CreateInput
+          width="100%" value={val} placeholder={placeholder} autoFocus={autoFocus}
+          onChange={(v) => { setInner(v); onChange?.(v); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') submit(); }}
+        />
+        {addLabel && <CreateDropdownItem icon={addIcon} label={addLabel} onClick={onAdd} />}
+      </div>
+      <CreateMenuPrimaryButton className="prea-createstep__submit" disabled={disabled} onClick={submit}>{submitLabel}</CreateMenuPrimaryButton>
     </div>
   );
 }

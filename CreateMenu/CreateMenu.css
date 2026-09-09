@@ -13,7 +13,7 @@
   --createmenu\/color\/icon:      #202020;
   --createmenu\/color\/hover:     #E3E3E3;
   --createmenu\/color\/danger:    #D92D20;
-  --createmenu\/color\/primary-bg:#202020;   /* black "Erstellen" button */
+  --createmenu\/color\/primary-bg:#121212;   /* Filter/btn-primary — black "Erstellen" button */
   --createmenu\/color\/primary-tx:#F5F5F5;
   --createmenu\/color\/check-bg:  #202020;
   --createmenu\/color\/check-mark:#F5F5F5;
@@ -25,15 +25,15 @@
   --createmenu\/font\/size-head: 14px; --createmenu\/font\/lineheight-head: 18px;
 }
 html[data-theme='dark'] {
-  --createmenu\/color\/bg:        #1E1E1E;
-  --createmenu\/color\/head-bg:   #262626;
-  --createmenu\/color\/border:    #3D3D3D;
+  --createmenu\/color\/bg:        #282828;   /* LayerMenu/BG   */
+  --createmenu\/color\/head-bg:   #121212;   /* LayerMenu/BG-2 */
+  --createmenu\/color\/border:    #424242;
   --createmenu\/color\/text:      #F5F5F5;
   --createmenu\/color\/secondary: #949494;
   --createmenu\/color\/icon:      #F5F5F5;
   --createmenu\/color\/hover:     #313131;
-  --createmenu\/color\/primary-bg:#F5F5F5;
-  --createmenu\/color\/primary-tx:#202020;
+  --createmenu\/color\/primary-bg:#555555;   /* Filter/btn-primary dark */
+  --createmenu\/color\/primary-tx:#F5F5F5;
   --createmenu\/color\/check-bg:  #F5F5F5;
   --createmenu\/color\/check-mark:#202020;
 }
@@ -89,25 +89,33 @@ html[data-theme='dark'] {
 .prea-statusmenu__edit { display: flex; align-items: center; gap: 4px; padding: 0 2px; }
 .prea-statusmenu__edit .prea-input-box, .prea-statusmenu__edit input { min-width: 0; flex: 1 1 0; }
 
-/* ─── CreateEntryMenu ────────────────────────────────────────────────────── */
+/* ─── CreateEntryMenu (Figma createEntryMenu: 250×161, fixed height across steps) ── */
 .prea-createmenu {
-  display: flex; flex-direction: column; box-sizing: border-box; width: 250px; overflow: hidden;
+  display: flex; flex-direction: column; flex-shrink: 0; box-sizing: border-box; width: 250px; height: 161px; overflow: hidden;
   border: 1px solid var(--createmenu\/color\/border, #e1e1e1); border-radius: var(--createmenu\/sizing\/radius, 6px); background: var(--createmenu\/color\/bg, #fff);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.3);
   color: var(--createmenu\/color\/text, #202020); font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px);
 }
+/* createHead: BG-2, padding 6 / 8, gap 6, 18px buttons, ExtraLarge/Medium title */
 .prea-createmenu__head {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px; box-sizing: border-box; height: 34px; padding: 0 6px 0 12px;
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-sizing: border-box; padding: 6px 8px;
   background: var(--createmenu\/color\/head-bg, #f6f6f6); border-bottom: 1px solid var(--createmenu\/color\/border, #e1e1e1);
 }
-.prea-createmenu__title { display: flex; align-items: center; gap: 6px; font-size: var(--createmenu\/font\/size-head, 14px); line-height: var(--createmenu\/font\/lineheight-head, 18px); font-weight: 500; }
-.prea-createmenu__body { display: flex; flex-direction: column; gap: 2px; padding: var(--createmenu\/sizing\/padding, 8px) 4px; }
-.prea-createmenu__footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 8px; border-top: 1px solid var(--createmenu\/color\/border, #e1e1e1); }
+.prea-createmenu__title { flex: 1 1 0; min-width: 0; font-size: var(--createmenu\/font\/size-head, 14px); line-height: var(--createmenu\/font\/lineheight-head, 18px); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prea-createmenu__head .prea-layerbtn { color: var(--createmenu\/color\/icon, #202020); }
+/* body: Items padding 4, gap 2 (step 1) — fills the remaining height */
+.prea-createmenu__body { display: flex; flex-direction: column; gap: 2px; flex: 1 1 0; min-height: 0; padding: 4px; overflow: auto; }
+.prea-createmenu__footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; padding: 6px 8px 8px; border-top: 1px solid var(--createmenu\/color\/border, #e1e1e1); }
 .prea-createmenu__footer-end { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .prea-createmenu__primary {
-  display: inline-flex; align-items: center; justify-content: center; height: 24px; box-sizing: border-box; padding: 0 10px; margin: 0; border: none; border-radius: 4px;
-  background: var(--createmenu\/color\/primary-bg, #202020); color: var(--createmenu\/color\/primary-tx, #f5f5f5); font: inherit; font-size: 12px; font-weight: 500; white-space: nowrap; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 24px; box-sizing: border-box; padding: 0 10px; margin: 0; border: none; border-radius: 4px;
+  background: var(--createmenu\/color\/primary-bg, #121212); color: var(--createmenu\/color\/primary-tx, #f5f5f5); font: inherit; font-size: 12px; line-height: 16px; font-weight: 500; white-space: nowrap; cursor: pointer;
 }
 .prea-createmenu__primary:hover { opacity: .9; }
 .prea-createmenu__primary:disabled { opacity: .5; cursor: not-allowed; }
-.prea-createmenu__field { display: flex; flex-direction: column; gap: 6px; padding: 4px; }
-.prea-createmenu__label { color: var(--createmenu\/color\/secondary, #888); font-size: var(--createmenu\/font\/size-s, 10px); line-height: var(--createmenu\/font\/lineheight-s, 14px); }
+
+/* ─── CreateEntryStep (Figma Step=2 createBody: padding 12; Items padding 4 12 12, gap 6, centred; 24px button) ── */
+.prea-createstep { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; box-sizing: border-box; padding: 8px; /* 12 in Figma minus the 4px body padding */ }
+.prea-createstep__items { display: flex; flex-direction: column; justify-content: center; gap: 6px; flex: 1 1 0; min-height: 0; padding: 4px 12px 12px; }
+.prea-createstep__items .prea-createitem { width: 100%; }
+.prea-createstep__submit { width: 100%; flex-shrink: 0; }

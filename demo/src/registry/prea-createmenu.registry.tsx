@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Checkbox, CreateDropdownItem, CreateEntryItem, CreateEntryHead, StatusMenu, CreateEntryMenu, CreateMenuPrimaryButton } from '../../../CreateMenu';
-import { TextInput, SearchInput } from '../../../Inputs';
+import { Checkbox, CreateDropdownItem, CreateEntryItem, CreateEntryHead, StatusMenu, CreateEntryMenu, CreateEntryStep, CreateMenuPrimaryButton } from '../../../CreateMenu';
+import { SearchInput } from '../../../Inputs';
 import { Button } from '../../../Button';
 import type { StatusOption } from '../../../CreateMenu';
 import type { ComponentEntry } from './types';
@@ -29,41 +29,28 @@ function CreateMenuDemo() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
       <div>
-        <p style={headingStyle}>CreateEntryMenu — 3 steps (250px) · click through</p>
+        <p style={headingStyle}>CreateEntryMenu — Step 1 → Step 2 (250 × 161, same height) · click an item</p>
         <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
-          <CreateEntryMenu onClose={() => setLog('close')} onBack={step > 1 ? () => setStep(step - 1) : undefined}
-            footer={step === 3 ? (
+          <CreateEntryMenu onClose={() => setLog('close')} onBack={step > 1 ? () => setStep(1) : undefined}>
+            {step === 1 ? (
               <>
-                <Button variant="text" size="sm" onClick={() => setStep(2)}>Zurück</Button>
-                <div className="prea-createmenu__footer-end">
-                  <Button variant="outlined" size="sm" onClick={() => setLog('Projekt hinzufügen')}>Projekt hinzufügen</Button>
-                  <CreateMenuPrimaryButton disabled={!name} onClick={() => setLog(`erstellt: ${name}`)}>Erstellen</CreateMenuPrimaryButton>
-                </div>
+                <CreateDropdownItem icon="file-plus-02"  label="Portfolio"    onClick={() => setStep(2)} />
+                <CreateDropdownItem icon="marker-pin-04" label="Plot of land" onClick={() => setStep(2)} />
+                <CreateDropdownItem icon="building-03"   label="Building"     onClick={() => setStep(2)} />
+                <CreateDropdownItem icon="building-06"   label="Unit"         onClick={() => setStep(2)} />
+                <CreateDropdownItem icon="hourglass-01"  label="Status"       onClick={() => setStep(2)} />
               </>
-            ) : undefined}>
-            {step === 1 && (
-              <>
-                <CreateDropdownItem icon="li:folder" label="Projekt" onClick={() => setStep(2)} />
-                <CreateDropdownItem icon="li:marker-pin" label="Standort" onClick={() => setStep(2)} />
-                <CreateDropdownItem icon="li:file-06" label="Notiz" onClick={() => setStep(2)} />
-                <CreateDropdownItem icon="li:layers" label="Ebene" onClick={() => setStep(2)} />
-              </>
-            )}
-            {step === 2 && (
-              <div className="prea-createmenu__field">
-                <span className="prea-createmenu__label">Name</span>
-                <TextInput width="100%" value={name} placeholder="Name eingeben" onChange={setName} onKeyDown={(e) => { if (e.key === 'Enter' && name) setStep(3); }} />
-                <CreateMenuPrimaryButton disabled={!name} onClick={() => setStep(3)} style={{ alignSelf: 'flex-end' }}>Weiter</CreateMenuPrimaryButton>
-              </div>
-            )}
-            {step === 3 && (
-              <div className="prea-createmenu__field">
-                <span className="prea-createmenu__label">Name</span>
-                <TextInput width="100%" value={name} onChange={setName} />
-              </div>
+            ) : (
+              <CreateEntryStep
+                value={name} onChange={setName} autoFocus
+                addLabel="Projekt hinzufügen" onAdd={() => setLog('Projekt hinzufügen')}
+                onSubmit={(v) => { setLog(`erstellt: ${v}`); setStep(1); setName(''); }}
+              />
             )}
           </CreateEntryMenu>
-
+          <CreateEntryMenu onClose={() => undefined} onBack={() => undefined}>
+            <CreateEntryStep defaultValue="" addLabel="Projekt hinzufügen" submitDisabled={false} />
+          </CreateEntryMenu>
           <div>
             <p style={{ ...headingStyle, marginBottom: 8 }}>StatusMenu — 150px · „Neuer Status“ opens an inline input</p>
             <StatusMenu options={STATUSES} value={status} onChange={setStatus} onCreate={(n) => setLog(`neuer Status: ${n}`)} />
@@ -74,7 +61,7 @@ function CreateMenuDemo() {
 
       <div>
         <p style={headingStyle}>CreateEntryMenu list (350px) — search · CreateEntryHead · checkable CreateEntryItems · footer</p>
-        <CreateEntryMenu title="Einträge hinzufügen" width={350} onClose={() => setLog('close')}
+        <CreateEntryMenu title="Einträge hinzufügen" width={350} height={470} onClose={() => setLog('close')}
           footer={
             <>
               <Button variant="text" size="sm" onClick={() => setLog('zurück')}>Zurück</Button>
@@ -121,14 +108,22 @@ const USAGE = `import { CreateEntryMenu, CreateDropdownItem, CreateEntryHead, Cr
          StatusMenu, Checkbox, CreateMenuPrimaryButton } from './CreateMenu';
 // Requires ./Filters (StatusBadge), ./Inputs, ./Navigation (IconButton) and ./Icon.
 
-// Step 1 — what to create
+// Step 1 — what to create (250 × 161; the height stays the same on every step)
 <CreateEntryMenu onClose={close}>
-  <CreateDropdownItem icon="li:folder"     label="Projekt"  onClick={() => setKind('project')} />
-  <CreateDropdownItem icon="li:marker-pin" label="Standort" onClick={() => setKind('site')} />
+  <CreateDropdownItem icon="file-plus-02"  label="Portfolio"    onClick={() => setKind('portfolio')} />
+  <CreateDropdownItem icon="marker-pin-04" label="Plot of land" onClick={() => setKind('plot')} />
+  <CreateDropdownItem icon="building-03"   label="Building"     onClick={() => setKind('building')} />
+</CreateEntryMenu>
+
+// Step 2 — name it
+<CreateEntryMenu onClose={close} onBack={() => setKind(null)}>
+  <CreateEntryStep value={name} onChange={setName} autoFocus
+    addLabel="Projekt hinzufügen" onAdd={pickProject}
+    submitLabel="Erstellen" onSubmit={(v) => create(kind, v)} />
 </CreateEntryMenu>
 
 // List — pick entries
-<CreateEntryMenu title="Einträge hinzufügen" width={350} onClose={close}
+<CreateEntryMenu title="Einträge hinzufügen" width={350} height={470} onClose={close}
   footer={<>
     <Button variant="text" size="sm" onClick={back}>Zurück</Button>
     <div className="prea-createmenu__footer-end">
@@ -151,7 +146,7 @@ export const createMenuEntry: ComponentEntry = {
   id: 'createmenu',
   name: 'Create & Status Menus',
   category: 'Navigation',
-  description: 'Creation flow from the Figma Menus page: CreateEntryMenu (250px steps / 350px list with head, body, footer), CreateDropdownItem (23px icon rows), CreateEntryHead + CreateEntryItem (26px rows with StatusBadge, optional checkbox), StatusMenu (150px with inline „Neuer Status“) and the 14px Checkbox.',
+  description: 'Creation flow from the Figma Menus page: CreateEntryMenu (250×161 steps / 350×470 list, fixed height across steps) with CreateEntryStep (name input + „Projekt hinzufügen“ + black button), CreateDropdownItem (23px icon rows), CreateEntryHead + CreateEntryItem (26px rows with StatusBadge, optional checkbox), StatusMenu (150px with inline „Neuer Status“) and the 14px Checkbox.',
   status: 'pending',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=69-1177',
   files: [
@@ -163,7 +158,11 @@ export const createMenuEntry: ComponentEntry = {
   usage: USAGE,
   props: [
     { name: 'CreateEntryMenu.title / onClose / onBack', type: 'ReactNode / () => void', default: "'Erstellen' / — / —", required: false, description: 'Grey head (subBG) with optional back and close.' },
-    { name: 'CreateEntryMenu.footer / width', type: 'ReactNode / number | string', default: '— / 250', required: false, description: 'Footer row; Figma uses 250 (steps) and 350 (list).' },
+    { name: 'CreateEntryMenu.width / height', type: 'number | string', default: '250 / 161', required: false, description: 'Fixed size; Figma 250×161 (steps) and 350×470 (list). Height is constant across steps.' },
+    { name: 'CreateEntryMenu.footer', type: 'ReactNode', default: '—', required: false, description: 'Footer row with top border (list version).' },
+    { name: 'CreateEntryStep.value / onChange / placeholder', type: 'string / (v) => void / string', default: "— / — / 'Name'", required: false, description: 'Step 2 name input (CreateInput, 28px).' },
+    { name: 'CreateEntryStep.addLabel / onAdd', type: 'ReactNode / () => void', default: '—', required: false, description: 'Secondary „+ Projekt hinzufügen“ row.' },
+    { name: 'CreateEntryStep.submitLabel / onSubmit / submitDisabled', type: "ReactNode / (v) => void / boolean", default: "'Erstellen' / — / value empty", required: false, description: 'Full-width black button at the bottom.' },
     { name: 'CreateDropdownItem.icon / label / onClick', type: 'string | ReactNode / ReactNode / () => void', default: '—', required: false, description: '23px row, 16px icon, 13px medium text.' },
     { name: 'CreateEntryItem.label / status / icon', type: "ReactNode / StatusKind / string", default: "— / — / 'chevron-right'", required: false, description: '26px row with StatusBadge and trailing 12px icon.' },
     { name: 'CreateEntryItem.checkable / checked / onCheckedChange', type: 'boolean / boolean / (v) => void', default: 'false', required: false, description: 'Leading Checkbox (list version).' },
