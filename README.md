@@ -17,8 +17,8 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `Breadcrumb` | Navigation | `Breadcrumb`, `BreadcrumbItem` | ✅ Stable |
 | `DropdownMenu` | Navigation | `DropdownMenu`, `GroupDropdownMenu` | ✅ Stable |
 | `Navigation` | Navigation | `MainNav`, `MainNavItem`, `MainNavUser`, `NavDropdownItem`, `NavSectionHead`, `PathMenu`, `PanelTabs`, `Tabs`, `BottomNav`, `IconButton`, `ToggleDataMenu`, `SearchPanel` | ✅ Stable |
-| `MapNav` | Navigation | `MapNav`, `MapNavGroup`, `MapNavGlobe`, `Compass`, `MapLayersMenu`, `MapLayerItem`, `LayerButton` | 🟠 Pending |
-| `CreateMenu` | Navigation | `CreateEntryMenu`, `CreateEntryStep`, `CreateEntryList`, `CreateDropdownItem`, `CreateEntryItem`, `CreateEntryHead`, `StatusMenu`, `Checkbox` | 🟠 Pending |
+| `MapNav` | Navigation | `MapNav`, `MapNavGroup`, `MapNavGlobe`, `Compass`, `MapLayersMenu`, `MapLayerItem`, `LayerButton` | ✅ Stable |
+| `CreateMenu` | Navigation | `CreateEntryMenu`, `CreateEntryStep`, `CreateEntryList`, `CreateDropdownItem`, `CreateEntryItem`, `CreateEntryHead`, `StatusMenu`, `Checkbox` | ✅ Stable |
 | `Divider` | Layout | `Divider` | ✅ Stable |
 | `Icon` | General | `Icon` (lucide-react, PREA `li:` naming) | ✅ Stable |
 | `DataBox` | Data Display | `DataPanel`, `DataGroup`, `DataBox`, `DataBoxItem`, `DataButton` | ✅ Stable |

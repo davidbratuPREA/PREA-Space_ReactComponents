@@ -144,7 +144,7 @@ export const mapNavEntry: ComponentEntry = {
   name: 'Map Navigation',
   category: 'Navigation',
   description: 'Map controls from the Figma Menus page: MapNav column (compass + 36px MapButton groups), Compass, MapLayersMenu (314px panel: head group with title + „Aktive Ebenen“, then the layer tree), MapLayerItem (20px rows with folder / layers / layer icons, 3 indent levels, hover action row) and the 18px LayerButton.',
-  status: 'pending',
+  status: 'stable',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=69-1177',
   files: [
     { name: 'MapNav/MapNav.tsx',      content: src },

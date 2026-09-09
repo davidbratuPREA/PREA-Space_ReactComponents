@@ -151,7 +151,7 @@ export const createMenuEntry: ComponentEntry = {
   name: 'Create & Status Menus',
   category: 'Navigation',
   description: 'Creation flow from the Figma Menus page: CreateEntryMenu (250×161 steps / 350×470 list, fixed height across steps) with CreateEntryStep (name input + „Projekt hinzufügen“ + black button), CreateDropdownItem (23px icon rows), CreateEntryList (350×470 search + checkable items + footer), CreateEntryHead + CreateEntryItem (20/26px rows with checkbox and Kanban status badge), StatusMenu (150px Kanban badges with „Neuer Status“ edit) and the 14px Checkbox.',
-  status: 'pending',
+  status: 'stable',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=69-1177',
   files: [
     { name: 'CreateMenu/CreateMenu.tsx',      content: src },
