@@ -57,6 +57,7 @@
 
   --nav\/font\/size: 12px; --nav\/font\/lineheight: 16px;
   --nav\/font\/size-lg: 13px; --nav\/font\/lineheight-lg: 17px;
+  --nav\/font\/size-xl: 14px; --nav\/font\/lineheight-xl: 18px;
   --nav\/font\/size-xxl: 18px; --nav\/font\/lineheight-xxl: 22px;
 }
 html[data-theme='dark'] {
@@ -254,7 +255,7 @@ html[data-theme='dark'] {
 .prea-toggledata {
   display: inline-flex; align-items: center; gap: 8px; height: 40px; box-sizing: border-box; padding: 0 4px 0 12px;
   border: 1px solid var(--mainmenu\/color\/border, #e1e1e1); border-radius: 6px; background: var(--mainmenu\/color\/bg, #fff);
-  color: var(--mainmenu\/color\/text, #202020); font-size: var(--nav\/font\/size-xxl, 18px); line-height: var(--nav\/font\/lineheight-xxl, 22px); font-weight: 500; white-space: nowrap;
+  color: var(--mainmenu\/color\/text, #202020); font-size: var(--nav\/font\/size-xl, 14px); line-height: var(--nav\/font\/lineheight-xl, 18px); font-weight: 500; white-space: nowrap; /* Figma ExtraLarge/Medium */
 }
 
 /* ─── SearchPanel ────────────────────────────────────────────────────────── */

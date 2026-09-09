@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapNav, MapNavGroup, Compass, LayerButton, MapLayerItem, MapLayersMenu } from '../../../MapNav';
+import { MapNav, MapNavGroup, MapNavGlobe, Compass, LayerButton, MapLayerItem, MapLayersMenu } from '../../../MapNav';
 import { MapButton } from '../../../Button';
 import type { ComponentEntry } from './types';
 
@@ -20,28 +20,32 @@ function MapNavDemo() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
       <div>
-        <p style={headingStyle}>MapNav — compass + item_mapNav groups (36px, MapButtons 24px) · click compass to reset</p>
+        <p style={headingStyle}>MapNav — globe toggle · item_mapNav groups (36px, MapButtons 24px) · compass (55px) at the bottom · click compass to reset</p>
         <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
-          <MapNav heading={heading} onResetHeading={() => setHeading(0)}>
+          <MapNav heading={heading} onResetHeading={() => setHeading(0)} globeActive={mode === '3D'} onGlobeToggle={() => setMode(mode === '3D' ? '2D' : '3D')}>
+            <MapNavGroup>
+              <MapButton icon="3D" label="3D" active={mode === '3D'} onClick={() => setMode(mode === '3D' ? '2D' : '3D')} />
+              <MapButton icon="li:layer-double" label="Ebenen" onClick={() => setLog('layers')} />
+              <MapButton icon="li:perspective" label="Neigen" onClick={() => setLog('tilt')} />
+            </MapNavGroup>
+            <MapNavGroup>
+              <MapButton icon="li:navigation" label="Standort" onClick={() => setLog('locate')} />
+            </MapNavGroup>
             <MapNavGroup>
               <MapButton icon="li:plus" label="Zoom in" onClick={() => setLog('zoom in')} />
               <MapButton icon="li:minus" label="Zoom out" onClick={() => setLog('zoom out')} />
             </MapNavGroup>
             <MapNavGroup>
-              <MapButton icon="li:navigation" label="Standort" onClick={() => setLog('locate')} />
-              <MapButton icon="li:rotate-ccw2" label="Drehen" onClick={() => setHeading((h) => (h + 45) % 360)} />
-              <MapButton icon="li:perspective" label="Neigen" onClick={() => setLog('tilt')} />
-            </MapNavGroup>
-            <MapNavGroup>
-              <MapButton icon="2D" label="2D" active={mode === '2D'} onClick={() => setMode('2D')} />
-              <MapButton icon="3D" label="3D" active={mode === '3D'} onClick={() => setMode('3D')} />
-            </MapNavGroup>
-            <MapNavGroup>
-              <MapButton icon="li:layers" label="Ebenen" onClick={() => setLog('layers')} />
+              <MapButton icon="li:info-1" label="Info" onClick={() => setLog('info')} />
             </MapNavGroup>
           </MapNav>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Compass heading={heading} onClick={() => setHeading(0)} />
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              <Compass heading={heading} onClick={() => setHeading(0)} />
+              <Compass heading={35} />
+              <MapNavGlobe /><MapNavGlobe active />
+              <MapButton icon="li:rotate-ccw2" label="Drehen" onClick={() => setHeading((h) => (h + 45) % 360)} />
+            </div>
             <div style={{ display: 'flex', gap: 4 }}>
               <LayerButton icon="li:info-1" label="Info" /><LayerButton icon="li:panels-top-left" label="Panel" /><LayerButton icon="li:funnel" label="Filter" /><LayerButton icon="li:colors" label="Farben" /><LayerButton icon="li:eye" label="Sichtbar" active />
             </div>
@@ -105,14 +109,17 @@ const USAGE = `import { MapNav, MapNavGroup, MapLayersMenu, MapLayerItem } from 
 import { MapButton } from './Button';
 // Requires ./Button, ./Navigation (IconButton) and ./Icon.
 
-<MapNav heading={map.bearing} onResetHeading={() => map.resetNorth()}>
+// Globe toggle on top, groups in between, compass at the bottom (Figma mapNav)
+<MapNav heading={map.bearing} onResetHeading={() => map.resetNorth()} globeActive={is3D} onGlobeToggle={toggle3D}>
+  <MapNavGroup>
+    <MapButton icon="3D" label="3D" active={is3D} onClick={toggle3D} />
+    <MapButton icon="li:layer-double" label="Ebenen" onClick={openLayers} />
+    <MapButton icon="li:perspective" label="Neigen" onClick={tilt} />
+  </MapNavGroup>
+  <MapNavGroup><MapButton icon="li:navigation" label="Standort" onClick={locate} /></MapNavGroup>
   <MapNavGroup>
     <MapButton icon="li:plus"  label="Zoom in"  onClick={() => map.zoomIn()} />
     <MapButton icon="li:minus" label="Zoom out" onClick={() => map.zoomOut()} />
-  </MapNavGroup>
-  <MapNavGroup>
-    <MapButton icon="2D" label="2D" active={!tilt} onClick={() => setTilt(false)} />
-    <MapButton icon="3D" label="3D" active={tilt}  onClick={() => setTilt(true)} />
   </MapNavGroup>
 </MapNav>
 
@@ -147,7 +154,8 @@ export const mapNavEntry: ComponentEntry = {
   ],
   usage: USAGE,
   props: [
-    { name: 'MapNav.heading / onResetHeading / showCompass', type: 'number / () => void / boolean', default: '0 / — / true', required: false, description: 'Compass on top of the groups.' },
+    { name: 'MapNav.heading / onResetHeading / showCompass', type: 'number / () => void / boolean', default: '0 / — / true', required: false, description: 'Compass (55px) below the groups; dial rotates with heading.' },
+    { name: 'MapNav.globeActive / onGlobeToggle / showGlobe', type: 'boolean / () => void / boolean', default: '— / — / true', required: false, description: '36px ring toggle on top (MapNavGlobe).' },
     { name: 'MapNavGroup.children', type: 'MapButton[]', default: '—', required: true, description: '36px pill, 5px padding, 10px gap.' },
     { name: 'MapLayerItem.label / level', type: 'ReactNode / 1 | 2 | 3', default: '— / nesting depth', required: false, description: 'Chevron slot 14 / 34 px, level 3 indent 56 px.' },
     { name: 'MapLayerItem.kind / icon', type: "'group' | 'subgroup' | 'layer' | 'active' / string | ReactNode", default: 'group if children else layer', required: false, description: 'Default 14px icon: folder / layers-three / layer-single / eye.' },

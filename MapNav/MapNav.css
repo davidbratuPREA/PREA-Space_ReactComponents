@@ -10,7 +10,9 @@
   --mapnav\/color\/border:   #E1E1E1;
   --mapnav\/color\/icon:     #949494;
   --mapnav\/color\/icon-hover:#202020;
-  --mapnav\/color\/compass-n: #D92D20;
+  --mapnav\/color\/danger:   #F51D3E;   /* Map Navigation/Danger */
+  --mapnav\/color\/globe-fill: #2C3F5A; --mapnav\/color\/globe-stroke: #1977F9;  /* PREA SKY/L5 */
+  --mapnav\/shadow: 0 1px 3px rgba(0, 0, 0, 0.10);  /* Dropshadow-low */
 
   --layermenu\/color\/bg:        #FFFFFF;
   --layermenu\/color\/head-bg:   #F6F6F6;   /* subBG */
@@ -27,8 +29,8 @@
   --layermenu\/font\/size-head: 18px; --layermenu\/font\/lineheight-head: 22px;
 }
 html[data-theme='dark'] {
-  --mapnav\/color\/bg:       #1E1E1E;
-  --mapnav\/color\/border:   #3D3D3D;
+  --mapnav\/color\/bg:       #191919;
+  --mapnav\/color\/border:   #424242;
   --mapnav\/color\/icon:     #949494;
   --mapnav\/color\/icon-hover:#F5F5F5;
   --layermenu\/color\/bg:        #282828;   /* LayerMenu/BG      */
@@ -40,25 +42,36 @@ html[data-theme='dark'] {
   --layermenu\/color\/border:    #424242;
 }
 
-/* ─── MapNav ─────────────────────────────────────────────────────────────── */
-.prea-mapnav { display: inline-flex; flex-direction: column; align-items: center; gap: var(--mapnav\/sizing\/gap-group, 8px); width: var(--mapnav\/sizing\/width, 63px); box-sizing: border-box; padding: 4px; }
+/* ─── MapNav (Figma mapNav: 63px column, gap 12, globe top · groups · compass bottom) ── */
+.prea-mapnav { display: inline-flex; flex-direction: column; align-items: center; gap: var(--mapnav\/sizing\/gap-group, 12px); width: var(--mapnav\/sizing\/width, 63px); box-sizing: border-box; }
 .prea-mapnav-group {
   display: flex; flex-direction: column; align-items: center; gap: var(--mapnav\/sizing\/gap, 10px); box-sizing: border-box;
   width: 36px; padding: var(--mapnav\/sizing\/padding, 5px); border: 1px solid var(--mapnav\/color\/border, #e1e1e1);
-  border-radius: var(--mapnav\/sizing\/radius, 4px); background: var(--mapnav\/color\/bg, #fff);
+  border-radius: var(--mapnav\/sizing\/radius, 4px); background: var(--mapnav\/color\/bg, #fff); box-shadow: var(--mapnav\/shadow, 0 1px 3px rgba(0,0,0,.1));
 }
 .prea-mapnav-group .prea-mapbtn { --mapbtn-icon: var(--mapnav\/color\/icon, #949494); }
 
-/* ─── Compass ────────────────────────────────────────────────────────────── */
-.prea-compass {
-  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 0; margin: 0;
-  width: var(--mapnav\/sizing\/compass, 55px); height: var(--mapnav\/sizing\/compass, 55px); border-radius: 50%;
-  border: 1px solid var(--mapnav\/color\/border, #e1e1e1); background: var(--mapnav\/color\/bg, #fff); color: var(--mapnav\/color\/icon, #949494); cursor: pointer;
+/* ─── MapNavGlobe ────────────────────────────────────────────────────────── */
+.prea-mapnav-globe {
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; width: 36px; height: 36px; padding: 0; margin: 0;
+  border: 1px solid var(--mapnav\/color\/border, #e1e1e1); border-radius: 50%; background: var(--mapnav\/color\/bg, #fff); box-shadow: var(--mapnav\/shadow, 0 1px 3px rgba(0,0,0,.1)); cursor: pointer;
 }
-.prea-compass:hover { color: var(--mapnav\/color\/icon-hover, #202020); }
-.prea-compass__needle { width: 32px; height: 32px; transition: transform 200ms ease; }
-.prea-compass__n { fill: var(--mapnav\/color\/compass-n, #d92d20); }
-.prea-compass__s { fill: currentColor; }
+.prea-mapnav-globe svg { width: 36px; height: 36px; }
+/* Figma: ring filled #2C3F5A with PREA SKY/L5 stroke */
+.prea-mapnav-globe__ring { fill: var(--mapnav\/color\/globe-fill, #2c3f5a); stroke: var(--mapnav\/color\/globe-stroke, #1977f9); transition: opacity 120ms ease; }
+.prea-mapnav-globe:hover .prea-mapnav-globe__ring { opacity: .85; }
+.prea-mapnav-globe--active { border-color: var(--mapnav\/color\/globe-stroke, #1977f9); }
+
+/* ─── Compass ────────────────────────────────────────────────────────────── */
+.prea-compass { display: inline-flex; box-sizing: border-box; padding: 0; margin: 0; width: var(--mapnav\/sizing\/compass, 55px); height: var(--mapnav\/sizing\/compass, 55px); border: none; border-radius: 50%; background: transparent; cursor: pointer; }
+.prea-compass__svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.prea-compass__face { fill: var(--mapnav\/color\/bg, #fff); }
+.prea-compass__ring { stroke: var(--mapnav\/color\/border, #e1e1e1); stroke-width: 1; }
+.prea-compass__dial { transition: transform 200ms ease; }
+.prea-compass__dashes { stroke: var(--mapnav\/color\/icon, #949494); }
+.prea-compass__ticks, .prea-compass__n { fill: var(--mapnav\/color\/icon-hover, #202020); }
+.prea-compass__north { fill: var(--mapnav\/color\/danger, #f51d3e); }
+.prea-compass:hover .prea-compass__dashes { stroke: var(--mapnav\/color\/icon-hover, #202020); }
 
 /* ─── LayerButton ────────────────────────────────────────────────────────── */
 .prea-layerbtn {

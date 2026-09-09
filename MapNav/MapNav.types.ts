@@ -2,13 +2,24 @@ import React from 'react';
 
 /* ─── MapNav (Figma "mapNav") ────────────────────────────────────────────── */
 export interface MapNavProps {
+  /** MapNavGroup elements (Figma item_mapNav). */
   children: React.ReactNode;
-  /** Compass heading in degrees (Figma compass 55px). */
+  /** Compass heading in degrees — the compass sits at the bottom (Figma). */
   heading?: number;
   onResetHeading?: () => void;
   showCompass?: boolean;
+  /** Globe / 3D-view toggle at the top (Figma 36px ring button). Omit to hide. */
+  globeActive?: boolean;
+  onGlobeToggle?: () => void;
+  showGlobe?: boolean;
   className?: string;
   style?: React.CSSProperties;
+}
+
+/* ─── MapNavGlobe — the 36px ring toggle at the top of mapNav ────────────── */
+export interface MapNavGlobeProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  active?: boolean;
+  label?: string;
 }
 
 /* ─── MapNavGroup (Figma "item_mapNav") — vertical pill of MapButtons ─────── */
