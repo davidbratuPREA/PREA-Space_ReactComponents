@@ -17,6 +17,10 @@
   --createmenu\/color\/primary-tx:#F5F5F5;
   --createmenu\/color\/check-bg:  #202020;
   --createmenu\/color\/check-mark:#F5F5F5;
+  --createmenu\/color\/subtext:   #484848;   /* DataBox/sub-text */
+  --createmenu\/color\/menu-bg:   #FFFFFF;   /* Dropdown/BG-2 */
+  --createmenu\/color\/input-bg:  #FFFFFF;
+  --createmenu\/color\/focus:     #0663E5;
   --createmenu\/sizing\/radius: 6px; --createmenu\/sizing\/item-radius: 4px;
   --createmenu\/sizing\/item: 23px; --createmenu\/sizing\/entry: 26px; --createmenu\/sizing\/head: 20px;
   --createmenu\/sizing\/padding: 8px; --createmenu\/sizing\/gap: 6px;
@@ -36,6 +40,10 @@ html[data-theme='dark'] {
   --createmenu\/color\/primary-tx:#F5F5F5;
   --createmenu\/color\/check-bg:  #F5F5F5;
   --createmenu\/color\/check-mark:#202020;
+  --createmenu\/color\/subtext:   #999999;
+  --createmenu\/color\/menu-bg:   #1B1B1B;   /* Dropdown/BG-2 dark */
+  --createmenu\/color\/input-bg:  #191919;
+  --createmenu\/color\/focus:     #408DFA;
 }
 
 /* ─── Checkbox ───────────────────────────────────────────────────────────── */
@@ -62,32 +70,59 @@ html[data-theme='dark'] {
 .prea-createitem:hover, .prea-createitem:focus-visible { background: var(--createmenu\/color\/hover, #e3e3e3); outline: none; }
 .prea-createitem:disabled { opacity: .5; cursor: not-allowed; }
 
-/* ─── CreateEntryItem / Head ─────────────────────────────────────────────── */
+/* ─── CreateEntryItem (Figma Version=Item: 26px, padding 10, gap 6, 13/17 regular) ── */
 .prea-entryitem {
-  display: flex; align-items: center; gap: 8px; box-sizing: border-box; width: 100%; height: var(--createmenu\/sizing\/entry, 26px);
-  padding: 0 6px; margin: 0; border: none; border-radius: var(--createmenu\/sizing\/item-radius, 4px); background: transparent;
-  color: var(--createmenu\/color\/text, #202020); font: inherit; font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px); text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-sizing: border-box; width: 100%; height: var(--createmenu\/sizing\/entry, 26px);
+  padding: 0 10px; border-radius: 5px; color: var(--createmenu\/color\/text, #202020);
+  font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px); cursor: pointer; user-select: none;
 }
-.prea-entryitem:hover, .prea-entryitem:focus-within { background: var(--createmenu\/color\/hover, #e3e3e3); }
+.prea-entryitem:hover, .prea-entryitem:focus-visible { background: var(--createmenu\/color\/hover, #e3e3e3); outline: none; }
 .prea-entryitem__label { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.prea-entryitem__end { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.prea-entryitem__icon { display: inline-flex; width: 12px; height: 12px; color: var(--createmenu\/color\/icon, #202020); }
-.prea-entryitem__icon svg { width: 100%; height: 100%; }
-.prea-entryhead { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; height: var(--createmenu\/sizing\/head, 20px); padding: 0 6px; color: var(--createmenu\/color\/secondary, #888); font-size: var(--createmenu\/font\/size-s, 10px); line-height: var(--createmenu\/font\/lineheight-s, 14px); font-weight: 500; }
-.prea-entryhead__action { padding: 0; border: none; background: none; color: var(--createmenu\/color\/danger, #d92d20); font: inherit; cursor: pointer; }
+.prea-entryitem__status { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.prea-entryitem__clear { display: inline-flex; width: 12px; height: 12px; padding: 0; margin: 0; border: none; background: none; color: var(--createmenu\/color\/icon, #202020); cursor: pointer; }
+.prea-entryitem__clear svg { width: 12px; height: 12px; }
+/* Version=Head: 20px, padding 5, 10/13 regular, red action */
+.prea-entryhead { display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-sizing: border-box; width: 100%; height: var(--createmenu\/sizing\/head, 20px); padding: 0 5px; border-radius: 5px; color: var(--createmenu\/color\/text, #202020); font-size: var(--createmenu\/font\/size-s, 10px); line-height: var(--createmenu\/font\/lineheight-s, 13px); }
+.prea-entryhead__label { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+.prea-entryhead__action { padding: 0; border: none; background: none; color: var(--createmenu\/color\/danger, #d92d20); font: inherit; white-space: nowrap; cursor: pointer; }
 .prea-entryhead__action:hover { text-decoration: underline; }
+.prea-checkbox--mixed .prea-checkbox__box { background: var(--createmenu\/color\/check-bg, #202020); }
+.prea-checkbox--mixed .prea-checkbox__box svg { opacity: 1; }
 
-/* ─── StatusMenu ─────────────────────────────────────────────────────────── */
-.prea-statusmenu {
-  display: flex; flex-direction: column; gap: 2px; box-sizing: border-box; width: 150px; padding: 4px;
-  border: 1px solid var(--createmenu\/color\/border, #e1e1e1); border-radius: var(--createmenu\/sizing\/radius, 6px); background: var(--createmenu\/color\/bg, #fff);
-  color: var(--createmenu\/color\/text, #202020); font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px);
+/* ─── CreateEntryList (Figma 350 × 470: head · search group · items on BG-2 · footer) ── */
+.prea-createlist {
+  display: flex; flex-direction: column; flex-shrink: 0; box-sizing: border-box; width: 350px; height: 470px; overflow: hidden;
+  border: 1px solid var(--createmenu\/color\/border, #e1e1e1); border-radius: var(--createmenu\/sizing\/radius, 6px); background: var(--createmenu\/color\/head-bg, #f6f6f6);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.3); color: var(--createmenu\/color\/text, #202020); font-size: var(--createmenu\/font\/size, 13px); line-height: var(--createmenu\/font\/lineheight, 17px);
 }
-.prea-statusmenu__divider { height: 1px; margin: 2px 0; background: var(--createmenu\/color\/border, #e1e1e1); }
-.prea-statusmenu__option { justify-content: flex-start; gap: 6px; }
-.prea-statusmenu__option--active { background: var(--createmenu\/color\/hover, #e3e3e3); }
-.prea-statusmenu__edit { display: flex; align-items: center; gap: 4px; padding: 0 2px; }
-.prea-statusmenu__edit .prea-input-box, .prea-statusmenu__edit input { min-width: 0; flex: 1 1 0; }
+.prea-createlist__search { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; padding: 8px; background: var(--createmenu\/color\/bg, #fff); border-bottom: 1px solid var(--createmenu\/color\/border, #e1e1e1); }
+.prea-createlist__subhead { padding: 0 6px; color: var(--createmenu\/color\/subtext, #484848); font-size: var(--createmenu\/font\/size-s, 10px); line-height: var(--createmenu\/font\/lineheight-s, 13px); }
+.prea-createlist__items { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; padding: 4px; overflow-y: auto; }
+.prea-createlist__footer { display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding: 8px; background: var(--createmenu\/color\/bg, #fff); border-top: 1px solid var(--createmenu\/color\/border, #e1e1e1); }
+.prea-createlist__back { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; padding: 0; margin: 0; border: none; border-radius: 4px; background: transparent; color: var(--createmenu\/color\/icon, #202020); cursor: pointer; }
+.prea-createlist__back:hover { background: var(--createmenu\/color\/hover, #e3e3e3); }
+.prea-createlist__btn { flex: 1 1 0; min-width: 0; }
+
+/* ─── StatusMenu (Figma statusMenu: 150px, Dropdown/BG-2, badges group p6 gap6, divider, "Neuer Status" 23px) ── */
+.prea-statusmenu {
+  display: flex; flex-direction: column; box-sizing: border-box; width: 150px; min-width: 100px;
+  border: 1px solid var(--createmenu\/color\/border, #e1e1e1); border-radius: var(--createmenu\/sizing\/radius, 6px); background: var(--createmenu\/color\/menu-bg, #fff);
+  color: var(--createmenu\/color\/text, #202020); font-size: 12px; line-height: 16px;
+}
+.prea-statusmenu__badges { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 6px; }
+.prea-statusmenu__option { display: inline-flex; padding: 0; margin: 0; border: none; border-radius: 4px; background: none; cursor: pointer; }
+.prea-statusmenu__option:hover, .prea-statusmenu__option:focus-visible { filter: brightness(.96); outline: none; }
+.prea-statusmenu__option--active { outline: 2px solid var(--createmenu\/color\/hover, #e3e3e3); outline-offset: 1px; }
+.prea-statusmenu__divider { height: 1px; background: var(--createmenu\/color\/border, #e1e1e1); }
+.prea-statusmenu__new { padding: 4px 6px; }
+.prea-statusmenu__newbtn { display: flex; align-items: center; gap: 6px; width: 100%; height: 23px; box-sizing: border-box; padding: 0 4px; margin: 0; border: none; border-radius: 4px; background: none; color: inherit; font: inherit; font-size: 12px; line-height: 16px; text-align: left; cursor: pointer; }
+.prea-statusmenu__newbtn:hover, .prea-statusmenu__newbtn:focus-visible { background: var(--createmenu\/color\/hover, #e7e7e7); outline: none; }
+.prea-statusmenu__newbtn svg { color: var(--createmenu\/color\/icon, #202020); }
+.prea-statusmenu__edit { display: flex; align-items: center; gap: 6px; padding: 4px 6px; }
+.prea-statusmenu__input {
+  flex: 1 1 0; min-width: 0; box-sizing: border-box; height: 24px; padding: 0 6px; border: 1px solid var(--createmenu\/color\/focus, #0663e5); border-radius: 4px;
+  background: var(--createmenu\/color\/input-bg, #fff); color: var(--createmenu\/color\/text, #202020); font: inherit; font-size: 12px; line-height: 16px; outline: none;
+}
 
 /* ─── CreateEntryMenu (Figma createEntryMenu: 250×161, fixed height across steps) ── */
 .prea-createmenu {

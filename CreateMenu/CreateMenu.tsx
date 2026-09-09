@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Icon } from '../Icon';
-import { StatusBadge } from '../Filters';
+import { KanbanStatusBadge } from '../Kanban';
+import { SearchInput } from '../Inputs';
 import { LayerButton } from '../MapNav';
 import { CreateInput } from '../Inputs';
 import type {
-  CheckboxProps, CreateDropdownItemProps, CreateEntryItemProps, CreateEntryHeadProps, StatusMenuProps, CreateEntryMenuProps, CreateEntryStepProps,
+  CheckboxProps, CreateDropdownItemProps, CreateEntryItemProps, CreateEntryHeadProps, StatusMenuProps, CreateEntryMenuProps, CreateEntryStepProps, CreateEntryListProps,
 } from './CreateMenu.types';
 import './CreateMenu.css';
 
@@ -42,58 +43,99 @@ export function CreateDropdownItem({ icon, label, onClick, disabled, className }
   );
 }
 
-/* ─── CreateEntryItem ────────────────────────────────────────────────────── */
-export function CreateEntryItem({ label, status, icon = 'chevron-right', checkable, checked, onCheckedChange, onClick, className }: CreateEntryItemProps) {
-  const Tag = checkable ? 'div' : 'button';
+/* ─── CreateEntryItem (26px, padding 10, checkbox + 13px label + status badge) ── */
+export function CreateEntryItem({ label, checked = false, onCheckedChange, status, statusLabel, onClearStatus, onClick, className }: CreateEntryItemProps) {
+  const toggle = () => { onCheckedChange?.(!checked); onClick?.(); };
   return (
-    <Tag className={cx('prea-entryitem', className)} onClick={checkable ? undefined : onClick} {...(!checkable ? { type: 'button' as const } : {})}>
-      {checkable && <Checkbox checked={checked} onChange={onCheckedChange} aria-label={typeof label === 'string' ? label : undefined} />}
+    <div className={cx('prea-entryitem', checked && 'prea-entryitem--checked', className)} onClick={toggle} role="menuitemcheckbox" aria-checked={checked} tabIndex={0}
+      onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); } }}>
+      <Checkbox checked={checked} onChange={(v) => onCheckedChange?.(v)} tabIndex={-1} aria-label={typeof label === 'string' ? label : undefined} onClick={(e) => e.stopPropagation()} />
       <span className="prea-entryitem__label">{label}</span>
-      <span className="prea-entryitem__end">
-        {status && <StatusBadge status={status} />}
-        {icon && !checkable && <span className="prea-entryitem__icon">{renderIcon(icon, 12)}</span>}
-      </span>
-    </Tag>
+      {status && (
+        <span className="prea-entryitem__status" onClick={(e) => e.stopPropagation()}>
+          <KanbanStatusBadge status={status}>{statusLabel}</KanbanStatusBadge>
+          {onClearStatus && (
+            <button type="button" className="prea-entryitem__clear" aria-label="Status entfernen" onClick={onClearStatus}><Icon name="li:X-close" size={12} /></button>
+          )}
+        </span>
+      )}
+    </div>
   );
 }
 
-export function CreateEntryHead({ title, actionLabel, onAction, className }: CreateEntryHeadProps) {
+/* ─── CreateEntryHead (20px, padding 5, checkbox + 10px label + red action) ── */
+export function CreateEntryHead({ title, checked = false, indeterminate, onCheckedChange, actionLabel, onAction, className }: CreateEntryHeadProps) {
   return (
     <div className={cx('prea-entryhead', className)}>
-      <span>{title}</span>
+      <Checkbox checked={checked} onChange={(v) => onCheckedChange?.(v)} aria-label={typeof title === 'string' ? title : undefined} className={cx(indeterminate && 'prea-checkbox--mixed')} />
+      <span className="prea-entryhead__label" onClick={() => onCheckedChange?.(!checked)}>{title}</span>
       {actionLabel && <button type="button" className="prea-entryhead__action" onClick={onAction}>{actionLabel}</button>}
     </div>
   );
 }
 
-/* ─── StatusMenu ─────────────────────────────────────────────────────────── */
-export function StatusMenu({ options, value, onChange, onCreate, createLabel = 'Neuer Status', width = 150, className }: StatusMenuProps) {
-  const [editing, setEditing] = useState(false);
+/* ─── CreateEntryList (Figma 350 × 470 createEntryMenu) ──────────────────── */
+export function CreateEntryList({
+  title = 'Erstellen', onClose, search, onSearchChange, searchPlaceholder = 'Suche...', subHead, children, onBack,
+  secondaryLabel, onSecondary, primaryLabel = 'Hinzufügen', onPrimary, primaryDisabled, width = 350, height = 470, className, style,
+}: CreateEntryListProps) {
+  return (
+    <div className={cx('prea-createlist', className)} style={{ width, height, ...style }} role="dialog" aria-label={typeof title === 'string' ? title : undefined}>
+      <div className="prea-createmenu__head">
+        <span className="prea-createmenu__title">{title}</span>
+        {onClose && <LayerButton icon="li:X-close" label="Schließen" onClick={onClose} />}
+      </div>
+      <div className="prea-createlist__search">
+        <SearchInput width="100%" value={search} onChange={onSearchChange} placeholder={searchPlaceholder} />
+        {subHead && <div className="prea-createlist__subhead">{subHead}</div>}
+      </div>
+      <div className="prea-createlist__items">{children}</div>
+      <div className="prea-createlist__footer">
+        {onBack && (
+          <button type="button" className="prea-createlist__back" aria-label="Zurück" onClick={onBack}><Icon name="li:arrow-left" size={18} /></button>
+        )}
+        {secondaryLabel && <CreateMenuPrimaryButton className="prea-createlist__btn" onClick={onSecondary}>{secondaryLabel}</CreateMenuPrimaryButton>}
+        <CreateMenuPrimaryButton className="prea-createlist__btn" onClick={onPrimary} disabled={primaryDisabled}>{primaryLabel}</CreateMenuPrimaryButton>
+      </div>
+    </div>
+  );
+}
+
+/* ─── StatusMenu (Figma statusMenu: 150px, Kanban badges, "Neuer Status" / Edit) ── */
+export function StatusMenu({
+  options, value, onChange, onCreate, onPickColor, createLabel = 'Neuer Status', editing, onEditingChange, width = 150, className,
+}: StatusMenuProps) {
+  const [innerEditing, setInnerEditing] = useState(false);
+  const isEditing = editing ?? innerEditing;
+  const setEditing = (v: boolean) => { setInnerEditing(v); onEditingChange?.(v); };
   const [name, setName] = useState('');
   const commit = () => { if (name.trim()) onCreate?.(name.trim()); setName(''); setEditing(false); };
   return (
     <div className={cx('prea-statusmenu', className)} style={{ width }} role="menu">
-      {options.map((o) => (
-        <button
-          key={o.key}
-          type="button"
-          role="menuitemradio"
-          aria-checked={o.key === value}
-          className={cx('prea-createitem', 'prea-statusmenu__option', o.key === value && 'prea-statusmenu__option--active')}
-          onClick={() => onChange?.(o.key)}
-        >
-          <StatusBadge status={o.status} />
-          <span>{o.label}</span>
-        </button>
-      ))}
+      <div className="prea-statusmenu__badges">
+        {options.map((o) => (
+          <button key={o.key} type="button" role="menuitemradio" aria-checked={o.key === value}
+            className={cx('prea-statusmenu__option', o.key === value && 'prea-statusmenu__option--active')} onClick={() => onChange?.(o.key)}>
+            <KanbanStatusBadge status={o.status}>{o.label}</KanbanStatusBadge>
+          </button>
+        ))}
+      </div>
       <div className="prea-statusmenu__divider" role="separator" />
-      {editing ? (
+      {isEditing ? (
         <div className="prea-statusmenu__edit">
-          <CreateInput width="100%" autoFocus value={name} placeholder="Status" onChange={(v) => setName(v)} onKeyDown={(e) => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') setEditing(false); }} />
-          <LayerButton icon="li:check-done" label="Speichern" onClick={commit} />
+          <input
+            className="prea-statusmenu__input" autoFocus value={name} placeholder="Status" aria-label="Neuer Status"
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') { setName(''); setEditing(false); } }}
+          />
+          <LayerButton icon="palette" label="Farbe wählen" onClick={onPickColor} />
         </div>
       ) : (
-        <CreateDropdownItem icon="plus" label={createLabel} onClick={() => setEditing(true)} />
+        <div className="prea-statusmenu__new">
+          <button type="button" className="prea-statusmenu__newbtn" role="menuitem" onClick={() => setEditing(true)}>
+            <Icon name="li:plus" size={14} /><span>{createLabel}</span>
+          </button>
+        </div>
       )}
     </div>
   );

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Checkbox, CreateDropdownItem, CreateEntryItem, CreateEntryHead, StatusMenu, CreateEntryMenu, CreateEntryStep, CreateMenuPrimaryButton } from '../../../CreateMenu';
-import { SearchInput } from '../../../Inputs';
-import { Button } from '../../../Button';
+import { Checkbox, CreateDropdownItem, CreateEntryItem, CreateEntryHead, CreateEntryList, StatusMenu, CreateEntryMenu, CreateEntryStep } from '../../../CreateMenu';
 import type { StatusOption } from '../../../CreateMenu';
 import type { ComponentEntry } from './types';
 
@@ -12,19 +10,23 @@ import index from '../../../CreateMenu/index.ts?raw';
 
 const headingStyle: React.CSSProperties = { fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' };
 const STATUSES: StatusOption[] = [
-  { key: 'plan', status: 'in_planung', label: 'In Planung' },
-  { key: 'bau',  status: 'im_baut', label: 'Im Bau' },
-  { key: 'done', status: 'fertiggestellt', label: 'Fertiggestellt' },
+  { key: 'progress', status: 'inProgress' },
+  { key: 'hold',     status: 'onHold' },
+  { key: 'pending',  status: 'pending' },
 ];
-const ENTRIES = ['Berlin Mitte', 'Potsdamer Platz', 'Hafencity', 'Frankfurt Westend', 'München Schwabing'];
+const ENTRIES = ['Berlin Mitte', 'Potsdamer Platz', 'Hafencity', 'Frankfurt Westend', 'München Schwabing', 'Köln Deutz', 'Stuttgart Mitte', 'Düsseldorf Hafen', 'Leipzig Zentrum', 'Dresden Neustadt', 'Hannover List', 'Bremen Viertel'];
 
 function CreateMenuDemo() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
-  const [status, setStatus] = useState('plan');
+  const [status, setStatus] = useState('progress');
+  const [itemStatus, setItemStatus] = useState<Record<string, 'inProgress' | 'onHold' | 'pending' | undefined>>({ 'Berlin Mitte': 'inProgress', 'Hafencity': 'pending' });
+  const [search, setSearch] = useState('');
   const [checked, setChecked] = useState<Record<string, boolean>>({ 'Berlin Mitte': true, 'Hafencity': true, 'Potsdamer Platz': true, 'Frankfurt Westend': true });
   const [log, setLog] = useState('');
   const count = Object.values(checked).filter(Boolean).length;
+  const visible = ENTRIES.filter((e) => e.toLowerCase().includes(search.toLowerCase()));
+  const allChecked = visible.length > 0 && visible.every((e) => checked[e]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
@@ -52,41 +54,45 @@ function CreateMenuDemo() {
             <CreateEntryStep defaultValue="" addLabel="Projekt hinzufügen" submitDisabled={false} />
           </CreateEntryMenu>
           <div>
-            <p style={{ ...headingStyle, marginBottom: 8 }}>StatusMenu — 150px · „Neuer Status“ opens an inline input</p>
-            <StatusMenu options={STATUSES} value={status} onChange={setStatus} onCreate={(n) => setLog(`neuer Status: ${n}`)} />
+            <p style={{ ...headingStyle, marginBottom: 8 }}>StatusMenu — Default · Edit (150px, Kanban status badges)</p>
+            <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <StatusMenu options={STATUSES} value={status} onChange={setStatus} onCreate={(n) => setLog(`neuer Status: ${n}`)} onPickColor={() => setLog('Farbe')} />
+              <StatusMenu options={STATUSES} editing onEditingChange={() => undefined} onPickColor={() => setLog('Farbe')} />
+            </div>
           </div>
         </div>
         {log && <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: '8px 0 0' }}>{log}</p>}
       </div>
 
       <div>
-        <p style={headingStyle}>CreateEntryMenu list (350px) — search · CreateEntryHead · checkable CreateEntryItems · footer</p>
-        <CreateEntryMenu title="Einträge hinzufügen" width={350} height={470} onClose={() => setLog('close')}
-          footer={
-            <>
-              <Button variant="text" size="sm" onClick={() => setLog('zurück')}>Zurück</Button>
-              <div className="prea-createmenu__footer-end">
-                <Button variant="outlined" size="sm" onClick={() => setLog('Status wählen')}>Status wählen</Button>
-                <CreateMenuPrimaryButton disabled={count === 0} onClick={() => setLog(`${count} hinzugefügt`)}>Hinzufügen ({count})</CreateMenuPrimaryButton>
-              </div>
-            </>
-          }>
-          <div style={{ padding: '0 2px 6px' }}><SearchInput width="100%" placeholder="Suche" onChange={() => undefined} /></div>
-          <CreateEntryHead title="Projekte" actionLabel="Alle Status löschen" onAction={() => setLog('Status gelöscht')} />
-          {ENTRIES.map((e, i) => (
-            <CreateEntryItem key={e} label={e} checkable checked={!!checked[e]} onCheckedChange={(v) => setChecked((s) => ({ ...s, [e]: v }))} status={STATUSES[i % 3].status} />
+        <p style={headingStyle}>CreateEntryList (350 × 470) — search + sub-head · „Alle auswählen“ head · checkable items with status badge · footer</p>
+        <CreateEntryList
+          onClose={() => setLog('close')} onBack={() => setLog('zurück')}
+          search={search} onSearchChange={setSearch}
+          subHead={<>Zur Portfolio „Gabis Portfolio“ hinzufügen</>}
+          secondaryLabel="Status wählen" onSecondary={() => setLog('Status wählen')}
+          primaryLabel={`Hinzufügen (${count})`} primaryDisabled={count === 0} onPrimary={() => setLog(`${count} hinzugefügt`)}
+        >
+          <CreateEntryHead
+            title="Alle auswählen" checked={allChecked} indeterminate={!allChecked && visible.some((e) => checked[e])}
+            onCheckedChange={(v) => setChecked((s) => ({ ...s, ...Object.fromEntries(visible.map((e) => [e, v])) }))}
+            actionLabel="Alle Status löschen" onAction={() => setItemStatus({})}
+          />
+          {visible.map((e) => (
+            <CreateEntryItem key={e} label={e} checked={!!checked[e]} onCheckedChange={(v) => setChecked((s) => ({ ...s, [e]: v }))}
+              status={itemStatus[e]} onClearStatus={() => setItemStatus((s) => ({ ...s, [e]: undefined }))} />
           ))}
-        </CreateEntryMenu>
+        </CreateEntryList>
       </div>
 
       <div>
-        <p style={headingStyle}>Pieces — CreateEntryItem (26px) · CreateDropdownItem (23px) · Checkbox (14px)</p>
+        <p style={headingStyle}>Pieces — CreateEntryHead (20px) · CreateEntryItem (26px) · CreateDropdownItem (23px) · Checkbox (14px)</p>
         <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
-          <div style={{ width: 230, display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <CreateEntryHead title="Head" />
-            <CreateEntryItem label="Berlin Mitte" status="in_planung" onClick={() => setLog('Berlin Mitte')} />
-            <CreateEntryItem label="Hafencity" status="fertiggestellt" onClick={() => setLog('Hafencity')} />
-            <CreateEntryItem label="Ohne Status" onClick={() => setLog('ohne')} />
+          <div style={{ width: 260, display: 'flex', flexDirection: 'column' }}>
+            <CreateEntryHead title="Alle auswählen" actionLabel="Alle Status löschen" onAction={() => setLog('Status gelöscht')} />
+            <CreateEntryItem label="Item name" status="inProgress" onClearStatus={() => setLog('clear')} />
+            <CreateEntryItem label="Item name" checked status="onHold" />
+            <CreateEntryItem label="Item name" />
           </div>
           <div style={{ width: 180, display: 'flex', flexDirection: 'column', gap: 2 }}>
             <CreateDropdownItem icon="li:folder" label="Projekt" />
@@ -104,9 +110,9 @@ function CreateMenuDemo() {
   );
 }
 
-const USAGE = `import { CreateEntryMenu, CreateDropdownItem, CreateEntryHead, CreateEntryItem,
-         StatusMenu, Checkbox, CreateMenuPrimaryButton } from './CreateMenu';
-// Requires ./Filters (StatusBadge), ./Inputs, ./Navigation (IconButton) and ./Icon.
+const USAGE = `import { CreateEntryMenu, CreateEntryStep, CreateEntryList, CreateDropdownItem,
+         CreateEntryHead, CreateEntryItem, StatusMenu, Checkbox } from './CreateMenu';
+// Requires ./Kanban (KanbanStatusBadge), ./Inputs, ./MapNav (LayerButton) and ./Icon.
 
 // Step 1 — what to create (250 × 161; the height stays the same on every step)
 <CreateEntryMenu onClose={close}>
@@ -122,31 +128,29 @@ const USAGE = `import { CreateEntryMenu, CreateDropdownItem, CreateEntryHead, Cr
     submitLabel="Erstellen" onSubmit={(v) => create(kind, v)} />
 </CreateEntryMenu>
 
-// List — pick entries
-<CreateEntryMenu title="Einträge hinzufügen" width={350} height={470} onClose={close}
-  footer={<>
-    <Button variant="text" size="sm" onClick={back}>Zurück</Button>
-    <div className="prea-createmenu__footer-end">
-      <Button variant="outlined" size="sm" onClick={pickStatus}>Status wählen</Button>
-      <CreateMenuPrimaryButton onClick={add}>Hinzufügen ({selected.length})</CreateMenuPrimaryButton>
-    </div>
-  </>}>
-  <SearchInput width="100%" onChange={setQuery} />
-  <CreateEntryHead title="Projekte" actionLabel="Alle Status löschen" onAction={clearStatus} />
+// List — pick entries (350 × 470)
+<CreateEntryList onClose={close} onBack={back} search={q} onSearchChange={setQ}
+  subHead="Zur Portfolio „Gabis Portfolio“ hinzufügen"
+  secondaryLabel="Status wählen" onSecondary={pickStatus}
+  primaryLabel={'Hinzufügen (' + selected.length + ')'} onPrimary={add}>
+  <CreateEntryHead title="Alle auswählen" checked={allSelected} onCheckedChange={selectAll}
+    actionLabel="Alle Status löschen" onAction={clearStatus} />
   {items.map((it) => (
-    <CreateEntryItem key={it.id} label={it.name} status={it.status} checkable
-      checked={selected.includes(it.id)} onCheckedChange={(v) => toggle(it.id, v)} />
+    <CreateEntryItem key={it.id} label={it.name} checked={selected.includes(it.id)} onCheckedChange={(v) => toggle(it.id, v)}
+      status={it.status} onClearStatus={() => setStatus(it.id, undefined)} />
   ))}
-</CreateEntryMenu>
+</CreateEntryList>
 
-<StatusMenu options={[{ key: 'plan', status: 'in_planung', label: 'In Planung' }]} value={status} onChange={setStatus} onCreate={addStatus} />
+// Status picker — Kanban status badges + "Neuer Status" (Enter to create, palette to pick a colour)
+<StatusMenu options={[{ key: 'progress', status: 'inProgress' }, { key: 'hold', status: 'onHold' }, { key: 'pending', status: 'pending' }]}
+  value={status} onChange={setStatus} onCreate={addStatus} onPickColor={openPalette} />
 `;
 
 export const createMenuEntry: ComponentEntry = {
   id: 'createmenu',
   name: 'Create & Status Menus',
   category: 'Navigation',
-  description: 'Creation flow from the Figma Menus page: CreateEntryMenu (250×161 steps / 350×470 list, fixed height across steps) with CreateEntryStep (name input + „Projekt hinzufügen“ + black button), CreateDropdownItem (23px icon rows), CreateEntryHead + CreateEntryItem (26px rows with StatusBadge, optional checkbox), StatusMenu (150px with inline „Neuer Status“) and the 14px Checkbox.',
+  description: 'Creation flow from the Figma Menus page: CreateEntryMenu (250×161 steps / 350×470 list, fixed height across steps) with CreateEntryStep (name input + „Projekt hinzufügen“ + black button), CreateDropdownItem (23px icon rows), CreateEntryList (350×470 search + checkable items + footer), CreateEntryHead + CreateEntryItem (20/26px rows with checkbox and Kanban status badge), StatusMenu (150px Kanban badges with „Neuer Status“ edit) and the 14px Checkbox.',
   status: 'pending',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=69-1177',
   files: [
@@ -164,10 +168,15 @@ export const createMenuEntry: ComponentEntry = {
     { name: 'CreateEntryStep.addLabel / onAdd', type: 'ReactNode / () => void', default: '—', required: false, description: 'Secondary „+ Projekt hinzufügen“ row.' },
     { name: 'CreateEntryStep.submitLabel / onSubmit / submitDisabled', type: "ReactNode / (v) => void / boolean", default: "'Erstellen' / — / value empty", required: false, description: 'Full-width black button at the bottom.' },
     { name: 'CreateDropdownItem.icon / label / onClick', type: 'string | ReactNode / ReactNode / () => void', default: '—', required: false, description: '23px row, 16px icon, 13px medium text.' },
-    { name: 'CreateEntryItem.label / status / icon', type: "ReactNode / StatusKind / string", default: "— / — / 'chevron-right'", required: false, description: '26px row with StatusBadge and trailing 12px icon.' },
-    { name: 'CreateEntryItem.checkable / checked / onCheckedChange', type: 'boolean / boolean / (v) => void', default: 'false', required: false, description: 'Leading Checkbox (list version).' },
-    { name: 'CreateEntryHead.title / actionLabel / onAction', type: 'ReactNode / ReactNode / () => void', default: '—', required: false, description: '20px head, 10px text, red action.' },
-    { name: 'StatusMenu.options / value / onChange / onCreate', type: 'StatusOption[] / string / (key) => void / (name) => void', default: '—', required: false, description: 'Badge list + divider + „Neuer Status“.' },
+    { name: 'CreateEntryItem.label / checked / onCheckedChange', type: 'ReactNode / boolean / (v) => void', default: '—', required: false, description: '26px row, padding 10, 14px checkbox + 13px label.' },
+    { name: 'CreateEntryItem.status / statusLabel / onClearStatus', type: 'KanbanStatus / ReactNode / () => void', default: '—', required: false, description: 'Kanban status badge at the right with a 12px ✕.' },
+    { name: 'CreateEntryHead.title / checked / onCheckedChange', type: 'ReactNode / boolean / (v) => void', default: '—', required: false, description: '20px „Alle auswählen“ head, 10px text.' },
+    { name: 'CreateEntryHead.actionLabel / onAction', type: 'ReactNode / () => void', default: '—', required: false, description: 'Red 10px action („Alle Status löschen“).' },
+    { name: 'CreateEntryList.search / onSearchChange / subHead', type: 'string / (v) => void / ReactNode', default: '—', required: false, description: 'Search group under the head (SearchInput 24px + 10px grey line).' },
+    { name: 'CreateEntryList.onBack / secondaryLabel / primaryLabel / onPrimary', type: '() => void / ReactNode / ReactNode / () => void', default: "— / — / 'Hinzufügen' / —", required: false, description: 'Footer: 24px back button + two black buttons.' },
+    { name: 'CreateEntryList.width / height', type: 'number | string', default: '350 / 470', required: false, description: 'Fixed size; items scroll.' },
+    { name: 'StatusMenu.options / value / onChange', type: '{ key, status: KanbanStatus, label? }[] / string / (key) => void', default: '—', required: false, description: 'Kanban status badges (IN PROGRESS / ON HOLD / PENDING…).' },
+    { name: 'StatusMenu.onCreate / onPickColor / editing', type: '(name) => void / () => void / boolean', default: '—', required: false, description: '„Neuer Status“ → Edit style: 24px input + palette button.' },
     { name: 'Checkbox.checked / onChange / label', type: 'boolean / (v) => void / ReactNode', default: '—', required: false, description: '14px box, radius 4, #202020 fill.' },
   ],
   demo: <CreateMenuDemo />,

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StatusKind } from '../Filters';
+import type { KanbanStatus } from '../Kanban';
 
 /* ─── Checkbox (Figma "Checkbox") ────────────────────────────────────────── */
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type'> {
@@ -18,38 +18,75 @@ export interface CreateDropdownItemProps {
   className?: string;
 }
 
-/* ─── CreateEntryItem (Figma "createEntryItem" Type=Item) ────────────────── */
+/* ─── CreateEntryItem (Figma "createEntryItem" Version=Item) ─────────────── */
 export interface CreateEntryItemProps {
   label: React.ReactNode;
-  status?: StatusKind;
-  /** Trailing 12px icon name (Figma default: chevron-right). */
-  icon?: string | React.ReactNode;
-  /** Adds a leading checkbox (Figma list version). */
-  checkable?: boolean;
+  /** Leading 14px checkbox (Figma). */
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
+  /** Kanban status shown as a badge at the right (Figma status=true), with an ✕ to clear it. */
+  status?: KanbanStatus;
+  statusLabel?: React.ReactNode;
+  onClearStatus?: () => void;
   onClick?: () => void;
   className?: string;
 }
 
-/* ─── CreateEntryHead (Figma "createEntryItem" Type=Head) ────────────────── */
+/* ─── CreateEntryHead (Figma "createEntryItem" Version=Head) ─────────────── */
 export interface CreateEntryHeadProps {
+  /** Head label (Figma "Alle auswählen"). */
   title: React.ReactNode;
+  /** Head checkbox — select all. */
+  checked?: boolean;
+  indeterminate?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  /** Red action at the right (Figma disableAll: "Alle Status löschen"). */
   actionLabel?: React.ReactNode;
   onAction?: () => void;
   className?: string;
 }
 
+/* ─── CreateEntryList (Figma 350px "createEntryMenu": search + sub-head, scrolling items, footer) */
+export interface CreateEntryListProps {
+  title?: React.ReactNode;
+  onClose?: () => void;
+  /** Search value (SearchInput, 24px). */
+  search?: string;
+  onSearchChange?: (value: string) => void;
+  searchPlaceholder?: string;
+  /** Small grey line under the search (Figma "Zur Porfolio “…” hinzufügen"). */
+  subHead?: React.ReactNode;
+  /** CreateEntryHead + CreateEntryItems. */
+  children?: React.ReactNode;
+  onBack?: () => void;
+  /** Footer buttons (Figma: "Status wählen", "Hinzufügen (4)"). */
+  secondaryLabel?: React.ReactNode;
+  onSecondary?: () => void;
+  primaryLabel?: React.ReactNode;
+  onPrimary?: () => void;
+  primaryDisabled?: boolean;
+  /** Size. Figma 350 × 470. */
+  width?: number | string;
+  height?: number | string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
 /* ─── StatusMenu (Figma "statusMenu") ────────────────────────────────────── */
-export interface StatusOption { key: string; status: StatusKind; label: string; }
+export interface StatusOption { key: string; status: KanbanStatus; label?: React.ReactNode; }
 
 export interface StatusMenuProps {
   options: StatusOption[];
   value?: string;
   onChange?: (key: string) => void;
-  /** Called with the new status name when the user confirms "Neuer Status". */
+  /** Called with the new status name when the user confirms "Neuer Status" (Enter). */
   onCreate?: (name: string) => void;
+  /** Palette button next to the new-status input (Figma Style=Edit). */
+  onPickColor?: () => void;
   createLabel?: React.ReactNode;
+  /** Controlled edit mode (Figma Style=Edit). */
+  editing?: boolean;
+  onEditingChange?: (editing: boolean) => void;
   /** Width. Figma 150. */
   width?: number | string;
   className?: string;
