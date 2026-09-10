@@ -28,7 +28,7 @@ Deployed automatically to GitHub Pages on every push to `main`.
 | `Inputs` | Data Entry | `TextInput`, `SmallInput`, `ColorInput`, `CreateInput`, `SearchInput`, `SearchListItem` | ✅ Stable |
 | `ColorPicker` | Data Entry | `ColorPicker`, `ColorSwitchItem`, `ColorSwatch` | ✅ Stable |
 | `Filters` | Data Entry | `FilterPanel`, `FilterItem`, `ToggleSwitch`, `StatusBadge`, `FilterRange`, `FilterTabs` | ✅ Stable |
-| `Notes` | Chat | `NotesPanel`, `NoteCard`, `NoteThread`, `NoteDivider` | 🟠 Pending |
+| `Notes` | Chat | `NotesPanel`, `NoteCard`, `NoteThread`, `NoteDivider` | ✅ Stable |
 | `Avatar` | General | `Avatar`, `AvatarGroup` | ✅ Stable |
 | `Chat` | Chat | `ChatInput`, `ChatDropdown`, `ChatNotes`, `ChatButton` | ✅ Stable |
 
