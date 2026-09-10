@@ -27,7 +27,7 @@ function ActionButton({ a }: { a: NoteAction }) {
  *   ───────────────────────────────────────────────────────────
  *   [👍] [☺]                              2 Antwort [◉][◉]
  */
-export function NoteCard({ author, date, children, actions = [], actionsVisible = false, onLike, onReact, replies, variant = 'note', className, style }: NoteCardProps) {
+export function NoteCard({ author, date, children, actions = [], actionsVisible = false, onLike, onReact, replies, comments = [], variant = 'note', className, style }: NoteCardProps) {
   const cls = ['prea-note', variant === 'comment' && 'prea-note--comment', className].filter(Boolean).join(' ');
   const showFooter = onLike || onReact || replies;
   return (
@@ -45,7 +45,13 @@ export function NoteCard({ author, date, children, actions = [], actionsVisible 
         )}
       </header>
 
-      <p className="prea-note__body">{children}</p>
+      <div className="prea-note__body">{children}</div>
+
+      {comments.length > 0 && (
+        <div className="prea-note__comments">
+          {comments.map((c, i) => <NoteCard key={i} {...c} variant="comment" />)}
+        </div>
+      )}
 
       {showFooter && (
         <footer className="prea-note__footer">
@@ -72,10 +78,15 @@ export function NoteCard({ author, date, children, actions = [], actionsVisible 
 /**
  * NoteThread
  *
- * Matches Figma Style=backNote (back arrow + the note) followed by Style=Answear
- * (grey container with the answered note's text and white comment cards).
+ * Thread view (Figma Style=backNote + Style=Answear):
+ *   [←] post (with its actions and like / react footer)
+ *   ── "2 Antworten" divider
+ *   answer #1 (NoteCard) with its nested comment cards, then its footer
+ *   answer #2 …
  */
-export function NoteThread({ note, onBack, comments = [], children, className, style }: NoteThreadProps) {
+export function NoteThread({ note, onBack, answers, comments, answersLabel, children, className, style }: NoteThreadProps) {
+  const list = answers ?? comments ?? [];
+  const label = answersLabel === undefined ? `${list.length} ${list.length === 1 ? 'Antwort' : 'Antworten'}` : answersLabel;
   return (
     <div className={['prea-note-thread', className].filter(Boolean).join(' ')} style={style}>
       <div className="prea-note-thread__back-row">
@@ -86,12 +97,13 @@ export function NoteThread({ note, onBack, comments = [], children, className, s
         )}
         <NoteCard {...note} replies={undefined} />
       </div>
-      {(comments.length > 0 || children) && (
+      {list.length > 0 && label !== null && <NoteDivider label={label} />}
+      {list.length > 0 && (
         <div className="prea-note-thread__answers">
-          {comments.map((c, i) => <NoteCard key={i} {...c} variant="comment" />)}
-          {children}
+          {list.map((a, i) => <NoteCard key={i} {...a} variant="note" />)}
         </div>
       )}
+      {children}
     </div>
   );
 }

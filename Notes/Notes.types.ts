@@ -31,7 +31,12 @@ export interface NoteCardProps {
   onReact?: () => void;
   /** Reply summary shown at the right of the footer (Figma "2 Antwort" + avatars). */
   replies?: { count: number; label?: React.ReactNode; avatars?: string[]; onClick?: () => void };
-  /** note = grey card (Style=Note) · comment = white card inside a thread. */
+  /**
+   * Comments on this note (Figma thread: "comment #1 on answer #1"). Rendered as
+   * nested comment cards between the body and the footer.
+   */
+  comments?: NoteCardProps[];
+  /** note = grey card (Style=Note) · comment = white card nested inside another note. */
   variant?: 'note' | 'comment';
   className?: string;
   style?: React.CSSProperties;
@@ -42,9 +47,16 @@ export interface NoteThreadProps {
   /** The note being answered — rendered with a back button (Style=backNote). */
   note: NoteCardProps;
   onBack?: () => void;
-  /** Comments rendered as white cards inside the grey answer container (Style=Answear). */
+  /**
+   * Answers shown below the post, after a "N Antworten" divider. Each answer is a
+   * NoteCard; give it `comments` to nest comment cards inside it.
+   */
+  answers?: NoteCardProps[];
+  /** @deprecated use `answers`. */
   comments?: NoteCardProps[];
-  /** Extra content under the comments (e.g. a <ChatNotes> composer). */
+  /** Divider label; defaults to "N Antworten". Pass null to hide the divider. */
+  answersLabel?: React.ReactNode | null;
+  /** Extra content under the answers (e.g. a <ChatNotes> composer). */
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;

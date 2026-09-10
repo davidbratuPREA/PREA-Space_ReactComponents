@@ -46,14 +46,23 @@ function NotesDemo() {
           ) : (
             <>
               <NoteThread
-                note={note}
+                note={{ ...note, children: <><p>{LOREM}</p><p>{LOREM.slice(0, 120)}</p></> }}
                 onBack={() => setThread(false)}
-                comments={[
-                  { ...note, actions: [] },
-                  { ...note, actions: [] },
+                answers={[
+                  {
+                    author: { name: 'Jack Bronser', avatar: AVATAR }, date: '30. Jun um 11:40', children: LOREM,
+                    onLike: () => setLog('like answer 1'), onReact: () => setLog('react answer 1'),
+                    comments: [
+                      { author: { name: 'Frank Dilora', avatar: AVATAR }, date: '30. Jun um 11:40', children: LOREM.slice(0, 120), onLike: () => setLog('like comment 1'), onReact: () => setLog('react comment 1') },
+                      { author: { name: 'Jack Bronser', avatar: AVATAR }, date: '30. Jun um 11:40', children: LOREM.slice(0, 120), onLike: () => setLog('like comment 2'), onReact: () => setLog('react comment 2') },
+                    ],
+                  },
+                  {
+                    author: { name: 'Jack Bronser', avatar: AVATAR }, date: '30. Jun um 11:40', children: LOREM,
+                    onLike: () => setLog('like answer 2'), onReact: () => setLog('react answer 2'),
+                  },
                 ]}
               />
-              <NoteDivider label="2 Antworten" />
             </>
           )}
         </NotesPanel>
@@ -99,11 +108,17 @@ import { Avatar } from './Avatar';
   ))}
 </NotesPanel>
 
-// Thread view
-<NoteThread note={noteProps} onBack={close} comments={replies.map(toNoteProps)}>
+// Thread view: [←] post · "2 Antworten" divider · answers, each with nested comments
+<NoteThread
+  note={noteProps}
+  onBack={close}
+  answers={answers.map((a) => ({
+    ...toNoteProps(a),
+    comments: a.comments.map(toNoteProps),   // comment cards nested inside the answer
+  }))}
+>
   <ChatNotes width="100%" onSend={reply} />
 </NoteThread>
-<NoteDivider label="2 Antworten" />
 
 <Avatar src={url} size="medium" badge />
 `;
@@ -113,7 +128,7 @@ export const notesEntry: ComponentEntry = {
   id: 'notes',
   name: 'Notes',
   category: 'Chat',
-  description: 'Threaded notes from the Figma Notes page: NotesPanel, NoteCard (author, hover actions, like/react, reply summary), NoteThread (back + white comment cards), NoteDivider — plus the Avatar component (3 sizes, icon/image, badge).',
+  description: 'Threaded notes from the Figma Notes page: NotesPanel, NoteCard (author, hover actions, like/react, reply summary, nested comments), NoteThread (back + post, „N Antworten“ divider, answers with their comment cards), NoteDivider — plus the Avatar component (3 sizes, icon/image, badge).',
   status: 'pending',
   figmaUrl: 'https://www.figma.com/design/OTZ34BoAggjKtRk774W8NK/PREA-Space-Design-library?node-id=261-615',
   files: [
@@ -134,7 +149,9 @@ export const notesEntry: ComponentEntry = {
     { name: 'NoteCard.onLike / onReact', type: '() => void', default: '—', required: false, description: 'Footer buttons.' },
     { name: 'NoteCard.replies',  type: '{ count, label?, avatars?, onClick? }', default: '—', required: false, description: 'Reply summary at the footer right.' },
     { name: 'NoteCard.variant',  type: "'note' | 'comment'", default: "'note'", required: false, description: 'Grey note or white comment card.' },
-    { name: 'NoteThread.note / comments / onBack', type: 'NoteCardProps / NoteCardProps[] / () => void', default: '—', required: false, description: 'Back row + answer container.' },
+    { name: 'NoteCard.comments', type: 'NoteCardProps[]', default: '—', required: false, description: 'Comment cards nested between body and footer.' },
+    { name: 'NoteThread.note / answers / onBack', type: 'NoteCardProps / NoteCardProps[] / () => void', default: '—', required: false, description: 'Back row + post, „N Antworten“ divider, answer cards (each may carry comments).' },
+    { name: 'NoteThread.answersLabel', type: 'ReactNode | null', default: '"N Antworten"', required: false, description: 'Divider text; null hides it.' },
     { name: 'NoteDivider.label', type: 'ReactNode',          default: '—', required: true,  description: '"2 Antworten" + line.' },
     { name: 'Avatar.size',       type: "'small' | 'medium' | 'big' | number", default: "'medium'", required: false, description: '18 / 24 / 28 px.' },
     { name: 'Avatar.src / icon / badge', type: 'string / string | ReactNode / boolean', default: "— / 'li:users' / false", required: false, description: 'Image, fallback icon, red dot.' },

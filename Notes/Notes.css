@@ -109,6 +109,18 @@ html[data-theme='dark'] {
   line-height: var(--notes\/font\/body-lineheight, 19px);
   overflow-wrap: break-word;
 }
+.prea-note__body p { margin: 0; }
+.prea-note__body p + p { margin-top: var(--notes\/sizing\/gap, 12px); }
+/* nested comment cards inside a note (Figma: comments on an answer) */
+.prea-note__comments {
+  display: flex;
+  flex-direction: column;
+  gap: var(--notes\/sizing\/gap, 12px);
+  padding: 0 var(--notes\/sizing\/padding, 12px);
+}
+.prea-note__comments .prea-note { background: var(--notes\/color\/bg-comment, #fff); }
+/* a note without footer keeps its bottom padding */
+.prea-note > :last-child:not(.prea-note__footer) { padding-bottom: var(--notes\/sizing\/padding, 12px); }
 
 .prea-note__footer {
   display: flex;
@@ -156,12 +168,8 @@ html[data-theme='dark'] {
 .prea-note-thread__answers {
   display: flex;
   flex-direction: column;
-  gap: var(--notes\/sizing\/gap, 12px);
-  box-sizing: border-box;
-  padding: var(--notes\/sizing\/panel-gap, 8px);
-  border: 1px solid var(--notes\/color\/border, #e1e1e1);
-  border-radius: var(--notes\/sizing\/radius, 4px);
-  background: var(--notes\/color\/bg, #ededed);
+  gap: var(--notes\/sizing\/panel-gap, 8px);
+  width: 100%;
 }
 
 /* ─── NoteDivider ────────────────────────────────────────────────────────── */
