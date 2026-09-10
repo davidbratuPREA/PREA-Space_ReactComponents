@@ -13,6 +13,7 @@ const headingStyle: React.CSSProperties = { fontSize: 12, fontWeight: 500, color
 function MapNavDemo() {
   const [heading, setHeading] = useState(35);
   const [mode, setMode] = useState<'2D' | '3D'>('2D');
+  const [tilt, setTilt] = useState(72);
   const [visible, setVisible] = useState<Record<string, boolean>>({ 'Bebauungsplan': true, 'Verkehr': false });
   const [log, setLog] = useState('');
   const vis = (k: string) => ({ visible: visible[k] ?? true, onVisibleChange: (v: boolean) => setVisible((s) => ({ ...s, [k]: v })) });
@@ -20,9 +21,9 @@ function MapNavDemo() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
       <div>
-        <p style={headingStyle}>MapNav — globe toggle · item_mapNav groups (36px, MapButtons 24px) · compass (55px) at the bottom · click compass to reset</p>
+        <p style={headingStyle}>MapNav — perspective control (drag the sphere up/down · double-click resets) · item_mapNav groups · compass (55px) · click compass to reset</p>
         <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
-          <MapNav heading={heading} onResetHeading={() => setHeading(0)} globeActive={mode === '3D'} onGlobeToggle={() => setMode(mode === '3D' ? '2D' : '3D')}>
+          <MapNav heading={heading} onResetHeading={() => setHeading(0)} tilt={tilt} onTiltChange={setTilt}>
             <MapNavGroup>
               <MapButton icon="3D" label="3D" active={mode === '3D'} onClick={() => setMode(mode === '3D' ? '2D' : '3D')} />
               <MapButton icon="li:layer-double" label="Ebenen" onClick={() => setLog('layers')} />
@@ -43,13 +44,13 @@ function MapNavDemo() {
             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               <Compass heading={heading} onClick={() => setHeading(0)} />
               <Compass heading={35} />
-              <MapNavGlobe /><MapNavGlobe active />
+              <MapNavGlobe value={tilt} onChange={setTilt} /><MapNavGlobe defaultValue={20} size={55} />
               <MapButton icon="li:rotate-ccw2" label="Drehen" onClick={() => setHeading((h) => (h + 45) % 360)} />
             </div>
             <div style={{ display: 'flex', gap: 4 }}>
               <LayerButton icon="li:info-1" label="Info" /><LayerButton icon="li:panels-top-left" label="Panel" /><LayerButton icon="li:funnel" label="Filter" /><LayerButton icon="li:colors" label="Farben" /><LayerButton icon="li:eye" label="Sichtbar" active />
             </div>
-            <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: 0 }}>heading {heading}° · {mode}{log ? ` · ${log}` : ''}</p>
+            <p style={{ fontSize: 11, color: 'var(--text-secondary)', margin: 0 }}>heading {heading}° · tilt {Math.round(tilt)}° · {mode}{log ? ` · ${log}` : ''}</p>
           </div>
         </div>
       </div>
@@ -109,8 +110,9 @@ const USAGE = `import { MapNav, MapNavGroup, MapLayersMenu, MapLayerItem } from 
 import { MapButton } from './Button';
 // Requires ./Button, ./Navigation (IconButton) and ./Icon.
 
-// Globe toggle on top, groups in between, compass at the bottom (Figma mapNav)
-<MapNav heading={map.bearing} onResetHeading={() => map.resetNorth()} globeActive={is3D} onGlobeToggle={toggle3D}>
+// Perspective control on top (drag to tilt, 0–80°), groups in between, compass at the bottom (Figma mapNav)
+<MapNav heading={map.bearing} onResetHeading={() => map.resetNorth()}
+  tilt={80 - map.pitch} onTiltChange={(t) => map.setPitch(80 - t)}>
   <MapNavGroup>
     <MapButton icon="3D" label="3D" active={is3D} onClick={toggle3D} />
     <MapButton icon="li:layer-double" label="Ebenen" onClick={openLayers} />
@@ -155,7 +157,9 @@ export const mapNavEntry: ComponentEntry = {
   usage: USAGE,
   props: [
     { name: 'MapNav.heading / onResetHeading / showCompass', type: 'number / () => void / boolean', default: '0 / — / true', required: false, description: 'Compass (55px) below the groups; dial rotates with heading.' },
-    { name: 'MapNav.globeActive / onGlobeToggle / showGlobe', type: 'boolean / () => void / boolean', default: '— / — / true', required: false, description: '36px ring toggle on top (MapNavGlobe).' },
+    { name: 'MapNav.tilt / onTiltChange / showGlobe', type: 'number / (deg) => void / boolean', default: '72 / — / true', required: false, description: 'Perspective control on top (MapNavGlobe): drag up/down, 0° = top-down circle, 80° = edge-on.' },
+    { name: 'MapNavGlobe.value / defaultValue / onChange', type: 'number / number / (deg) => void', default: '— / 72 / —', required: false, description: 'Disc tilt in degrees; arrow keys step 5°, double-click resets to max.' },
+    { name: 'MapNavGlobe.min / max / sensitivity / size', type: 'number', default: '0 / 80 / 0.3 / 36', required: false, description: 'Range, degrees per dragged pixel, control size.' },
     { name: 'MapNavGroup.children', type: 'MapButton[]', default: '—', required: true, description: '36px pill, 5px padding, 10px gap.' },
     { name: 'MapLayerItem.label / level', type: 'ReactNode / 1 | 2 | 3', default: '— / nesting depth', required: false, description: 'Chevron slot 14 / 34 px, level 3 indent 56 px.' },
     { name: 'MapLayerItem.kind / icon', type: "'group' | 'subgroup' | 'layer' | 'active' / string | ReactNode", default: 'group if children else layer', required: false, description: 'Default 14px icon: folder / layers-three / layer-single / eye.' },

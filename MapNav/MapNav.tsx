@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useRef, useState } from 'react';
 import { Icon } from '../Icon';
 import type {
   MapNavProps, MapNavGroupProps, CompassProps, LayerButtonProps, MapLayerItemProps, MapLayersMenuProps, MapNavGlobeProps,
@@ -47,14 +47,55 @@ export function Compass({ heading = 0, onClick, size = 55, className }: CompassP
   );
 }
 
-/* ─── MapNavGlobe — 36px ring toggle (Figma top element of mapNav) ───────── */
-export function MapNavGlobe({ active = false, label = '3D-Ansicht', className, type = 'button', ...rest }: MapNavGlobeProps) {
+/* ─── MapNavGlobe — perspective control (Figma ring + codepen "Sphere Controller") ── */
+const SLICES = 8;
+export function MapNavGlobe({
+  value, defaultValue = 72, onChange, min = 0, max = 80, sensitivity = 0.3, onReset, label = 'Perspektive', size = 36, className, style,
+}: MapNavGlobeProps) {
+  const [inner, setInner] = useState(defaultValue);
+  const angle = Math.min(max, Math.max(min, value ?? inner));
+  const set = (v: number) => { const c = Math.min(max, Math.max(min, v)); setInner(c); onChange?.(c); };
+  const drag = useRef<{ y: number; start: number } | null>(null);
+  const [dragging, setDragging] = useState(false);
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    drag.current = { y: e.clientY, start: angle };
+    setDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!drag.current) return;
+    set(drag.current.start - (e.clientY - drag.current.y) * sensitivity);   // drag down → smaller angle (disc opens up), drag up → edge-on
+  };
+  const endDrag = () => { drag.current = null; setDragging(false); };
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'ArrowUp') { e.preventDefault(); set(angle - 5); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); set(angle + 5); }
+    if (e.key === 'Home') { e.preventDefault(); set(min); }
+    if (e.key === 'End') { e.preventDefault(); set(max); }
+  };
+
+  const disc = size * 0.78;
+  const thickness = Math.max(2, size * 0.09);
   return (
-    <button type={type} className={cx('prea-mapnav-globe', active && 'prea-mapnav-globe--active', className)} aria-label={label} title={label} aria-pressed={active} {...rest}>
-      <svg viewBox="0 0 36 36" aria-hidden="true">
-        <path className="prea-mapnav-globe__ring" d="M18 12.709C22.626 12.709 26.779 13.3837 29.7461 14.4492C31.233 14.9832 32.3791 15.6001 33.1377 16.2441C33.8996 16.891 34.1865 17.4879 34.1865 18C34.1865 18.5121 33.8996 19.1089 33.1377 19.7559C32.3791 20.3999 31.233 21.0168 29.7461 21.5508C26.779 22.6163 22.626 23.291 18 23.291C13.374 23.291 9.22103 22.6163 6.25391 21.5508C4.76702 21.0168 3.6209 20.3999 2.8623 19.7559C2.10043 19.1089 1.81348 18.5121 1.81348 18C1.81354 17.4879 2.10039 16.891 2.8623 16.2441C3.62092 15.6001 4.76698 14.9832 6.25391 14.4492C9.22103 13.3837 13.374 12.709 18 12.709Z" strokeWidth="1.63" />
-      </svg>
-    </button>
+    <div
+      className={cx('prea-mapnav-globe', dragging && 'prea-mapnav-globe--dragging', className)}
+      style={{ width: size, height: size, ...style }}
+      role="slider" tabIndex={0} aria-label={label} aria-valuemin={min} aria-valuemax={max} aria-valuenow={Math.round(angle)} aria-orientation="vertical"
+      title={`${label} · ${Math.round(angle)}°`}
+      onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={endDrag} onPointerCancel={endDrag}
+      onDoubleClick={() => { set(max); onReset?.(); }} onKeyDown={onKeyDown}
+    >
+      <div className="prea-mapnav-globe__sphere">
+        <div className="prea-mapnav-globe__disc" style={{ width: disc, height: disc, transform: `rotateX(${angle}deg)` }}>
+          {Array.from({ length: SLICES }, (_, i) => (
+            <span key={i} className="prea-mapnav-globe__slice" style={{ transform: `translateZ(${-(i + 1) * (thickness / SLICES)}px)` }} />
+          ))}
+          <span className="prea-mapnav-globe__face" />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -64,10 +105,10 @@ export function MapNavGroup({ children, className }: MapNavGroupProps) {
 }
 
 /* ─── MapNav ─────────────────────────────────────────────────────────────── */
-export function MapNav({ children, heading = 0, onResetHeading, showCompass = true, globeActive, onGlobeToggle, showGlobe = true, className, style }: MapNavProps) {
+export function MapNav({ children, heading = 0, onResetHeading, showCompass = true, tilt, defaultTilt, onTiltChange, showGlobe = true, className, style }: MapNavProps) {
   return (
     <div className={cx('prea-mapnav', className)} style={style} role="toolbar" aria-label="Kartennavigation">
-      {showGlobe && <MapNavGlobe active={globeActive} onClick={onGlobeToggle} />}
+      {showGlobe && <MapNavGlobe value={tilt} defaultValue={defaultTilt} onChange={onTiltChange} />}
       {children}
       {showCompass && <Compass heading={heading} onClick={onResetHeading} />}
     </div>

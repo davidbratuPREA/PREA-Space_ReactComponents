@@ -51,16 +51,23 @@ html[data-theme='dark'] {
 }
 .prea-mapnav-group .prea-mapbtn { --mapbtn-icon: var(--mapnav\/color\/icon, #949494); }
 
-/* ─── MapNavGlobe ────────────────────────────────────────────────────────── */
+/* ─── MapNavGlobe — perspective control: 3D disc inside a 36px sphere, drag to tilt ── */
 .prea-mapnav-globe {
-  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; width: 36px; height: 36px; padding: 0; margin: 0;
-  border: 1px solid var(--mapnav\/color\/border, #e1e1e1); border-radius: 50%; background: var(--mapnav\/color\/bg, #fff); box-shadow: var(--mapnav\/shadow, 0 1px 3px rgba(0,0,0,.1)); cursor: pointer;
+  position: relative; display: inline-flex; box-sizing: border-box; width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%; perspective: 260px; cursor: ns-resize; touch-action: none; user-select: none; outline: none;
 }
-.prea-mapnav-globe svg { width: 36px; height: 36px; }
-/* Figma: ring filled #2C3F5A with PREA SKY/L5 stroke */
-.prea-mapnav-globe__ring { fill: var(--mapnav\/color\/globe-fill, #2c3f5a); stroke: var(--mapnav\/color\/globe-stroke, #1977f9); transition: opacity 120ms ease; }
-.prea-mapnav-globe:hover .prea-mapnav-globe__ring { opacity: .85; }
-.prea-mapnav-globe--active { border-color: var(--mapnav\/color\/globe-stroke, #1977f9); }
+.prea-mapnav-globe--dragging { cursor: ns-resize; }
+.prea-mapnav-globe:focus-visible .prea-mapnav-globe__sphere { box-shadow: var(--mapnav\/shadow, 0 1px 3px rgba(0,0,0,.1)), 0 0 0 2px var(--mapnav\/color\/globe-stroke, #1977f9); }
+.prea-mapnav-globe__sphere {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; box-sizing: border-box; overflow: hidden;
+  border: 1px solid var(--mapnav\/color\/border, #e1e1e1); border-radius: 50%; background: var(--mapnav\/color\/bg, #fff);
+  box-shadow: var(--mapnav\/shadow, 0 1px 3px rgba(0,0,0,.1)); transform-style: preserve-3d;
+}
+.prea-mapnav-globe__disc { position: relative; flex-shrink: 0; transform-style: preserve-3d; will-change: transform; }
+.prea-mapnav-globe__face, .prea-mapnav-globe__slice { position: absolute; inset: 0; border-radius: 50%; display: block; }
+.prea-mapnav-globe__face { background: var(--mapnav\/color\/globe-fill, #2c3f5a); box-shadow: inset 0 0 0 1.5px var(--mapnav\/color\/globe-stroke, #1977f9); }
+.prea-mapnav-globe__slice { background: var(--mapnav\/color\/globe-stroke, #1977f9); }
+.prea-mapnav-globe:hover .prea-mapnav-globe__face { filter: brightness(1.1); }
 
 /* ─── Compass ────────────────────────────────────────────────────────────── */
 .prea-compass { display: inline-flex; box-sizing: border-box; padding: 0; margin: 0; width: var(--mapnav\/sizing\/compass, 55px); height: var(--mapnav\/sizing\/compass, 55px); border: none; border-radius: 50%; background: transparent; cursor: pointer; }

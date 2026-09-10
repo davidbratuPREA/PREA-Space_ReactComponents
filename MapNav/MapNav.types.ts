@@ -8,18 +8,34 @@ export interface MapNavProps {
   heading?: number;
   onResetHeading?: () => void;
   showCompass?: boolean;
-  /** Globe / 3D-view toggle at the top (Figma 36px ring button). Omit to hide. */
-  globeActive?: boolean;
-  onGlobeToggle?: () => void;
+  /** Perspective control at the top (Figma 36px ring): drag up/down to tilt the map. */
+  tilt?: number;
+  defaultTilt?: number;
+  onTiltChange?: (tilt: number) => void;
   showGlobe?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
 
-/* ─── MapNavGlobe — the 36px ring toggle at the top of mapNav ────────────── */
-export interface MapNavGlobeProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
-  active?: boolean;
+/* ─── MapNavGlobe — 36px perspective control (Figma ring, codepen "Sphere Controller") ── */
+export interface MapNavGlobeProps {
+  /**
+   * Tilt of the disc in degrees, 0 (top-down circle) … 80 (edge-on ellipse).
+   * Drag vertically to change it; arrow keys step by 5°.
+   */
+  value?: number;
+  defaultValue?: number;
+  onChange?: (value: number) => void;
+  min?: number;
+  max?: number;
+  /** Degrees per dragged pixel. Default 0.3 (as in the codepen). */
+  sensitivity?: number;
+  /** Double-click resets to `max` (flat map). */
+  onReset?: () => void;
   label?: string;
+  size?: number;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 /* ─── MapNavGroup (Figma "item_mapNav") — vertical pill of MapButtons ─────── */
