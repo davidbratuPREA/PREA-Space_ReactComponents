@@ -1,0 +1,80 @@
+/* ─── App demo screens (1920×1080 app frames, scaled to fit) ───────────────── */
+.demo-page { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 1600px; margin: 0 auto; }
+.demo-page__tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.demo-page__tab {
+  padding: 7px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-card);
+  color: var(--text-secondary); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--transition);
+}
+.demo-page__tab:hover { color: var(--text-primary); border-color: var(--text-muted); }
+.demo-page__tab--active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.demo-page__caption { font-size: 13px; color: var(--text-secondary); margin: -6px 0 0; }
+
+/* scaled 1920×1080 frame */
+.demo-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); background: #1a1a1a; }
+.demo-frame__inner { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+
+/* ─── App shell ──────────────────────────────────────────────────────────── */
+.app { position: relative; display: flex; flex-direction: column; width: 1920px; height: 1080px; overflow: hidden; background: var(--mainmenu\/color\/bg, #fff); color: var(--mainmenu\/color\/text, #202020); font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', 'Inter', system-ui, sans-serif); font-size: 12px; line-height: 16px; }
+.app__body { display: flex; flex: 1 1 0; min-height: 0; }
+.app__rail { flex-shrink: 0; height: 100%; }
+.app__rail .prea-mainnav { height: 100%; }
+.app__main { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+.app__bottom { flex-shrink: 0; }
+.app__bottom .prea-bottomnav { border-top: 1px solid var(--bottomnav\/color\/border, #e1e1e1); }
+
+/* dashboard */
+.app__dash { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; background: #EDEDED; }
+html[data-theme='dark'] .app__dash { background: #191919; }
+.app__hello { font-size: 36px; line-height: 44px; font-weight: 500; }
+.app__dash-card { position: absolute; left: 315px; bottom: 44px; }
+
+/* panel + map layout */
+.app__split { display: flex; flex: 1 1 0; min-height: 0; }
+.app__panel { display: flex; flex-direction: column; flex-shrink: 0; width: 650px; min-height: 0; border-right: 1px solid var(--mainmenu\/color\/border, #e1e1e1); background: var(--mainmenu\/color\/bg, #fff); }
+.app__panel--wide { width: 100%; border-right: none; }
+.app__panel-scroll { flex: 1 1 0; min-height: 0; overflow-y: auto; position: relative; }
+.app__panel-scroll--pad { padding: 8px; }
+
+/* fake map */
+.app__map { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden;
+  background-color: #E9E5DD;
+  background-image:
+    linear-gradient(115deg, transparent 47.6%, #ffffff 47.6%, #ffffff 49.2%, transparent 49.2%),
+    linear-gradient(25deg, transparent 38%, #ffffff 38%, #ffffff 39.6%, transparent 39.6%),
+    linear-gradient(115deg, transparent 22%, #f7f5f0 22%, #f7f5f0 22.8%, transparent 22.8%),
+    linear-gradient(25deg, transparent 68%, #f7f5f0 68%, #f7f5f0 68.8%, transparent 68.8%),
+    linear-gradient(115deg, transparent 72%, #f7f5f0 72%, #f7f5f0 72.8%, transparent 72.8%),
+    radial-gradient(ellipse 300px 180px at 18% 78%, #CFDDC3 0 60%, transparent 61%),
+    radial-gradient(ellipse 220px 160px at 78% 22%, #D6E1CB 0 60%, transparent 61%),
+    radial-gradient(ellipse 160px 120px at 62% 70%, #D6E1CB 0 60%, transparent 61%),
+    linear-gradient(0deg, #DCD7CD 0 1px, transparent 1px),
+    linear-gradient(90deg, #DCD7CD 0 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 64px, 64px 100%;
+}
+html[data-theme='dark'] .app__map { background-color: #262624; filter: none;
+  background-image:
+    linear-gradient(115deg, transparent 47.6%, #3a3a38 47.6%, #3a3a38 49.2%, transparent 49.2%),
+    linear-gradient(25deg, transparent 38%, #3a3a38 38%, #3a3a38 39.6%, transparent 39.6%),
+    linear-gradient(115deg, transparent 22%, #313130 22%, #313130 22.8%, transparent 22.8%),
+    linear-gradient(25deg, transparent 68%, #313130 68%, #313130 68.8%, transparent 68.8%),
+    linear-gradient(115deg, transparent 72%, #313130 72%, #313130 72.8%, transparent 72.8%),
+    radial-gradient(ellipse 300px 180px at 18% 78%, #2c3529 0 60%, transparent 61%),
+    radial-gradient(ellipse 220px 160px at 78% 22%, #2c3529 0 60%, transparent 61%),
+    radial-gradient(ellipse 160px 120px at 62% 70%, #2c3529 0 60%, transparent 61%),
+    linear-gradient(0deg, #2e2e2c 0 1px, transparent 1px),
+    linear-gradient(90deg, #2e2e2c 0 1px, transparent 1px); }
+.app__map-block { position: absolute; border-radius: 3px; background: #F5F3EE; box-shadow: 0 1px 0 #cfcac0; }
+html[data-theme='dark'] .app__map-block { background: #33332f; box-shadow: 0 1px 0 #1d1d1b; }
+.app__map-label { position: absolute; color: #6b665c; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; }
+html[data-theme='dark'] .app__map-label { color: #8d887d; }
+.app__map-search { position: absolute; top: 12px; right: 12px; }
+.app__mapnav { position: absolute; right: 12px; bottom: 12px; }
+.app__float { position: absolute; }
+
+/* welcome thumbnail */
+.demo-card { display: block; width: 100%; max-width: 560px; margin: 8px auto 0; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card); box-shadow: var(--shadow-sm); text-decoration: none; color: inherit; overflow: hidden; transition: all var(--transition); text-align: left; }
+.demo-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--accent-border); }
+.demo-card__thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-preview); border-bottom: 1px solid var(--border); pointer-events: none; }
+.demo-card__body { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; }
+.demo-card__title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 0 0 2px; }
+.demo-card__sub { font-size: 13px; color: var(--text-secondary); margin: 0; }

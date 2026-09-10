@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout/Layout';
 import { WelcomePage } from './pages/WelcomePage';
 import { ComponentPage } from './pages/ComponentPage';
+import { DemoPage } from './pages/DemoPage';
 import { ThemeContext } from './ThemeContext';
 
 type Theme = 'light' | 'dark';
@@ -32,6 +33,7 @@ export default function App() {
         <Layout theme={appTheme} onToggleTheme={toggleTheme}>
           <Routes>
             <Route path="/" element={<WelcomePage />} />
+            <Route path="/demo" element={<DemoPage />} />
             <Route path="/:componentId" element={<ComponentPage />} />
           </Routes>
         </Layout>

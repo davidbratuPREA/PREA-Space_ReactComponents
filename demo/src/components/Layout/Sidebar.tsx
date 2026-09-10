@@ -72,6 +72,13 @@ export function Sidebar() {
         </div>
       </div>
 
+      <div className="sidebar__demo">
+        <NavLink to="/demo" className={({ isActive }) => ['action-btn', 'action-btn--primary', 'sidebar__demo-btn', isActive ? 'sidebar__demo-btn--active' : ''].join(' ')}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></svg>
+          App demo screens
+        </NavLink>
+      </div>
+
       <div className="sidebar__content">
         {Object.entries(grouped).length === 0 && (
           <p style={{ padding: '12px 8px', fontSize: 13, color: 'var(--text-muted)' }}>

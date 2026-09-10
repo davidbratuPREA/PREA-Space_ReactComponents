@@ -382,6 +382,11 @@ body {
   pointer-events: none;
 }
 
+/* sidebar demo button */
+.sidebar__demo { padding: 0 12px 10px; }
+.sidebar__demo-btn { width: 100%; justify-content: center; box-sizing: border-box; }
+.sidebar__demo-btn--active { box-shadow: 0 0 0 2px var(--accent-subtle), 0 2px 8px rgba(25, 119, 249, 0.3); }
+
 /* ─── Component Page ────────────────────────────────────────── */
 .comp-page {
   max-width: 1000px;

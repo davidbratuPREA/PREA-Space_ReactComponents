@@ -2,6 +2,10 @@
 
 Custom React component library for **PREA Space**, built pixel-perfectly against the **PREA Space Design System** in Figma. Components are standalone React + vanilla CSS (class prefix `prea-*`); `TabsMain` additionally reads Ant Design v6 theme tokens.
 
+## App demo screens
+
+The showcase site has a **Demo** page (`/#/demo`, blue button in the sidebar) with four 1920×1080 app screens — Dashboard, Data panel & map, Portfolio Kanban, Notes & chat — assembled only from the components in this library (`demo/src/demo/`).
+
 ## Live Demo
 
 👉 **[davidbratuprea.github.io/PREA-Space_ReactComponents/](https://davidbratuprea.github.io/PREA-Space_ReactComponents/)**
