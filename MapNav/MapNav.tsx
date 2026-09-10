@@ -76,8 +76,8 @@ export function MapNavGlobe({
     if (e.key === 'End') { e.preventDefault(); set(max); }
   };
 
-  const disc = size * 0.78;
-  const thickness = Math.max(2, size * 0.09);
+  const disc = size - 4;                      // almost fills the sphere (2px margin)
+  const thickness = Math.max(1.5, size * 0.055);
   return (
     <div
       className={cx('prea-mapnav-globe', dragging && 'prea-mapnav-globe--dragging', className)}
