@@ -214,7 +214,8 @@ html[data-theme='dark'] {
 .prea-bottomnav-btn__icon svg { width: 100%; height: 100%; }
 .prea-bottomnav-btn--grey { background: var(--bottomnav\/color\/btn-grey, #f1f1f1); }
 .prea-bottomnav-btn--primary { background: var(--bottomnav\/color\/bg-active, #0663e5); color: var(--bottomnav\/color\/text-w, #f5f5f5); }
-.prea-bottomnav-btn:hover { filter: brightness(.96); }
+.prea-bottomnav-btn:hover, .prea-bottomnav-btn--active { background: var(--bottomnav\/color\/btn-grey, #f1f1f1); }
+.prea-bottomnav-btn--primary:hover { background: var(--bottomnav\/color\/bg-active, #0663e5); filter: brightness(1.08); }
 .prea-bottomnav__exit { background: var(--bottomnav\/color\/btn-w, #f5f5f5); color: var(--bottomnav\/color\/danger, #d92d20); }
 
 /* ─── PathMenu ───────────────────────────────────────────────────────────── */

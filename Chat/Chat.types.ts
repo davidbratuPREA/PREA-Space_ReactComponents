@@ -71,8 +71,16 @@ export interface ChatInputProps {
   onSend?: (value: string) => void;
   /** Disables input and buttons. */
   disabled?: boolean;
-  /** Fires when the "+" (attach) button is clicked. Hidden when omitted. */
+  /** Fires when the "+" (attach) button is clicked. Hidden when omitted (unless attachMenu is given). */
   onAttach?: () => void;
+  /**
+   * Menu opened by the "+" button (Figma: the Lvl2 Dropdown Menu — Dateien / Zum Projekt /
+   * Skills / Plugins / Konnektoren). Rendered above the button; the button shows its active
+   * state while open; Escape or an outside click closes it.
+   */
+  attachMenu?: React.ReactNode;
+  attachMenuOpen?: boolean;
+  onAttachMenuOpenChange?: (open: boolean) => void;
   /** Model button label, e.g. "GPT 5.6". Hidden when omitted. */
   modelLabel?: React.ReactNode;
   /** Model button icon — Figma icon name or ReactNode. Default "OpenAI". */

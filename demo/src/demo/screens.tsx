@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { AppShell, MapArea, AVATAR_URL } from './AppShell';
 import { PathMenu, PanelTabs, IconButton, ToolDivider, SearchPanel, BottomNavButton } from '../../../Navigation';
 import { Breadcrumb } from '../../../Breadcrumb';
@@ -29,7 +29,7 @@ function MapWithNav({ children }: { children?: React.ReactNode }) {
   const [tilt, setTilt] = useState(72);
   return (
     <MapArea>
-      <div className="app__map-search"><SearchInput width={328} placeholder="Weise eine Aufgabe zu oder stelle eine Frage…" onChange={() => undefined} /></div>
+      <div className="app__map-search"><SearchInput size="big" width={330} placeholder="Weise eine Aufgabe zu oder stelle eine Frage…" onChange={() => undefined} /></div>
       {children}
       <div className="app__mapnav">
         <MapNav heading={heading} onResetHeading={() => setHeading(0)} tilt={tilt} onTiltChange={setTilt}>
@@ -44,15 +44,58 @@ function MapWithNav({ children }: { children?: React.ReactNode }) {
 }
 
 /* ─── 1 · Dashboard ───────────────────────────────────────────────────────── */
+const SECTIONS = [
+  { key: 'identity', icon: 'li:colors', label: 'Identity' }, { key: 'people', icon: 'li:users', label: 'People' }, { key: 'build', icon: 'li:layers', label: 'Build' },
+  { key: 'capital', icon: 'li:euro', label: 'Capital' }, { key: 'deepstreet', icon: 'li:map', label: 'Deep Street' }, { key: 'control', icon: 'li:sliders', label: 'Control' },
+];
+const SECTION_CARD: Record<string, { title: string; description: string; links: string[] }> = {
+  identity: { title: 'Identity', description: 'Wer wir sind: Marke, Werte und Auftritt von PREA.', links: ['Brand', 'Werte', 'Team'] },
+  people: { title: 'People', description: 'Mitarbeitende, Rollen und Zuständigkeiten im Überblick.', links: ['Verzeichnis', 'Rollen', 'Onboarding'] },
+  build: { title: 'Build', description: 'Projekte in Planung und Bau – Status, Fristen, Beteiligte.', links: ['Projekte', 'Bauzeitplan', 'Dokumente'] },
+  capital: { title: 'Capital', description: 'Finanzierung, Budgets und Kennzahlen der Portfolios.', links: ['Budgets', 'Kennzahlen', 'Reports'] },
+  deepstreet: { title: 'Deep Street', description: 'Sechs Kapitel mit den Grundsätzen, die unser Denken, Handeln und unsere Kultur definieren.', links: ['Dashboard', 'Map', 'Portfolio'] },
+  control: { title: 'Control', description: 'Einstellungen, Berechtigungen und Systemstatus.', links: ['Einstellungen', 'Rechte', 'Status'] },
+};
+
+function AttachMenu({ gmail, drive, cal, setGmail, setDrive, setCal }: { gmail: boolean; drive: boolean; cal: boolean; setGmail: (v: boolean) => void; setDrive: (v: boolean) => void; setCal: (v: boolean) => void }) {
+  return (
+    <DropdownMenu groups={[
+      [{ key: 'files', label: 'Dateien / Fotos hinzufügen', icon: 'li:paperclip', showChevron: false }, { key: 'project', label: 'Zum Projekt hinzufügen', icon: 'li:folder-plus', showChevron: false }],
+      [{ key: 'skills', label: 'Skills', icon: 'li:file-06', showChevron: false }, { key: 'plugins', label: 'Plugins hinzufügen', icon: 'li:zap-square', showChevron: false },
+        { key: 'connectors', label: 'Konnektoren', icon: 'li:unplug', children: [
+          [{ key: 'add', label: 'Konnektor hinzufügen', icon: 'li:plus', showChevron: false }, { key: 'manage', label: 'Konnektoren verwalten', icon: 'li:dataflow-01', showChevron: false }],
+          [{ key: 'gmail', label: 'Gmail', icon: 'gmail', toggle: { checked: gmail, onChange: setGmail } }, { key: 'drive', label: 'Drive', icon: 'google-drive', toggle: { checked: drive, onChange: setDrive } }, { key: 'cal', label: 'Kalender', icon: 'google-calendar', toggle: { checked: cal, onChange: setCal } }],
+        ] }],
+    ]} />
+  );
+}
+
 export function DashboardScreen() {
   const [sent, setSent] = useState<string | null>(null);
+  const [section, setSection] = useState<string | null>('deepstreet');
+  const [gmail, setGmail] = useState(true); const [drive, setDrive] = useState(true); const [cal, setCal] = useState(false);
+  const card = section ? SECTION_CARD[section] : null;
+  // the nav_InfoCard sits right above the active BottomNav button (Figma: same left edge)
+  const btnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [cardLeft, setCardLeft] = useState(8);
+  useLayoutEffect(() => { const b = section ? btnRefs.current[section] : null; if (b) setCardLeft(b.offsetLeft); }, [section]);
   return (
-    <AppShell active="chat">
+    <AppShell active="chat"
+      bottomLeft={SECTIONS.map((s) => (
+        <BottomNavButton key={s.key} ref={(el) => { btnRefs.current[s.key] = el; }} icon={s.icon} active={section === s.key} onClick={() => setSection(section === s.key ? null : s.key)}>{s.label}</BottomNavButton>
+      ))}
+      bottomOverlay={card && (
+        <div className="app__dash-card" style={{ left: cardLeft }}>
+          <NavInfoCard title={card.title} description={card.description} links={card.links.map((l) => ({ key: l, label: l }))} />
+        </div>
+      )}
+    >
       <div className="app__dash">
         <div className="app__hello">Hallo, Gabriel</div>
         <ChatInput
-          width={560} placeholder="Wie kann ich dir helfen?" modelLabel="GPT 5.6" modelIcon="OpenAI"
-          onSend={(t) => setSent(t)} onAttach={() => undefined}
+          width={540} placeholder="Wie kann ich dir helfen?" modelLabel="GPT 5.6" modelIcon="OpenAI"
+          onSend={(t) => setSent(t)}
+          attachMenu={<AttachMenu gmail={gmail} drive={drive} cal={cal} setGmail={setGmail} setDrive={setDrive} setCal={setCal} />}
           subMenu={
             <>
               <ChatDropdown label="Chats" icon="li:message-square" searchable searchPlaceholder="Chats suchen"
@@ -63,13 +106,6 @@ export function DashboardScreen() {
           }
         />
         {sent && <p style={{ fontSize: 12, color: '#888', margin: '-28px 0 0' }}>gesendet: „{sent}“</p>}
-        <div className="app__dash-card">
-          <NavInfoCard
-            title="Deep Street"
-            description="Sechs Kapitel mit den Grundsätzen, die unser Denken, Handeln und unsere Kultur definieren."
-            links={[{ key: 'dashboard', label: 'Dashboard' }, { key: 'map', label: 'Map' }, { key: 'portfolio', label: 'Portfolio' }]}
-          />
-        </div>
       </div>
     </AppShell>
   );
@@ -81,8 +117,12 @@ export function DataPanelScreen() {
   const [sub, setSub] = useState('alle');
   const [ftab, setFtab] = useState('a');
   const [f, setF] = useState<Record<string, boolean>>({ a: true, b: true, c: false, d: true });
+  const [layers, setLayers] = useState(true);
+  const [filter, setFilter] = useState(true);
+  const [edit, setEdit] = useState(false);
   return (
-    <AppShell active="projekte" bottomLeft={<><BottomNavButton icon="li:layers" variant="grey">Ebenen (3)</BottomNavButton><BottomNavButton icon="li:pencil">Bearbeiten</BottomNavButton></>}>
+    <AppShell active="projekte" editMode={edit} onExitEdit={() => setEdit(false)}
+      bottomLeft={<><BottomNavButton icon="li:layers" active={layers} onClick={() => setLayers((v) => !v)}>Ebenen (3)</BottomNavButton><BottomNavButton icon="li:pencil" onClick={() => setEdit(true)}>Bearbeiten</BottomNavButton></>}>
       <TabsMain items={TABS} defaultActiveKey="2" onEdit={() => undefined} />
       <div className="app__split">
         <div className="app__panel">
@@ -108,8 +148,8 @@ export function DataPanelScreen() {
                 <DataGroup level={2} title="subHeadGroup-lv.2"><DataBox minHeight={140}><div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 140, color: '#d946ef', fontSize: 12 }}>Relation Table</div></DataBox></DataGroup>
               </DataGroup>
             </DataPanel>
-            <div className="app__float" style={{ left: 8, bottom: 8 }}>
-              <MapLayersMenu onClose={() => undefined} onRemoveActive={() => undefined}
+            {layers && <div className="app__float" style={{ left: 8, bottom: 8 }}>
+              <MapLayersMenu onClose={() => setLayers(false)} onRemoveActive={() => undefined}
                 activeLayers={<><MapLayerItem label="Map Layer" /><MapLayerItem label="Map Layer" /><MapLayerItem label="Map Layer" /></>}>
                 <MapLayerItem kind="group" label="Map Layer Group" />
                 <MapLayerItem label="Map Layer Group" defaultOpen><MapLayerItem label="Map Layer" /><MapLayerItem label="Map Layer" /><MapLayerItem label="Map Layer" /></MapLayerItem>
@@ -120,9 +160,9 @@ export function DataPanelScreen() {
                 </MapLayerItem>
                 <MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" />
               </MapLayersMenu>
-            </div>
-            <div className="app__float" style={{ left: 328, top: 24 }}>
-              <FilterPanel tabs={[{ key: 'a', label: 'Tab item' }, { key: 'b', label: 'Tab item' }, { key: 'c', label: 'Tab item' }]} activeTab={ftab} onTabChange={setFtab} onClose={() => undefined} onApply={() => undefined} onReset={() => undefined}>
+            </div>}
+            {filter && <div className="app__float" style={{ left: 326, top: 48 }}>
+              <FilterPanel tabs={[{ key: 'a', label: 'Tab item' }, { key: 'b', label: 'Tab item' }, { key: 'c', label: 'Tab item' }]} activeTab={ftab} onTabChange={setFtab} onClose={() => setFilter(false)} onApply={() => setFilter(false)} onReset={() => setF({})}>
                 <FilterSection gap={10}>
                   <TextInput width="100%" placeholder="Name" /><TextInput width="100%" placeholder="City" /><TextInput width="100%" placeholder="PLZ" />
                   <TextInput width="100%" placeholder="Straße" hint="Lorem ipsum dolores sub-description" />
@@ -137,7 +177,7 @@ export function DataPanelScreen() {
                   <FilterItem label="Item name" icon="grid-01" /><FilterItem label="Item name" icon="grid-01" /><FilterItem label="Item name" icon="grid-01" />
                 </FilterSection>
               </FilterPanel>
-            </div>
+            </div>}
           </div>
         </div>
         <MapWithNav />
@@ -159,8 +199,9 @@ const GROUPS: KanbanProjectGroup[] = [
 export function PortfolioScreen() {
   const [tab, setTab] = useState('relation');
   const [sub, setSub] = useState('t1');
+  const [edit, setEdit] = useState(false);
   return (
-    <AppShell active="deepstreet" bottomLeft={<><BottomNavButton icon="li:layers">Ebenen</BottomNavButton><BottomNavButton icon="li:pencil">Bearbeiten</BottomNavButton></>}>
+    <AppShell active="deepstreet" editMode={edit} onExitEdit={() => setEdit(false)} bottomLeft={<><BottomNavButton icon="li:layers">Ebenen</BottomNavButton><BottomNavButton icon="li:pencil" onClick={() => setEdit(true)}>Bearbeiten</BottomNavButton></>}>
       <TabsMain items={[{ key: '1', label: 'Portfolio Name', closable: true }, { key: '2', label: 'Portfolio: Projektname 01', closable: true }, { key: '3', label: 'Portfolio Name', closable: true }, { key: '4', label: 'Portfolio Name', closable: true }]} defaultActiveKey="2" onEdit={() => undefined} />
       <div className="app__panel app__panel--wide" style={{ flex: '1 1 0', minHeight: 0 }}>
         <PathMenu breadcrumb={<Breadcrumb items={crumbs('Deep Street', 'Portfolio', 'Projektname 01')} />} search={<SearchInput width={270} placeholder="Suche…" onChange={() => undefined} />} />
@@ -194,14 +235,13 @@ const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fauci
 export function NotesScreen() {
   const [tab, setTab] = useState('notes');
   const [sub, setSub] = useState('chat');
-  const [menu, setMenu] = useState(true);
   const [gmail, setGmail] = useState(true); const [drive, setDrive] = useState(true); const [cal, setCal] = useState(false);
   const person = (name: string) => ({ author: { name, avatar: AVATAR_URL }, date: '30. Jun 11:40' });
   const actions = [
     { key: 'src', icon: 'reddit', label: 'Reddit' }, { key: 'edit', icon: 'li:pencil', title: 'Bearbeiten' }, { key: 'share', icon: 'li:share', title: 'Teilen' }, { key: 'more', icon: 'li:ellipsis-horizontal', title: 'Mehr' },
   ];
   return (
-    <AppShell active="chat" bottomLeft={<BottomNavButton icon="li:message-square" variant="grey">Chats</BottomNavButton>}>
+    <AppShell active="chat" bottomLeft={<BottomNavButton icon="li:message-square" active>Chats</BottomNavButton>}>
       <TabsMain items={TABS} defaultActiveKey="2" onEdit={() => undefined} />
       <div className="app__split">
         <div className="app__panel">
@@ -223,20 +263,9 @@ export function NotesScreen() {
                 ]}
               />
             </NotesPanel>
-            <div style={{ position: 'relative', padding: 8 }}>
-              {menu && (
-                <div className="app__float" style={{ left: 16, bottom: 72 }}>
-                  <DropdownMenu openKey="connectors" groups={[
-                    [{ key: 'files', label: 'Dateien / Fotos hinzufügen', icon: 'li:paperclip', showChevron: false }, { key: 'project', label: 'Zum Projekt hinzufügen', icon: 'li:folder-plus', showChevron: false }],
-                    [{ key: 'skills', label: 'Skills', icon: 'li:file-06', showChevron: false }, { key: 'plugins', label: 'Plugins hinzufügen', icon: 'li:zap-square', showChevron: false },
-                      { key: 'connectors', label: 'Konnektoren', icon: 'li:unplug', children: [
-                        [{ key: 'add', label: 'Konnektor hinzufügen', icon: 'li:plus', showChevron: false }, { key: 'manage', label: 'Konnektoren verwalten', icon: 'li:dataflow-01', showChevron: false }],
-                        [{ key: 'gmail', label: 'Gmail', icon: 'gmail', toggle: { checked: gmail, onChange: setGmail } }, { key: 'drive', label: 'Drive', icon: 'google-drive', toggle: { checked: drive, onChange: setDrive } }, { key: 'cal', label: 'Kalender', icon: 'google-calendar', toggle: { checked: cal, onChange: setCal } }],
-                      ] }],
-                  ]} />
-                </div>
-              )}
-              <ChatNotes width="100%" placeholder="Antwort schreiben…" onAttach={() => setMenu((m) => !m)} onSend={() => undefined} />
+            <div style={{ padding: 8 }}>
+              <ChatNotes width="100%" placeholder="Antwort schreiben…" onSend={() => undefined}
+                attachMenu={<AttachMenu gmail={gmail} drive={drive} cal={cal} setGmail={setGmail} setDrive={setDrive} setCal={setCal} />} />
             </div>
           </div>
         </div>

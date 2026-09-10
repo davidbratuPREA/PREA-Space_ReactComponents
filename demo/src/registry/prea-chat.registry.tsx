@@ -182,6 +182,7 @@ export const chatEntry: ComponentEntry = {
   props: [
     // ChatInput
     { name: 'ChatInput.value / defaultValue', type: 'string',              default: "''",   required: false, description: 'Controlled or uncontrolled text.' },
+    { name: 'ChatInput.attachMenu / attachMenuOpen / onAttachMenuOpenChange', type: 'ReactNode / boolean / (open) => void', default: '—', required: false, description: 'Menu opened by the „+“ button, anchored above it (Figma: the Lvl2 DropdownMenu). Esc / outside click closes.' },
     { name: 'ChatInput.onChange',      type: '(value: string) => void',    default: '—',    required: false, description: 'Fires on every keystroke.' },
     { name: 'ChatInput.onSend',        type: '(value: string) => void',    default: '—',    required: false, description: 'Enter or the blue send button (shown only when there is text).' },
     { name: 'ChatInput.placeholder',   type: 'string',                     default: "'Wie kann ich dir helfen?'", required: false, description: 'Placeholder in defText colour.' },

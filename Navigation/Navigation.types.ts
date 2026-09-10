@@ -98,6 +98,8 @@ export interface BottomNavButtonProps extends Omit<React.ButtonHTMLAttributes<HT
   children?: React.ReactNode;
   /** grey (Figma "Ebenen" bg #F1F1F1) · primary (blue "Neu erstellen") · plain (no bg). */
   variant?: 'grey' | 'primary' | 'plain';
+  /** Active state (Figma: grey bg, e.g. the current section). Hover shows the same bg. */
+  active?: boolean;
 }
 
 /* ─── PathMenu (Figma "pathMenu") ────────────────────────────────────────── */

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useId, useRef, useState } from 'react';
+import React, { createContext, forwardRef, useContext, useEffect, useId, useRef, useState } from 'react';
 import { Icon } from '../Icon';
 import type {
   MainNavItemProps, NavDropdownItemProps, NavSectionHeadProps, MainNavProps,
@@ -188,14 +188,16 @@ export function MainNavDivider({ size = 'md', className }: MainNavDividerProps =
 }
 
 /* ─── BottomNav ──────────────────────────────────────────────────────────── */
-export function BottomNavButton({ icon, children, variant = 'plain', className, type = 'button', ...rest }: BottomNavButtonProps) {
+export const BottomNavButton = forwardRef<HTMLButtonElement, BottomNavButtonProps>(function BottomNavButton(
+  { icon, children, variant = 'plain', active, className, type = 'button', ...rest }, ref,
+) {
   return (
-    <button type={type} className={cx('prea-bottomnav-btn', variant !== 'plain' && `prea-bottomnav-btn--${variant}`, className)} {...rest}>
+    <button ref={ref} type={type} className={cx('prea-bottomnav-btn', variant !== 'plain' && `prea-bottomnav-btn--${variant}`, active && 'prea-bottomnav-btn--active', className)} aria-pressed={active} {...rest}>
       {icon && <span className="prea-bottomnav-btn__icon">{renderIcon(icon, 14)}</span>}
       {children}
     </button>
   );
-}
+});
 
 export function BottomNav({
   children, icons, date, time, editMode, editLabel = 'Bearbeitungsmodus', onExitEdit, exitLabel = 'Beenden', className, style,

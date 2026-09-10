@@ -339,6 +339,10 @@ html[data-theme='dark'] {
   justify-content: space-between;
   gap: var(--chat\/sizing\/gap-l, 6px);
 }
+/* "+" popover — anchored above the attach button (Figma: Lvl2 dropdown over the chat) */
+.prea-chat-input__attach { position: relative; display: inline-flex; }
+.prea-chat-input__attach-menu { position: absolute; left: 0; bottom: calc(100% + 6px); z-index: 1000; }
+
 .prea-chat-input__actions {
   display: flex;
   align-items: center;

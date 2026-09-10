@@ -3,8 +3,8 @@ import { DemoFrame } from '../demo/AppShell';
 import { DashboardScreen, DataPanelScreen, PortfolioScreen, NotesScreen } from '../demo/screens';
 
 const SCREENS = [
-  { key: 'dashboard', label: 'Dashboard', caption: 'MainNav rail · ChatInput with model picker and Chats / Projekte dropdowns · NavInfoCard · BottomNav', render: () => <DashboardScreen /> },
-  { key: 'data', label: 'Data panel & map', caption: 'TabsMain · PathMenu + Breadcrumb · SearchPanel · PanelTabs · DataPanel / DataGroup / DataBox · MapLayersMenu · FilterPanel · MapNav on the map', render: () => <DataPanelScreen /> },
+  { key: 'dashboard', label: 'Dashboard', caption: 'MainNav rail · ChatInput — the „+“ opens the Lvl2 menu, Chats / Projekte dropdowns · click a BottomNav section to show its nav_InfoCard above the button', render: () => <DashboardScreen /> },
+  { key: 'data', label: 'Data panel & map', caption: 'TabsMain · DataPanelWrapper in the active-tab colour · PathMenu + Breadcrumb · SearchPanel · PanelTabs · DataPanel / DataGroup / DataBox · „Ebenen“ toggles the MapLayersMenu · FilterPanel · „Bearbeiten“ switches the BottomNav to edit mode · MapNav', render: () => <DataPanelScreen /> },
   { key: 'portfolio', label: 'Portfolio · Kanban', caption: 'TabsMain · PathMenu with search · PanelTabs with tools · InfoBoxModule KPI strip · KanbanBoard with status columns', render: () => <PortfolioScreen /> },
   { key: 'notes', label: 'Notes & chat', caption: 'Notes panel: NoteThread with answers and nested comments · ChatNotes composer · DropdownMenu Lvl2 (Konnektoren) · MapNav', render: () => <NotesScreen /> },
 ];

@@ -13,27 +13,26 @@
 .demo-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); background: #1a1a1a; }
 .demo-frame__inner { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
 
-/* ─── App shell ──────────────────────────────────────────────────────────── */
-.app { position: relative; display: flex; flex-direction: column; width: 1920px; height: 1080px; overflow: hidden; background: var(--mainmenu\/color\/bg, #fff); color: var(--mainmenu\/color\/text, #202020); font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', 'Inter', system-ui, sans-serif); font-size: 12px; line-height: 16px; }
-.app__body { display: flex; flex: 1 1 0; min-height: 0; }
+/* ─── App shell (Figma: mainNav 48px full height · MainWrapper = TabsMain / content / bottomNav) ── */
+.app { position: relative; display: flex; width: 1920px; height: 1080px; overflow: hidden; background: var(--mainmenu\/color\/bg, #fff); color: var(--mainmenu\/color\/text, #202020); font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', 'Inter', system-ui, sans-serif); font-size: 12px; line-height: 16px; }
 .app__rail { flex-shrink: 0; height: 100%; }
 .app__rail .prea-mainnav { height: 100%; }
-.app__main { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
-.app__bottom { flex-shrink: 0; }
-.app__bottom .prea-bottomnav { border-top: 1px solid var(--bottomnav\/color\/border, #e1e1e1); }
+.app__main { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; min-height: 0; }
+.app__content { position: relative; flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+.app__bottom { flex-shrink: 0; position: relative; }
 
 /* dashboard */
-.app__dash { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; background: #EDEDED; }
-html[data-theme='dark'] .app__dash { background: #191919; }
+.app__dash { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; background: var(--tabs-active-bg, #fff); }
 .app__hello { font-size: 36px; line-height: 44px; font-weight: 500; }
-.app__dash-card { position: absolute; left: 315px; bottom: 44px; }
+.app__dash-card { position: absolute; bottom: 4px; z-index: 5; }
 
-/* panel + map layout */
+/* panel + map layout — DataPanelWrapper uses DataPanelBG (= the active tab colour) */
 .app__split { display: flex; flex: 1 1 0; min-height: 0; }
-.app__panel { display: flex; flex-direction: column; flex-shrink: 0; width: 650px; min-height: 0; border-right: 1px solid var(--mainmenu\/color\/border, #e1e1e1); background: var(--mainmenu\/color\/bg, #fff); }
+.app__panel { display: flex; flex-direction: column; flex-shrink: 0; width: 650px; min-height: 0; border-right: 1px solid var(--mainmenu\/color\/border, #e1e1e1); background: var(--tabs-active-bg, #fff); }
 .app__panel--wide { width: 100%; border-right: none; }
 .app__panel-scroll { flex: 1 1 0; min-height: 0; overflow-y: auto; position: relative; }
 .app__panel-scroll--pad { padding: 8px; }
+.app__panel .prea-pathmenu, .app__panel .prea-searchpanel, .app__panel .prea-paneltabs { background: transparent; }
 
 /* fake map */
 .app__map { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden;
@@ -67,8 +66,8 @@ html[data-theme='dark'] .app__map { background-color: #262624; filter: none;
 html[data-theme='dark'] .app__map-block { background: #33332f; box-shadow: 0 1px 0 #1d1d1b; }
 .app__map-label { position: absolute; color: #6b665c; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; }
 html[data-theme='dark'] .app__map-label { color: #8d887d; }
-.app__map-search { position: absolute; top: 12px; right: 12px; }
-.app__mapnav { position: absolute; right: 12px; bottom: 12px; }
+.app__map-search { position: absolute; top: 10px; right: 10px; }
+.app__mapnav { position: absolute; right: 10px; bottom: 10px; }
 .app__float { position: absolute; }
 
 /* welcome thumbnail */

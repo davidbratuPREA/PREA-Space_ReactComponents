@@ -26,6 +26,9 @@ export function ChatInput({
   onSend,
   disabled = false,
   onAttach,
+  attachMenu,
+  attachMenuOpen,
+  onAttachMenuOpenChange,
   modelLabel,
   modelIcon = 'OpenAI',
   onModelClick,
@@ -68,12 +71,30 @@ export function ChatInput({
   const hasText = text.trim().length > 0;
   const hasSub = subMenu !== undefined && subMenu !== null && subMenu !== false;
 
+  // "+" popover (attachMenu)
+  const hasAttachMenu = attachMenu !== undefined && attachMenu !== null && attachMenu !== false;
+  const [innerMenuOpen, setInnerMenuOpen] = useState(false);
+  const menuOpen = attachMenuOpen ?? innerMenuOpen;
+  const setMenuOpen = (v: boolean) => { setInnerMenuOpen(v); onAttachMenuOpenChange?.(v); };
+  const rootRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onDown = (e: MouseEvent) => { if (rootRef.current && !rootRef.current.contains(e.target as Node)) setMenuOpen(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
+    document.addEventListener('mousedown', onDown); document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('mousedown', onDown); document.removeEventListener('keydown', onKey); };
+  });
+
   const cls = ['prea-chat-input', hasSub && 'prea-chat-input--with-sub', className].filter(Boolean).join(' ');
 
   const defaultActions = (
     <>
-      {onAttach && (
-        <ChatButton icon="li:plus" label="Anhängen" onClick={onAttach} disabled={disabled} />
+      {(onAttach || hasAttachMenu) && (
+        <span className="prea-chat-input__attach">
+          <ChatButton icon="li:plus" label="Anhängen" active={menuOpen} aria-expanded={hasAttachMenu ? menuOpen : undefined} aria-haspopup={hasAttachMenu ? 'menu' : undefined}
+            onClick={() => { onAttach?.(); if (hasAttachMenu) setMenuOpen(!menuOpen); }} disabled={disabled} />
+          {hasAttachMenu && menuOpen && <div className="prea-chat-input__attach-menu">{attachMenu}</div>}
+        </span>
       )}
       {modelLabel !== undefined && modelLabel !== null && (
         <ChatButton icon={modelIcon} onClick={onModelClick} disabled={disabled}>
@@ -84,7 +105,7 @@ export function ChatInput({
   );
 
   return (
-    <div className={cls} style={{ width, ...style }}>
+    <div ref={rootRef} className={cls} style={{ width, ...style }}>
       <div className="prea-chat-input__head">
         <textarea
           ref={taRef}
