@@ -1,5 +1,5 @@
 /* ─── App demo screens (1920×1080 app frames, scaled to fit) ───────────────── */
-.demo-page { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 1600px; margin: 0 auto; }
+.demo-page { display: flex; flex-direction: column; gap: 18px; width: 100%; }
 .demo-page__tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .demo-page__tab {
   padding: 7px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-card);
@@ -7,14 +7,11 @@
 }
 .demo-page__tab:hover { color: var(--text-primary); border-color: var(--text-muted); }
 .demo-page__tab--active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.demo-page__caption { font-size: 13px; color: var(--text-secondary); margin: 0; }
-.demo-page__bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: -6px; }
-.demo-page__zoom { display: flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 12px; color: var(--text-muted); }
-.demo-page__zoom .demo-page__tab { padding: 4px 10px; font-size: 12px; }
+.demo-page__caption { font-size: 13px; color: var(--text-secondary); margin: -6px 0 0; }
 
-/* scaled 1920×1080 frame */
-.demo-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); background: #1a1a1a; }
-.demo-frame__inner { top: 0; left: 0; transform-origin: 0 0; }
+/* Full-HD frame at 1:1 — scrolls inside its box when the window is narrower than 1920px */
+.demo-frame { position: relative; width: 100%; max-width: 1922px; max-height: calc(100vh - 120px); overflow: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); background: #1a1a1a; }
+.demo-frame__screen { width: 1920px; height: 1080px; }
 
 /* ─── App shell (Figma: mainNav 48px full height · MainWrapper = TabsMain / content / bottomNav) ── */
 .app { position: relative; display: flex; width: 1920px; height: 1080px; overflow: hidden; background: var(--mainmenu\/color\/bg, #fff); color: var(--mainmenu\/color\/text, #202020); font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', 'Inter', system-ui, sans-serif); font-size: 12px; line-height: 16px; }

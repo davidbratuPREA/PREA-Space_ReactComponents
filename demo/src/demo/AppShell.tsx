@@ -6,33 +6,31 @@ import './demo.css';
 const AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="%23111"/><circle cx="12" cy="9" r="4" fill="%2358a"/><ellipse cx="12" cy="19" rx="7" ry="4" fill="%2358a"/></svg>');
 export const AVATAR_URL = AVATAR;
 
-/**
- * A fixed 1920×1080 app frame. `zoom="fit"` scales it to the container width;
- * `zoom={1}` renders the components at their real pixel size (the frame scrolls).
- */
-export function ScaledScreen({ children, className, zoom = 'fit' }: { children: React.ReactNode; className?: string; zoom?: 'fit' | number }) {
+/** Scales a fixed 1920×1080 app frame to the width of its container (used for the welcome thumbnail). */
+export function ScaledScreen({ children, className }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [fit, setFit] = useState(0.5);
+  const [scale, setScale] = useState(0.5);
   useEffect(() => {
     const el = ref.current; if (!el) return;
-    const update = () => setFit(el.clientWidth / 1920);
+    const update = () => setScale(el.clientWidth / 1920);
     update();
     const ro = new ResizeObserver(update); ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  const scale = zoom === 'fit' ? fit : zoom;
   return (
-    <div ref={ref} className={className} style={{ position: 'relative', width: '100%', aspectRatio: zoom === 'fit' ? '16 / 9' : undefined, height: zoom === 'fit' ? undefined : Math.min(1080 * scale, 900), overflow: zoom === 'fit' ? 'hidden' : 'auto' }}>
-      <div className="demo-frame__inner" style={{ transform: `scale(${scale})`, position: zoom === 'fit' ? 'absolute' : 'relative', width: zoom === 'fit' ? 1920 : 1920 * scale, height: zoom === 'fit' ? 1080 : 1080 * scale }}>
-        <div style={{ width: 1920, height: 1080 }}>{children}</div>
-      </div>
+    <div ref={ref} className={className} style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: 1920, height: 1080, transform: `scale(${scale})`, transformOrigin: '0 0' }}>{children}</div>
     </div>
   );
 }
 
-/** Framed, shadowed 1920×1080 screen for the demo page. */
-export function DemoFrame({ children, zoom }: { children: React.ReactNode; zoom?: 'fit' | number }) {
-  return <ScaledScreen className="demo-frame" zoom={zoom}>{children}</ScaledScreen>;
+/** Full-HD 1920×1080 screen at 1:1 — no scaling; the frame scrolls when the window is narrower. */
+export function DemoFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="demo-frame">
+      <div className="demo-frame__screen">{children}</div>
+    </div>
+  );
 }
 
 export interface AppShellProps {

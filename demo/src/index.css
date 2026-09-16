@@ -394,6 +394,7 @@ body {
   width: 100%;
 }
 .comp-page--wide { max-width: 1400px; }
+.comp-page--full { max-width: none; }
 
 .comp-page__header {
   margin-bottom: 32px;
