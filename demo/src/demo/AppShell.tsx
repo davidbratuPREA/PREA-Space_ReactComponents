@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MainNav, MainNavDivider, MainNavItem, MainNavUser, NavDropdownItem, BottomNav, BottomNavButton } from '../../../Navigation';
+import { MainNav, MainNavDivider, MainNavItem, MainNavUser, NavDropdownItem, NavSectionHead, BottomNav, BottomNavButton } from '../../../Navigation';
+import { Icon } from '../../../Icon';
 import { Avatar } from '../../../Avatar';
 import './demo.css';
 
@@ -46,37 +47,63 @@ export interface AppShellProps {
   onExitEdit?: () => void;
 }
 
-/** Figma app frame: 48px mainNav full height on the left; MainWrapper (content + bottomNav) beside it. */
+const PROJECTS = ['Berlin Mitte', 'Potsdamer Platz', 'Hafencity'];
+const CHATS = ['Marktanalyse Berlin', 'Vergleich Frankfurt', 'Standortcheck Hamburg'];
+const DEEPSTREET = ['Map', 'Projekte', 'Portfolio', 'Accounts', 'Kontakte'];
+
+/** Figma app frame: mainNav full height on the left (48px rail, 280px when expanded); MainWrapper (content + bottomNav) beside it. */
 export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay, editMode, onExitEdit }: AppShellProps) {
+  const [expanded, setExpanded] = useState(false);
+  const ex = expanded;
+  const railHeader = (
+    <>
+      <MainNavItem expanded={ex} icon="message-square-plus" label="New Chat" title="New Chat" active={active === 'chat'} />
+      <MainNavDivider size={ex ? 'sm' : 'md'} />
+      <MainNavItem expanded={ex} icon="li:folder" label="Projekte" title="Projekte" active={active === 'projekte'}>
+        {PROJECTS.map((p) => <NavDropdownItem key={p} label={p} />)}
+      </MainNavItem>
+      <MainNavItem expanded={ex} icon="li:colors" label="Deep Street" title="Deep Street" active={active === 'deepstreet'}>
+        {DEEPSTREET.map((p) => <NavDropdownItem key={p} label={p} active={p === 'Portfolio' && active === 'deepstreet'} />)}
+      </MainNavItem>
+      <MainNavItem expanded={ex} icon="li:users" label="Team" title="Team" active={active === 'team'} />
+      <MainNavItem expanded={ex} icon="li:atom" label="Analysen" title="Analysen" active={active === 'analysen'} />
+      <MainNavItem expanded={ex} icon="li:globe-02" label="Karte" title="Karte" active={active === 'karte'} />
+    </>
+  );
+  const railFooter = ex ? (
+    <>
+      <MainNavDivider />
+      <NavSectionHead title="Projekte" actionLabel="Alle anzeigen" />
+      {PROJECTS.map((p) => <MainNavItem key={p} expanded icon="li:folder" label={p} />)}
+      <MainNavDivider />
+      <NavSectionHead title="Chats" actionLabel="Alle anzeigen" />
+      {CHATS.map((c) => <MainNavItem key={c} expanded icon="li:message-square" label={c} />)}
+      <MainNavDivider />
+      <MainNavItem expanded icon="li:moon" label="Dark Mode" />
+      <MainNavItem expanded icon="li:languages" label="Deutsch" />
+      <MainNavItem expanded icon="li:settings" label="System" />
+      <MainNavDivider />
+      <MainNavUser expanded avatar={<Avatar size="big" src={AVATAR} />} name="Gabriel Khodzitski" />
+    </>
+  ) : (
+    <>
+      <MainNavDivider />
+      <MainNavItem expanded={false} icon="li:folder" title="Projekte">{PROJECTS.map((p) => <NavDropdownItem key={p} label={p} />)}</MainNavItem>
+      <MainNavDivider />
+      <MainNavItem expanded={false} icon="li:message-square" title="Chats">{CHATS.map((c) => <NavDropdownItem key={c} label={c} />)}</MainNavItem>
+      <MainNavDivider />
+      <MainNavItem expanded={false} icon="li:moon" title="Dark Mode" />
+      <MainNavItem expanded={false} icon="li:languages" title="Deutsch" />
+      <MainNavItem expanded={false} icon="li:settings" title="System" />
+      <MainNavDivider />
+      <MainNavUser expanded={false} avatar={<Avatar size="big" src={AVATAR} />} name="Gabriel Khodzitski" />
+    </>
+  );
   return (
     <div className="app">
       <div className="app__rail">
-        <MainNav expanded={false} height="100%" footer={
-          <>
-            <MainNavDivider />
-            <MainNavItem expanded={false} icon="li:folder" title="Projekte">
-              {['Berlin Mitte', 'Potsdamer Platz', 'Hafencity'].map((p) => <NavDropdownItem key={p} label={p} />)}
-            </MainNavItem>
-            <MainNavItem expanded={false} icon="li:message-square" title="Chats">
-              <NavDropdownItem label="Marktanalyse Berlin" /><NavDropdownItem label="Vergleich Frankfurt" />
-            </MainNavItem>
-            <MainNavDivider />
-            <MainNavItem expanded={false} icon="li:moon" title="Dark Mode" />
-            <MainNavItem expanded={false} icon="li:languages" title="Deutsch" />
-            <MainNavItem expanded={false} icon="li:settings" title="System" />
-            <MainNavDivider />
-            <MainNavUser expanded={false} avatar={<Avatar size="big" src={AVATAR} />} name="Gabriel Khodzitski" />
-          </>
-        }>
-          <MainNavItem expanded={false} icon="message-square-plus" title="New Chat" active={active === 'chat'} />
-          <MainNavDivider />
-          <MainNavItem expanded={false} icon="li:folder" title="Projekte" active={active === 'projekte'} />
-          <MainNavItem expanded={false} icon="li:colors" title="Deep Street" active={active === 'deepstreet'}>
-            {['Map', 'Projekte', 'Portfolio', 'Accounts', 'Kontakte'].map((p) => <NavDropdownItem key={p} label={p} active={p === 'Portfolio' && active === 'deepstreet'} />)}
-          </MainNavItem>
-          <MainNavItem expanded={false} icon="li:users" title="Team" active={active === 'team'} />
-          <MainNavItem expanded={false} icon="li:atom" title="Analysen" active={active === 'analysen'} />
-          <MainNavItem expanded={false} icon="li:globe-02" title="Karte" active={active === 'karte'} />
+        <MainNav expanded={ex} onToggle={() => setExpanded((v) => !v)} height="100%" logo={<Icon name="PREA-Logo" size={24} />} footer={railFooter}>
+          {railHeader}
         </MainNav>
       </div>
       <div className="app__main">

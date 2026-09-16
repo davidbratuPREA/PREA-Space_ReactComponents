@@ -24,7 +24,7 @@
 /* dashboard */
 .app__dash { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; background: var(--tabs-active-bg, #fff); }
 .app__hello { font-size: 36px; line-height: 44px; font-weight: 500; }
-.app__dash-card { position: absolute; bottom: 4px; z-index: 5; }
+.app__dash-card { position: absolute; bottom: calc(100% + 4px); z-index: 5; }
 
 /* panel + map layout — DataPanelWrapper uses DataPanelBG (= the active tab colour) */
 .app__split { display: flex; flex: 1 1 0; min-height: 0; }

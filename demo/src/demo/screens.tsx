@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AppShell, MapArea, AVATAR_URL } from './AppShell';
 import { PathMenu, PanelTabs, IconButton, ToolDivider, SearchPanel, BottomNavButton } from '../../../Navigation';
 import { Breadcrumb } from '../../../Breadcrumb';
@@ -72,20 +72,33 @@ function AttachMenu({ gmail, drive, cal, setGmail, setDrive, setCal }: { gmail: 
 
 export function DashboardScreen() {
   const [sent, setSent] = useState<string | null>(null);
-  const [section, setSection] = useState<string | null>('deepstreet');
+  const [section, setSection] = useState<string | null>(null);   // nav_InfoCard hidden until a BottomNav section is clicked
   const [gmail, setGmail] = useState(true); const [drive, setDrive] = useState(true); const [cal, setCal] = useState(false);
   const card = section ? SECTION_CARD[section] : null;
   // the nav_InfoCard sits right above the active BottomNav button (Figma: same left edge)
   const btnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const [cardLeft, setCardLeft] = useState(8);
   useLayoutEffect(() => { const b = section ? btnRefs.current[section] : null; if (b) setCardLeft(b.offsetLeft); }, [section]);
+  // close the card when clicking anywhere outside it (or its button)
+  const cardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!section) return;
+    const onDown = (e: MouseEvent) => {
+      const t = e.target as Node;
+      if (cardRef.current?.contains(t)) return;
+      if (Object.values(btnRefs.current).some((b) => b?.contains(t))) return;
+      setSection(null);
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [section]);
   return (
     <AppShell active="chat"
       bottomLeft={SECTIONS.map((s) => (
         <BottomNavButton key={s.key} ref={(el) => { btnRefs.current[s.key] = el; }} icon={s.icon} active={section === s.key} onClick={() => setSection(section === s.key ? null : s.key)}>{s.label}</BottomNavButton>
       ))}
       bottomOverlay={card && (
-        <div className="app__dash-card" style={{ left: cardLeft }}>
+        <div ref={cardRef} className="app__dash-card" style={{ left: cardLeft }}>
           <NavInfoCard title={card.title} description={card.description} links={card.links.map((l) => ({ key: l, label: l }))} />
         </div>
       )}
