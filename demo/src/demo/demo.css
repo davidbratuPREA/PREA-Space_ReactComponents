@@ -7,11 +7,14 @@
 }
 .demo-page__tab:hover { color: var(--text-primary); border-color: var(--text-muted); }
 .demo-page__tab--active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.demo-page__caption { font-size: 13px; color: var(--text-secondary); margin: -6px 0 0; }
+.demo-page__caption { font-size: 13px; color: var(--text-secondary); margin: 0; }
+.demo-page__bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: -6px; }
+.demo-page__zoom { display: flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 12px; color: var(--text-muted); }
+.demo-page__zoom .demo-page__tab { padding: 4px 10px; font-size: 12px; }
 
 /* scaled 1920×1080 frame */
 .demo-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); background: #1a1a1a; }
-.demo-frame__inner { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+.demo-frame__inner { top: 0; left: 0; transform-origin: 0 0; }
 
 /* ─── App shell (Figma: mainNav 48px full height · MainWrapper = TabsMain / content / bottomNav) ── */
 .app { position: relative; display: flex; width: 1920px; height: 1080px; overflow: hidden; background: var(--mainmenu\/color\/bg, #fff); color: var(--mainmenu\/color\/text, #202020); font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', 'Inter', system-ui, sans-serif); font-size: 12px; line-height: 16px; }
