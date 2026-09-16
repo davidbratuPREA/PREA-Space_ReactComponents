@@ -126,10 +126,10 @@ html[data-theme='dark'] {
 .prea-layersmenu__title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 8px; }
 .prea-layersmenu__title { flex: 1 1 0; min-width: 0; font-size: var(--layermenu\/font\/size-head, 18px); line-height: var(--layermenu\/font\/lineheight-head, 22px); font-weight: 500; }
 .prea-layersmenu__active { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; padding: 8px 4px 4px; overflow-y: auto; scrollbar-gutter: stable; }
-.prea-layersmenu__active { padding-right: max(0px, calc(4px - var(--scrollbar\/sizing\/gutter, 6px))); }
+.prea-layersmenu__active { padding-right: max(0px, calc(4px - var(--scrollbar\/sizing\/gutter, 9px))); }
 .prea-layersmenu__remove { padding: 0; border: none; background: none; color: inherit; font: inherit; cursor: pointer; }
 .prea-layersmenu__remove:hover { text-decoration: underline; }
 /* layersGroup */
 /* layersGroup: fixed 350px, scrolls; the scrollbar sits inside the 10px right padding so it never pushes the rows */
-.prea-layersmenu__layers { display: flex; flex-direction: column; flex-shrink: 0; height: var(--layermenu\/sizing\/layers-h, 350px); padding: 4px calc(var(--layermenu\/sizing\/padding-r2, 10px) - var(--scrollbar\/sizing\/gutter, 6px)) 4px 4px; overflow-y: auto; scrollbar-gutter: stable; }
+.prea-layersmenu__layers { display: flex; flex-direction: column; flex-shrink: 0; height: var(--layermenu\/sizing\/layers-h, 350px); padding: 4px calc(var(--layermenu\/sizing\/padding-r2, 10px) - var(--scrollbar\/sizing\/gutter, 9px)) 4px 4px; overflow-y: auto; scrollbar-gutter: stable; }
 .prea-layersmenu__layers > * { flex-shrink: 0; }
