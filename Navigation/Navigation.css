@@ -96,7 +96,7 @@ html[data-theme='dark'] {
 .prea-iconbtn--18 { width: 18px; height: 18px; }
 .prea-iconbtn--24 { width: 24px; height: 24px; } .prea-iconbtn--24 svg { width: 18px; height: 18px; }
 .prea-iconbtn--32 { width: 32px; height: 32px; } .prea-iconbtn--32 svg { width: 20px; height: 20px; }
-.prea-iconbtn:hover, .prea-iconbtn:focus-visible { background: var(--mainmenu\/color\/btn-hover, #f1f1f1); outline: none; }
+.prea-iconbtn:hover:not(.prea-iconbtn--active), .prea-iconbtn:focus-visible:not(.prea-iconbtn--active) { background: var(--mainmenu\/color\/btn-hover, #f1f1f1); outline: none; }
 .prea-iconbtn--active, .prea-iconbtn:active { background: var(--mainmenu\/color\/btn-active, #e6e6e6); }
 .prea-iconbtn--primary, .prea-iconbtn--primary:hover { background: var(--bottomnav\/color\/bg-active, #0663e5); color: var(--bottomnav\/color\/btn-w, #f5f5f5); }
 .prea-iconbtn:disabled { opacity: .5; cursor: not-allowed; }
@@ -148,7 +148,7 @@ html[data-theme='dark'] {
 }
 .prea-navitem--expanded .prea-navitem__btn { width: 100%; justify-content: flex-start; padding: 0 var(--mainmenu\/sizing\/padding, 8px); }
 .prea-navitem--collapsed .prea-navitem__btn { width: var(--mainmenu\/sizing\/controlheight, 32px); }
-.prea-navitem__btn:hover, .prea-navitem__btn:focus-visible { background: var(--mainmenu\/color\/btn-hover, #f1f1f1); outline: none; }
+.prea-navitem:not(.prea-navitem--active) > .prea-navitem__btn:hover, .prea-navitem__btn:focus-visible { background: var(--mainmenu\/color\/btn-hover, #f1f1f1); outline: none; }
 .prea-navitem--active > .prea-navitem__btn { background: var(--mainmenu\/color\/btn-active, #e6e6e6); }
 .prea-navitem__icon { display: inline-flex; flex-shrink: 0; color: var(--mainmenu\/color\/icon, #202020); }
 .prea-navitem--expanded .prea-navitem__icon { width: 16px; height: 16px; }
@@ -179,10 +179,10 @@ html[data-theme='dark'] {
   color: var(--mainmenu\/color\/secondary, #888); font: inherit; font-size: var(--nav\/font\/size-lg, 13px); line-height: var(--nav\/font\/lineheight-lg, 17px);
   text-align: left; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;
 }
-.prea-navdrop:hover, .prea-navdrop:focus-visible, .prea-navdrop--active { color: var(--mainmenu\/color\/secondary-active, #202020); outline: none; }
+.prea-navdrop:hover:not(.prea-navdrop--active), .prea-navdrop:focus-visible, .prea-navdrop--active { color: var(--mainmenu\/color\/secondary-active, #202020); outline: none; }
 /* inside a flyout the rows are DropdownBig Items: 32px, padding 6, gap 8, 16px icon */
 .prea-navitem__flyout .prea-navdrop { display: flex; align-items: center; gap: 8px; padding: 0 6px; border-radius: 4px; color: var(--mainmenu\/flyout\/text, #202020); }
-.prea-navitem__flyout .prea-navdrop:hover, .prea-navitem__flyout .prea-navdrop:focus-visible, .prea-navitem__flyout .prea-navdrop--active { background: var(--mainmenu\/flyout\/hover, #e7e7e7); }
+.prea-navitem__flyout .prea-navdrop:hover:not(.prea-navdrop--active), .prea-navitem__flyout .prea-navdrop:focus-visible, .prea-navitem__flyout .prea-navdrop--active { background: var(--mainmenu\/flyout\/hover, #e7e7e7); }
 .prea-navdrop__icon { display: inline-flex; width: 16px; height: 16px; flex-shrink: 0; }
 .prea-navdrop__icon svg { width: 100%; height: 100%; }
 
@@ -214,8 +214,8 @@ html[data-theme='dark'] {
 .prea-bottomnav-btn__icon svg { width: 100%; height: 100%; }
 .prea-bottomnav-btn--grey { background: var(--bottomnav\/color\/btn-grey, #f1f1f1); }
 .prea-bottomnav-btn--primary { background: var(--bottomnav\/color\/bg-active, #0663e5); color: var(--bottomnav\/color\/text-w, #f5f5f5); }
-.prea-bottomnav-btn:hover, .prea-bottomnav-btn--active { background: var(--bottomnav\/color\/btn-grey, #f1f1f1); }
-.prea-bottomnav-btn--primary:hover { background: var(--bottomnav\/color\/bg-active, #0663e5); filter: brightness(1.08); }
+.prea-bottomnav-btn:hover:not(.prea-bottomnav-btn--active), .prea-bottomnav-btn--active { background: var(--bottomnav\/color\/btn-grey, #f1f1f1); }
+.prea-bottomnav-btn--primary:hover:not(.prea-bottomnav-btn--active) { background: var(--bottomnav\/color\/bg-active, #0663e5); filter: brightness(1.08); }
 .prea-bottomnav__exit { background: var(--bottomnav\/color\/btn-w, #f5f5f5); color: var(--bottomnav\/color\/danger, #d92d20); }
 
 /* ─── PathMenu ───────────────────────────────────────────────────────────── */
@@ -239,7 +239,7 @@ html[data-theme='dark'] {
 .prea-menutabs--tertiary .prea-menutabs__tab--active, .prea-menutabs--tertiary .prea-menutabs__tab--active:hover { background: var(--tabs\/color\/bg2-active, #d5d5d5); color: var(--tabs\/color\/text-active, #0663e5); }
 .prea-menutabs--secondary .prea-menutabs__tab { height: 26px; border-bottom: 1px solid transparent; font-size: var(--nav\/font\/size, 12px); line-height: var(--nav\/font\/lineheight, 16px); font-weight: 400; }
 .prea-menutabs--secondary .prea-menutabs__tab--active { color: var(--tabs\/color\/text, #202020); font-weight: 500; border-bottom-color: var(--tabs\/color\/text, #202020); }
-.prea-menutabs__tab:hover, .prea-menutabs__tab:focus-visible { color: var(--tabs\/color\/text, #202020); outline: none; }
+.prea-menutabs__tab:hover:not(.prea-menutabs__tab--active), .prea-menutabs__tab:focus-visible { color: var(--tabs\/color\/text, #202020); outline: none; }
 .prea-menutabs__add { width: 20px; height: 20px; }
 .prea-menutabs__add svg { width: 14px; height: 14px; }
 

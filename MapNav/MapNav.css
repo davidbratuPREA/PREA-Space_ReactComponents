@@ -87,7 +87,7 @@ html[data-theme='dark'] {
   background: transparent; color: var(--layermenu\/color\/icon, #202020); cursor: pointer;
 }
 .prea-layerbtn svg { width: 14px; height: 14px; }
-.prea-layerbtn:hover, .prea-layerbtn:focus-visible, .prea-layerbtn--active { background: var(--layermenu\/color\/btn-hover, #cacaca); outline: none; }
+.prea-layerbtn:hover:not(.prea-layerbtn--active), .prea-layerbtn:focus-visible, .prea-layerbtn--active { background: var(--layermenu\/color\/btn-hover, #cacaca); outline: none; }
 
 /* ─── MapLayerItem (Figma map-layer_item) ────────────────────────────────── */
 .prea-layer { display: flex; flex-direction: column; width: 100%; color: var(--layermenu\/color\/text, #202020); }

@@ -82,7 +82,7 @@ html[data-theme='dark'] {
   color: var(--dropdown\/color\/text, #202020);
 }
 
-.prea-dropdown-item:hover:not(.prea-dropdown-item--disabled),
+.prea-dropdown-item:hover:not(.prea-dropdown-item--disabled):not(.prea-dropdown-item--open),
 .prea-dropdown-item--open {
   background-color: var(--dropdown\/color\/itemhover, #e7e7e7);
 }

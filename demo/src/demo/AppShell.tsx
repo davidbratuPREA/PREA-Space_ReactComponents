@@ -117,8 +117,8 @@ export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay,
           <div className="app__content">{children}</div>
           {/* default: bottomNav beside the rail; edit mode: blue bar spans the full width below rail + content */}
           {!editMode && <div className="app__bottom">{bottomOverlay}{bottomNav}</div>}
-          {editMode && <div className="app__edit-frame" aria-hidden />}
         </div>
+        {editMode && <div className="app__edit-frame" aria-hidden />}
       </div>
       {editMode && <div className="app__bottom app__bottom--full">{bottomNav}</div>}
     </div>

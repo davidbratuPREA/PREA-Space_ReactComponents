@@ -280,7 +280,7 @@ html[data-theme='dark'] {
   cursor: pointer;
   transition: color 0.15s ease;
 }
-.prea-mapbtn:hover,
+.prea-mapbtn:hover:not(.prea-mapbtn--active),
 .prea-mapbtn:focus-visible,
 .prea-mapbtn--active { color: var(--mapbtn-icon-hover, #202020); outline: none; }
 .prea-mapbtn:disabled { cursor: not-allowed; opacity: 0.5; }

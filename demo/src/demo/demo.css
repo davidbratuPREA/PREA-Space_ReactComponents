@@ -15,14 +15,14 @@
 
 /* ─── App shell (Figma: mainNav 48px full height · MainWrapper = TabsMain / content / bottomNav) ── */
 .app { position: relative; display: flex; flex-direction: column; width: 1920px; height: 1080px; overflow: hidden; background: var(--mainmenu\/color\/bg, #fff); color: var(--mainmenu\/color\/text, #202020); font-family: var(--font-family\/fontfamily, 'Test Die Grotesk VF', 'Inter', system-ui, sans-serif); font-size: 12px; line-height: 16px; }
-.app__body { flex: 1 1 0; min-height: 0; display: flex; }
+.app__body { position: relative; flex: 1 1 0; min-height: 0; display: flex; }
 .app__rail { flex-shrink: 0; height: 100%; }
 .app__rail .prea-mainnav { height: 100%; }
 .app__main { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; min-height: 0; }
 .app__content { position: relative; flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
 .app__bottom { flex-shrink: 0; position: relative; }
 .app__bottom--full { width: 100%; }
-/* edit mode: blue frame with inner glow around the content (above the bottom bar) */
+/* edit mode: blue frame with inner glow around rail + content, full width like the blue bar below it */
 .app__edit-frame { position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 50; pointer-events: none; box-sizing: border-box; border: 2px solid var(--bottomnav\/color\/bg-active, #0663e5); box-shadow: inset 0 0 24px rgba(6, 99, 229, 0.35); }
 
 /* dashboard */
