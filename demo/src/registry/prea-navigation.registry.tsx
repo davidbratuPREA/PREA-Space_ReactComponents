@@ -8,6 +8,7 @@ import { SearchInput } from '../../../Inputs';
 import { Avatar } from '../../../Avatar';
 import { Icon } from '../../../Icon';
 import type { ComponentEntry } from './types';
+import { useThemeNavItem } from '../ThemeContext';
 
 import navSrc   from '../../../Navigation/Navigation.tsx?raw';
 import navTypes from '../../../Navigation/Navigation.types.ts?raw';
@@ -25,6 +26,7 @@ function NavDemo() {
   const [tab, setTab] = useState('karte');
   const [sub, setSub] = useState('alle');
   const [log, setLog] = useState('');
+  const themeItem = useThemeNavItem();
 
   const navBody = (
     <>
@@ -52,7 +54,7 @@ function NavDemo() {
       <MainNavItem expanded icon="li:message-square" label="Vergleich Frankfurt" onClick={() => setLog('Vergleich')} />
       <MainNavItem expanded icon="li:message-square" label="Standortcheck Hamburg" onClick={() => setLog('Standortcheck')} />
       <MainNavDivider />
-      <MainNavItem expanded icon="li:moon" label="Dark Mode" onClick={() => setLog('Dark Mode')} />
+      <MainNavItem expanded icon={themeItem.icon} label={themeItem.label} onClick={themeItem.onClick} />
       <MainNavItem expanded icon="li:languages" label="Deutsch" onClick={() => setLog('Deutsch')} />
       <MainNavItem expanded icon="li:settings" label="System" onClick={() => setLog('System')} />
       <MainNavDivider />
@@ -71,7 +73,7 @@ function NavDemo() {
         <NavDropdownItem label="Vergleich Frankfurt" />
       </MainNavItem>
       <MainNavDivider />
-      <MainNavItem expanded={false} icon="li:moon" title="Dark Mode" />
+      <MainNavItem expanded={false} icon={themeItem.icon} title={themeItem.label} onClick={themeItem.onClick} />
       <MainNavItem expanded={false} icon="li:languages" title="Deutsch" />
       <MainNavItem expanded={false} icon="li:settings" title="System" />
       <MainNavDivider />
@@ -184,7 +186,7 @@ const USAGE = `import { MainNav, MainNavItem, NavDropdownItem, NavSectionHead, M
 const [open, setOpen] = useState(true);
 <MainNav expanded={open} onToggle={() => setOpen(!open)} logo={<Icon name="PREA-Logo" size={24} />} height="100vh"
   footer={<>
-    <MainNavItem expanded={open} icon="li:moon" label="Dark Mode" onClick={toggleTheme} />
+    <MainNavItem expanded={open} icon={dark ? 'li:sun' : 'li:moon'} label={dark ? 'Light Mode' : 'Dark Mode'} onClick={toggleTheme} />
     <MainNavDivider />
     <MainNavUser expanded={open} avatar={<Avatar size="big" src={user.avatar} />} name={user.name} onClick={openProfile} />
   </>}>

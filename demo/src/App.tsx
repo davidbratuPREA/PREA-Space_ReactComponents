@@ -4,7 +4,7 @@ import { Layout } from './components/Layout/Layout';
 import { WelcomePage } from './pages/WelcomePage';
 import { ComponentPage } from './pages/ComponentPage';
 import { DemoPage } from './pages/DemoPage';
-import { ThemeContext } from './ThemeContext';
+import { ThemeContext, ThemeToggleContext } from './ThemeContext';
 
 type Theme = 'light' | 'dark';
 
@@ -29,6 +29,7 @@ export default function App() {
 
   return (
     <ThemeContext.Provider value={appTheme}>
+     <ThemeToggleContext.Provider value={toggleTheme}>
       <HashRouter>
         <Layout theme={appTheme} onToggleTheme={toggleTheme}>
           <Routes>
@@ -38,6 +39,7 @@ export default function App() {
           </Routes>
         </Layout>
       </HashRouter>
+     </ThemeToggleContext.Provider>
     </ThemeContext.Provider>
   );
 }

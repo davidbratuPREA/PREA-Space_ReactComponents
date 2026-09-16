@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MainNav, MainNavDivider, MainNavItem, MainNavUser, NavDropdownItem, NavSectionHead, BottomNav, BottomNavButton } from '../../../Navigation';
 import { Icon } from '../../../Icon';
 import { Avatar } from '../../../Avatar';
+import { useThemeNavItem } from '../ThemeContext';
 import './demo.css';
 
 const AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="%23111"/><circle cx="12" cy="9" r="4" fill="%2358a"/><ellipse cx="12" cy="19" rx="7" ry="4" fill="%2358a"/></svg>');
@@ -55,6 +56,7 @@ const DEEPSTREET = ['Map', 'Projekte', 'Portfolio', 'Accounts', 'Kontakte'];
 export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay, editMode, onExitEdit }: AppShellProps) {
   const [expanded, setExpanded] = useState(false);
   const ex = expanded;
+  const themeItem = useThemeNavItem();
   const railHeader = (
     <>
       <MainNavItem expanded={ex} icon="message-square-plus" label="New Chat" title="New Chat" active={active === 'chat'} />
@@ -79,7 +81,7 @@ export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay,
       <NavSectionHead title="Chats" actionLabel="Alle anzeigen" />
       {CHATS.map((c) => <MainNavItem key={c} expanded icon="li:message-square" label={c} />)}
       <MainNavDivider />
-      <MainNavItem expanded icon="li:moon" label="Dark Mode" />
+      <MainNavItem expanded icon={themeItem.icon} label={themeItem.label} onClick={themeItem.onClick} />
       <MainNavItem expanded icon="li:languages" label="Deutsch" />
       <MainNavItem expanded icon="li:settings" label="System" />
       <MainNavDivider />
@@ -92,7 +94,7 @@ export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay,
       <MainNavDivider />
       <MainNavItem expanded={false} icon="li:message-square" title="Chats">{CHATS.map((c) => <NavDropdownItem key={c} label={c} />)}</MainNavItem>
       <MainNavDivider />
-      <MainNavItem expanded={false} icon="li:moon" title="Dark Mode" />
+      <MainNavItem expanded={false} icon={themeItem.icon} title={themeItem.label} onClick={themeItem.onClick} />
       <MainNavItem expanded={false} icon="li:languages" title="Deutsch" />
       <MainNavItem expanded={false} icon="li:settings" title="System" />
       <MainNavDivider />
