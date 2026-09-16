@@ -110,11 +110,13 @@ export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay,
         <div className="app__content">{children}</div>
         <div className="app__bottom">
           {bottomOverlay}
-          <BottomNav icons={['li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern']} date="Aug 01" time="09:43" editMode={editMode} onExitEdit={onExitEdit}>
+          <BottomNav icons={['li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern']} date="Aug 01" time="09:43" editMode={editMode} onExitEdit={onExitEdit}
+            editLabel={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Icon name="li:pencil" size={14} />Bearbeitungs-Modus</span>}>
             {bottomLeft}
           </BottomNav>
         </div>
       </div>
+      {editMode && <div className="app__edit-frame" aria-hidden />}
     </div>
   );
 }

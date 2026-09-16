@@ -20,6 +20,8 @@
 .app__main { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; min-height: 0; }
 .app__content { position: relative; flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
 .app__bottom { flex-shrink: 0; position: relative; }
+/* edit mode: blue frame with inner glow around the content (above the bottom bar) */
+.app__edit-frame { position: absolute; left: 0; top: 0; right: 0; bottom: 31px; z-index: 50; pointer-events: none; box-sizing: border-box; border: 2px solid var(--bottomnav\/color\/bg-active, #0663e5); box-shadow: inset 0 0 24px rgba(6, 99, 229, 0.35); }
 
 /* dashboard */
 .app__dash { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; background: var(--tabs-active-bg, #fff); }
@@ -27,7 +29,7 @@
 .app__dash-card { position: absolute; bottom: calc(100% + 4px); z-index: 5; }
 
 /* panel + map layout — DataPanelWrapper uses DataPanelBG (= the active tab colour) */
-.app__split { display: flex; flex: 1 1 0; min-height: 0; }
+.app__split { position: relative; display: flex; flex: 1 1 0; min-height: 0; }
 .app__panel { display: flex; flex-direction: column; flex-shrink: 0; width: 650px; min-height: 0; border-right: 1px solid var(--mainmenu\/color\/border, #e1e1e1); background: var(--tabs-active-bg, #fff); }
 .app__panel--wide { width: 100%; border-right: none; }
 .app__panel-scroll { flex: 1 1 0; min-height: 0; overflow-y: auto; position: relative; }
