@@ -209,19 +209,21 @@ function useOutsideClose(open: boolean, onClose: () => void, ref: React.RefObjec
 
 type LayerPopover = { kind: 'filter' | 'colors'; layer: string } | null;
 
-function DataPanelColumn({ crumbsLabels, activeTab, onDuplicate, onCollapse }: { crumbsLabels: string[]; activeTab: string; onDuplicate?: () => void; onCollapse?: () => void }) {
+/** DataPanelWrapper column. The primary panel has the collapse button and the li:cols tool (active while the secondary panel is open);
+ *  a secondary panel has neither — it is closed by clicking the active li:cols button on the primary panel again. */
+function DataPanelColumn({ crumbsLabels, activeTab, onDuplicate, duplicateActive, onCollapse, secondary }: { crumbsLabels: string[]; activeTab: string; onDuplicate?: () => void; duplicateActive?: boolean; onCollapse?: () => void; secondary?: boolean }) {
   const [tab, setTab] = useState(activeTab);
   const [sub, setSub] = useState('alle');
   return (
     <div className="app__panel">
-      <PathMenu breadcrumb={<Breadcrumb items={crumbsWithMenu(...crumbsLabels)} />} onTogglePanel={onCollapse} />
+      <PathMenu breadcrumb={<Breadcrumb items={crumbsWithMenu(...crumbsLabels)} />} onTogglePanel={secondary ? undefined : onCollapse} />
       <SearchPanel width="100%"><SearchInput width="100%" placeholder="Suche…" onChange={() => undefined} /></SearchPanel>
       <PanelTabs width="100%"
         tabs={[{ key: 'asset', label: 'Asset' }, { key: 'analytics', label: 'Analytics' }, { key: 'relation', label: 'Relation' }, { key: 'notes', label: 'Notes' }]}
         activeKey={tab} onChange={setTab}
         subTabs={[{ key: 'alle', label: 'Alle' }, { key: 'adresse', label: 'Adresse' }, { key: 'grund', label: 'Grundstück' }, { key: 'flur', label: 'Flurstücke' }, { key: 'geb', label: 'Gebäude' }]}
         activeSubKey={sub} onSubChange={setSub}
-        tools={<IconButton icon="li:cols" label="Panel daneben öffnen" onClick={onDuplicate} />}
+        tools={secondary ? <span className="app__tools-spacer" aria-hidden /> : <IconButton icon="li:cols" label="Panel daneben öffnen" active={duplicateActive} aria-pressed={duplicateActive} onClick={onDuplicate} />}
       />
       <div className="app__panel-scroll">
         <DataPanel width="100%">
@@ -268,8 +270,8 @@ export function DataPanelScreen() {
       bottomLeft={<><BottomNavButton icon="li:layers" active={layers} onClick={() => setLayers((v) => !v)}>Ebenen (3)</BottomNavButton><BottomNavButton icon="li:pencil" onClick={() => setEdit(true)}>Bearbeiten</BottomNavButton></>}>
       <TabsMain items={TABS} defaultActiveKey="2" onEdit={() => undefined} />
       <div className="app__split">
-        {panelOpen && <DataPanelColumn crumbsLabels={['Deep Street', 'Asset', 'Flurstücke', '1802']} activeTab="asset" onCollapse={() => setPanelOpen(false)} onDuplicate={() => setSecondPanel(true)} />}
-        {panelOpen && secondPanel && <DataPanelColumn crumbsLabels={['Deep Street', 'Relation', 'Sales']} activeTab="relation" onCollapse={() => setSecondPanel(false)} />}
+        {panelOpen && <DataPanelColumn crumbsLabels={['Deep Street', 'Asset', 'Flurstücke', '1802']} activeTab="asset" onCollapse={() => setPanelOpen(false)} onDuplicate={() => setSecondPanel((v) => !v)} duplicateActive={secondPanel} />}
+        {panelOpen && secondPanel && <DataPanelColumn crumbsLabels={['Deep Street', 'Relation', 'Sales']} activeTab="relation" secondary />}
         <MapWithNav>
           {!panelOpen && <div className="app__float" style={{ left: 10, top: 10 }}><ToggleDataMenu title="Deep Street" onToggle={() => setPanelOpen(true)} /></div>}
         </MapWithNav>

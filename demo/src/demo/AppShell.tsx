@@ -99,24 +99,28 @@ export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay,
       <MainNavUser expanded={false} avatar={<Avatar size="big" src={AVATAR} />} name="Gabriel Khodzitski" />
     </>
   );
+  const bottomNav = (
+    <BottomNav icons={['li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern']} date="Aug 01" time="09:43" editMode={editMode} onExitEdit={onExitEdit}
+      editLabel={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Icon name="li:pencil" size={14} />Bearbeitungs-Modus</span>}>
+      {bottomLeft}
+    </BottomNav>
+  );
   return (
-    <div className="app">
-      <div className="app__rail">
-        <MainNav expanded={ex} onToggle={() => setExpanded((v) => !v)} height="100%" logo={<Icon name="PREA-Logo" size={24} />} footer={railFooter}>
-          {railHeader}
-        </MainNav>
-      </div>
-      <div className="app__main">
-        <div className="app__content">{children}</div>
-        <div className="app__bottom">
-          {bottomOverlay}
-          <BottomNav icons={['li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern']} date="Aug 01" time="09:43" editMode={editMode} onExitEdit={onExitEdit}
-            editLabel={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Icon name="li:pencil" size={14} />Bearbeitungs-Modus</span>}>
-            {bottomLeft}
-          </BottomNav>
+    <div className={'app' + (editMode ? ' app--edit' : '')}>
+      <div className="app__body">
+        <div className="app__rail">
+          <MainNav expanded={ex} onToggle={() => setExpanded((v) => !v)} height="100%" logo={<Icon name="PREA-Logo" size={24} />} footer={railFooter}>
+            {railHeader}
+          </MainNav>
+        </div>
+        <div className="app__main">
+          <div className="app__content">{children}</div>
+          {/* default: bottomNav beside the rail; edit mode: blue bar spans the full width below rail + content */}
+          {!editMode && <div className="app__bottom">{bottomOverlay}{bottomNav}</div>}
+          {editMode && <div className="app__edit-frame" aria-hidden />}
         </div>
       </div>
-      {editMode && <div className="app__edit-frame" aria-hidden />}
+      {editMode && <div className="app__bottom app__bottom--full">{bottomNav}</div>}
     </div>
   );
 }
