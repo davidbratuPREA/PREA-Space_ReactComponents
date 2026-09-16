@@ -97,7 +97,8 @@ html[data-theme='dark'] {
   font-size: var(--layermenu\/font\/size, 12px); line-height: var(--layermenu\/font\/lineheight, 16px); cursor: pointer;
 }
 .prea-layer--lvl3 > .prea-layer__row { padding-left: var(--layermenu\/sizing\/lvl-3, 56px); }
-.prea-layer__row:hover, .prea-layer__row:focus-within { background: var(--layermenu\/color\/hover, #e3e3e3); }
+/* hover only — a clicked row must not stay highlighted (keyboard focus still shows it) */
+.prea-layer__row:hover, .prea-layer__row:has(:focus-visible) { background: var(--layermenu\/color\/hover, #e3e3e3); }
 /* chevron slot: 14px at level 1, 34px at level 2, right-aligned 10px chevron */
 .prea-layer__dropdown { display: inline-flex; align-items: center; justify-content: flex-end; flex-shrink: 0; width: var(--layermenu\/sizing\/lvl-1, 14px); height: 100%; }
 .prea-layer--lvl2 > .prea-layer__row > .prea-layer__dropdown { width: var(--layermenu\/sizing\/lvl-2, 34px); }
@@ -109,7 +110,7 @@ html[data-theme='dark'] {
 .prea-layer__label { flex: 1 1 0; min-width: 0; padding: 0; margin: 0; border: none; background: none; color: inherit; font: inherit; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
 .prea-layer__trailing { display: inline-flex; align-items: center; flex-shrink: 0; }
 .prea-layer__actions { display: none; align-items: center; gap: var(--layermenu\/sizing\/btn-gap, 4px); flex-shrink: 0; }
-.prea-layer__row:hover .prea-layer__actions, .prea-layer__row:focus-within .prea-layer__actions, .prea-layer__actions--pinned { display: flex; }
+.prea-layer__row:hover .prea-layer__actions, .prea-layer__row:has(:focus-visible) .prea-layer__actions, .prea-layer__actions--pinned { display: flex; }
 .prea-layer__children { display: flex; flex-direction: column; }
 
 /* ─── MapLayersMenu ──────────────────────────────────────────────────────── */
@@ -120,11 +121,15 @@ html[data-theme='dark'] {
   color: var(--layermenu\/color\/text, #202020); font-size: var(--layermenu\/font\/size, 12px); line-height: var(--layermenu\/font\/lineheight, 16px);
 }
 /* LayersHeadGroup: title row + active layers, on BG-2 */
-.prea-layersmenu__head { display: flex; flex-direction: column; padding: var(--layermenu\/sizing\/padding-h, 6px) 0; background: var(--layermenu\/color\/head-bg, #f6f6f6); border-bottom: 1px solid var(--layermenu\/color\/border, #e1e1e1); }
+/* LayersHeadGroup hugs its content and grows to 200px max; the active list scrolls beyond that */
+.prea-layersmenu__head { display: flex; flex-direction: column; flex-shrink: 0; max-height: var(--layermenu\/sizing\/head-max, 200px); padding: var(--layermenu\/sizing\/padding-h, 6px) 0; background: var(--layermenu\/color\/head-bg, #f6f6f6); border-bottom: 1px solid var(--layermenu\/color\/border, #e1e1e1); }
 .prea-layersmenu__title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 8px; }
 .prea-layersmenu__title { flex: 1 1 0; min-width: 0; font-size: var(--layermenu\/font\/size-head, 18px); line-height: var(--layermenu\/font\/lineheight-head, 22px); font-weight: 500; }
-.prea-layersmenu__active { display: flex; flex-direction: column; padding: 8px 4px 4px; }
+.prea-layersmenu__active { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; padding: 8px 4px 4px; overflow-y: auto; scrollbar-gutter: stable; }
+.prea-layersmenu__active { padding-right: max(0px, calc(4px - var(--scrollbar\/sizing\/gutter, 6px))); }
 .prea-layersmenu__remove { padding: 0; border: none; background: none; color: inherit; font: inherit; cursor: pointer; }
 .prea-layersmenu__remove:hover { text-decoration: underline; }
 /* layersGroup */
-.prea-layersmenu__layers { display: flex; flex-direction: column; padding: 4px var(--layermenu\/sizing\/padding-r2, 10px) 4px 4px; }
+/* layersGroup: fixed 350px, scrolls; the scrollbar sits inside the 10px right padding so it never pushes the rows */
+.prea-layersmenu__layers { display: flex; flex-direction: column; flex-shrink: 0; height: var(--layermenu\/sizing\/layers-h, 350px); padding: 4px calc(var(--layermenu\/sizing\/padding-r2, 10px) - var(--scrollbar\/sizing\/gutter, 6px)) 4px 4px; overflow-y: auto; scrollbar-gutter: stable; }
+.prea-layersmenu__layers > * { flex-shrink: 0; }

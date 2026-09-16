@@ -56,7 +56,7 @@ function MapNavDemo() {
       </div>
 
       <div>
-        <p style={headingStyle}>MapLayersMenu — 314px · head group with „Aktive Ebenen“ · groups / subgroups / layers · hover a row for the layerBtn actions</p>
+        <p style={headingStyle}>MapLayersMenu — 314px · head group hugs its content up to 200px · layersGroup fixed 350px, scrolls · hover a row for the layerBtn actions</p>
         <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
           <MapLayersMenu
             onClose={() => setLog('close')}
@@ -94,6 +94,11 @@ function MapNavDemo() {
             <MapLayerItem label="Umwelt"><MapLayerItem label="Lärm" /></MapLayerItem>
             <MapLayerItem label="Demografie"><MapLayerItem label="Einwohner" /></MapLayerItem>
             <MapLayerItem label="Wirtschaft"><MapLayerItem label="Gewerbeflächen" /></MapLayerItem>
+            <MapLayerItem label="Energie"><MapLayerItem label="Solarpotenzial" /></MapLayerItem>
+            <MapLayerItem label="Bildung"><MapLayerItem label="Schulen" /></MapLayerItem>
+            <MapLayerItem label="Gesundheit"><MapLayerItem label="Krankenhäuser" /></MapLayerItem>
+            <MapLayerItem label="Freizeit"><MapLayerItem label="Parks" /></MapLayerItem>
+            <MapLayerItem label="Tourismus"><MapLayerItem label="Sehenswürdigkeiten" /></MapLayerItem>
           </MapLayersMenu>
           <MapLayersMenu onClose={() => setLog('close')} style={{ alignSelf: 'flex-start' }}>
             <MapLayerItem label="Grundlagen"><MapLayerItem label="Flurstücke" /></MapLayerItem>

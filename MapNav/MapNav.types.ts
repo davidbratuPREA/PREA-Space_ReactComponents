@@ -115,6 +115,10 @@ export interface MapLayersMenuProps {
   children?: React.ReactNode;
   /** Width. Figma 314. */
   width?: number | string;
+  /** Fixed height of the layersGroup (scrolls). Figma 350. */
+  layersHeight?: number;
+  /** Max height of the LayersHeadGroup — hugs its content, then the active list scrolls. Figma 200. */
+  headMaxHeight?: number;
   className?: string;
   style?: React.CSSProperties;
 }

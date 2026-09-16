@@ -180,11 +180,11 @@ export function MapLayerItem({
 /* ─── MapLayersMenu ──────────────────────────────────────────────────────── */
 export function MapLayersMenu({
   title = 'Ebenen', onClose, activeTitle = 'Aktive Ebenen', activeLayers, activeOpen, onActiveOpenChange, onRemoveActive, removeLabel = 'Entfernen',
-  children, width = 314, className, style,
+  children, width = 314, layersHeight = 350, headMaxHeight = 200, className, style,
 }: MapLayersMenuProps) {
   const hasActive = React.Children.count(activeLayers) > 0;
   return (
-    <div className={cx('prea-layersmenu', className)} style={{ width, ...style }} role="dialog" aria-label={typeof title === 'string' ? title : undefined}>
+    <div className={cx('prea-layersmenu', className)} style={{ width, ['--layermenu\/sizing\/layers-h' as string]: `${layersHeight}px`, ['--layermenu\/sizing\/head-max' as string]: `${headMaxHeight}px`, ...style }} role="dialog" aria-label={typeof title === 'string' ? title : undefined}>
       <div className="prea-layersmenu__head">
         <div className="prea-layersmenu__title-row">
           <span className="prea-layersmenu__title">{title}</span>

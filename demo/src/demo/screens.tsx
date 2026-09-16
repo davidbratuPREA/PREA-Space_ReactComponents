@@ -288,6 +288,8 @@ export function DataPanelScreen() {
                   <MapLayerItem kind="subgroup" label="Map Layer subGroup" defaultOpen><MapLayerItem label="Map Layer" {...layerProps('sg-1')} /><MapLayerItem label="Map Layer" {...layerProps('sg-2')} /><MapLayerItem label="Map Layer" {...layerProps('sg-3')} /></MapLayerItem>
                 </MapLayerItem>
                 <MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" />
+                <MapLayerItem label="Map Layer Group" defaultOpen><MapLayerItem label="Map Layer" {...layerProps('g5-1')} /><MapLayerItem label="Map Layer" {...layerProps('g5-2')} /></MapLayerItem>
+                <MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" /><MapLayerItem kind="group" label="Map Layer Group" />
               </MapLayersMenu>
             </div>
           )}

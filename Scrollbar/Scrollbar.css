@@ -1,31 +1,36 @@
 /* ──────────────────────────────────────────────────────────────────────────────
    PREA Scrollbar — Scrollbar.css
-   Figma "scrollBar" (Menus page, 320:2426): a 3px rounded bar, no track,
+   Figma "scrollBar" (Menus page, 320:2426): a 2px rounded bar, no track,
    colour Divider/Color/BG (#E1E1E1 light · #3D3D3D dark).
    Import once (e.g. in your app entry) — it styles every scrollable element.
-   The scrollbar gutter is kept at 9px so the bar stays easy to grab; only the
-   3px thumb is painted.
+   The scrollbar gutter is kept at 6px so the bar stays easy to grab; only the
+   2px thumb is painted. Scroll containers with a right padding ≥ 6px can subtract
+   the gutter from their padding so the bar sits inside the padding and never
+   pushes the content (see MapLayersMenu).
    ────────────────────────────────────────────────────────────────────────────── */
 :root {
   --scrollbar\/color\/thumb: #E1E1E1;       /* Divider/Color/BG */
   --scrollbar\/color\/thumb-hover: #CACACA;  /* LayerMenu/Hover-2 */
-  --scrollbar\/sizing\/thumb: 3px;
-  --scrollbar\/sizing\/gutter: 9px;
+  --scrollbar\/sizing\/thumb: 2px;
+  --scrollbar\/sizing\/gutter: 6px;
 }
 html[data-theme='dark'] {
   --scrollbar\/color\/thumb: #3D3D3D;
   --scrollbar\/color\/thumb-hover: #6B6B6B;
 }
 
-/* Firefox */
-* { scrollbar-width: thin; scrollbar-color: var(--scrollbar\/color\/thumb, #e1e1e1) transparent; }
+/* Firefox only — in Chromium a non-auto `scrollbar-width` disables the ::-webkit-scrollbar styling below and
+   renders the native ~10px thin bar instead, so the standard properties are scoped to browsers without ::-webkit-scrollbar */
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: var(--scrollbar\/color\/thumb, #e1e1e1) transparent; }
+}
 
 /* WebKit / Blink */
-*::-webkit-scrollbar { width: var(--scrollbar\/sizing\/gutter, 9px); height: var(--scrollbar\/sizing\/gutter, 9px); background: transparent; }
+*::-webkit-scrollbar { width: var(--scrollbar\/sizing\/gutter, 6px); height: var(--scrollbar\/sizing\/gutter, 6px); background: transparent; }
 *::-webkit-scrollbar-track, *::-webkit-scrollbar-corner { background: transparent; }
 *::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar\/color\/thumb, #e1e1e1);
-  border: calc((var(--scrollbar\/sizing\/gutter, 9px) - var(--scrollbar\/sizing\/thumb, 3px)) / 2) solid transparent;
+  border: calc((var(--scrollbar\/sizing\/gutter, 6px) - var(--scrollbar\/sizing\/thumb, 2px)) / 2) solid transparent;
   background-clip: padding-box;
   border-radius: 9999px;
 }
