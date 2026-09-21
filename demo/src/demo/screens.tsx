@@ -330,11 +330,12 @@ export function PortfolioScreen() {
           subTabs={[{ key: 't1', label: 'Tabelle 1' }, { key: 't2', label: 'Tabelle 2' }, { key: 't3', label: 'Tabelle 3' }]} activeSubKey={sub} onSubChange={setSub} onAddSubTab={() => undefined}
           tools={<><IconButton icon="li:plus" label="Neu" variant="primary" /><ToolDivider /><IconButton icon="li:list" label="Liste" /><IconButton icon="li:cols" label="Tabelle" active /><IconButton icon="li:info-1" label="Info" /></>}
         />
-        <div className="app__panel-scroll app__panel-scroll--pad" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <InfoBoxModule width="100%">
-            {Array.from({ length: 8 }, (_, i) => <InfoBox key={i} label="Eiusmod dolor Eius mod dolor Eiusmod dolor" value="XXXXXXX" />)}
-          </InfoBoxModule>
-          <KanbanBoard>
+        {/* info_box_module full width, then the kanban board fills the remaining height (columns scroll on their own) */}
+        <InfoBoxModule width="100%">
+          {Array.from({ length: 8 }, (_, i) => <InfoBox key={i} label="Eiusmod dolor Eius mod dolor Eiusmod dolor" value="XXXXXXX" />)}
+        </InfoBoxModule>
+        <div className="app__kanban">
+          <KanbanBoard className="app__kanban-board">
             <KanbanColumn status="inProgress" count={3}>
               <KanbanProject title="Projekt 02" groups={GROUPS} width="100%" />
               <KanbanProject title="Projekt 02" groups={GROUPS} width="100%" />
