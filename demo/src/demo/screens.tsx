@@ -5,6 +5,7 @@ import { Breadcrumb } from '../../../Breadcrumb';
 import { TabsMain } from '../../../TabsMain';
 import { SearchInput, TextInput } from '../../../Inputs';
 import { ChatInput, ChatDropdown, ChatNotes } from '../../../Chat';
+import { CreateEntryMenu, CreateDropdownItem, CreateEntryStep } from '../../../CreateMenu';
 import { NavInfoCard, InfoBox, InfoBoxModule } from '../../../InfoBox';
 import { DataPanel, DataGroup, DataBox } from '../../../DataBox';
 import { MapNav, MapNavGroup, MapLayersMenu, MapLayerItem } from '../../../MapNav';
@@ -319,9 +320,43 @@ export function PortfolioScreen() {
   const [tab, setTab] = useState('relation');
   const [sub, setSub] = useState('t1');
   const [edit, setEdit] = useState(false);
+  // "+ Neu erstellen" → createEntryMenu above the button (step 1: entry types, step 2: name); closes on X / outside click
+  const [create, setCreate] = useState(false);
+  const [createStep, setCreateStep] = useState<1 | 2>(1);
+  const [createName, setCreateName] = useState('');
+  const createRef = useRef<HTMLDivElement>(null);
+  const createBtnRef = useRef<HTMLButtonElement>(null);
+  const closeCreate = () => { setCreate(false); setCreateStep(1); setCreateName(''); };
+  useEffect(() => {
+    if (!create) return;
+    const onDown = (e: MouseEvent) => {
+      const t = e.target as Node;
+      if (createRef.current?.contains(t) || createBtnRef.current?.contains(t)) return;
+      closeCreate();
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [create]);
   return (
     <AppShell active="deepstreet" editMode={edit} onExitEdit={() => setEdit(false)}
-      bottomLeft={<><BottomNavButton icon="li:plus" variant="primary">Neu erstellen</BottomNavButton><BottomNavButton icon="li:layers">Ebenen</BottomNavButton></>}
+      bottomLeft={<><BottomNavButton ref={createBtnRef} icon="li:plus" variant="primary" active={create} aria-expanded={create} onClick={() => (create ? closeCreate() : setCreate(true))}>Neu erstellen</BottomNavButton><BottomNavButton icon="li:layers">Ebenen</BottomNavButton></>}
+      bottomOverlay={create && (
+        <div ref={createRef} className="app__dash-card" style={{ left: 8 }}>
+          <CreateEntryMenu onClose={closeCreate} onBack={createStep === 2 ? () => setCreateStep(1) : undefined}>
+            {createStep === 1 ? (
+              <>
+                <CreateDropdownItem icon="file-plus-02"  label="Portfolio"    onClick={() => setCreateStep(2)} />
+                <CreateDropdownItem icon="marker-pin-04" label="Plot of land" onClick={() => setCreateStep(2)} />
+                <CreateDropdownItem icon="building-03"   label="Building"     onClick={() => setCreateStep(2)} />
+                <CreateDropdownItem icon="building-06"   label="Unit"         onClick={() => setCreateStep(2)} />
+                <CreateDropdownItem icon="hourglass-01"  label="Status"       onClick={() => setCreateStep(2)} />
+              </>
+            ) : (
+              <CreateEntryStep value={createName} onChange={setCreateName} autoFocus addLabel="Projekt hinzufügen" onSubmit={closeCreate} />
+            )}
+          </CreateEntryMenu>
+        </div>
+      )}
       bottomIcons={['li:clock', 'li:globe-02']} bottomDate="Mo. 07. Sep 2026" bottomTime="14:32">
       <TabsMain items={[{ key: '1', label: 'Portfolio Name', closable: true }, { key: '2', label: 'Portfolio: Projektname 01', closable: true }, { key: '3', label: 'Portfolio Name', closable: true }, { key: '4', label: 'Portfolio Name', closable: true }]} defaultActiveKey="2" onEdit={() => undefined} />
       <div className="app__panel app__panel--wide" style={{ flex: '1 1 0', minHeight: 0 }}>
