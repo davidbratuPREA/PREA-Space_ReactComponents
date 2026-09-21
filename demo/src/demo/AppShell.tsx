@@ -41,6 +41,10 @@ export interface AppShellProps {
   children: React.ReactNode;
   /** Left-hand BottomNav buttons. */
   bottomLeft?: React.ReactNode;
+  /** Right-hand BottomNav status icons / date / time (defaults: 4 fingerprint icons, Aug 01, 09:43). */
+  bottomIcons?: Array<string | React.ReactNode>;
+  bottomDate?: React.ReactNode;
+  bottomTime?: React.ReactNode;
   /** Element rendered above the BottomNav (e.g. the nav_InfoCard popover). */
   bottomOverlay?: React.ReactNode;
   /** Blue edit-mode bar instead of the default BottomNav. */
@@ -53,7 +57,7 @@ const CHATS = ['Marktanalyse Berlin', 'Vergleich Frankfurt', 'Standortcheck Hamb
 const DEEPSTREET = ['Map', 'Projekte', 'Portfolio', 'Accounts', 'Kontakte'];
 
 /** Figma app frame: mainNav full height on the left (48px rail, 280px when expanded); MainWrapper (content + bottomNav) beside it. */
-export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay, editMode, onExitEdit }: AppShellProps) {
+export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay, editMode, onExitEdit, bottomIcons = ['li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern'], bottomDate = 'Aug 01', bottomTime = '09:43' }: AppShellProps) {
   const [expanded, setExpanded] = useState(false);
   const ex = expanded;
   const themeItem = useThemeNavItem();
@@ -102,7 +106,7 @@ export function AppShell({ active = 'chat', children, bottomLeft, bottomOverlay,
     </>
   );
   const bottomNav = (
-    <BottomNav icons={['li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern', 'li:fingerprint-pattern']} date="Aug 01" time="09:43" editMode={editMode} onExitEdit={onExitEdit}
+    <BottomNav icons={bottomIcons} date={bottomDate} time={bottomTime} editMode={editMode} onExitEdit={onExitEdit}
       editLabel={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Icon name="li:pencil" size={14} />Bearbeitungs-Modus</span>}>
       {bottomLeft}
     </BottomNav>

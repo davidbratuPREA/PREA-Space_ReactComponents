@@ -320,7 +320,9 @@ export function PortfolioScreen() {
   const [sub, setSub] = useState('t1');
   const [edit, setEdit] = useState(false);
   return (
-    <AppShell active="deepstreet" editMode={edit} onExitEdit={() => setEdit(false)} bottomLeft={<><BottomNavButton icon="li:layers">Ebenen</BottomNavButton><BottomNavButton icon="li:pencil" onClick={() => setEdit(true)}>Bearbeiten</BottomNavButton></>}>
+    <AppShell active="deepstreet" editMode={edit} onExitEdit={() => setEdit(false)}
+      bottomLeft={<><BottomNavButton icon="li:plus" variant="primary">Neu erstellen</BottomNavButton><BottomNavButton icon="li:layers">Ebenen</BottomNavButton></>}
+      bottomIcons={['li:clock', 'li:globe-02']} bottomDate="Mo. 07. Sep 2026" bottomTime="14:32">
       <TabsMain items={[{ key: '1', label: 'Portfolio Name', closable: true }, { key: '2', label: 'Portfolio: Projektname 01', closable: true }, { key: '3', label: 'Portfolio Name', closable: true }, { key: '4', label: 'Portfolio Name', closable: true }]} defaultActiveKey="2" onEdit={() => undefined} />
       <div className="app__panel app__panel--wide" style={{ flex: '1 1 0', minHeight: 0 }}>
         <PathMenu breadcrumb={<Breadcrumb items={crumbs('Deep Street', 'Portfolio', 'Projektname 01')} />} search={<SearchInput width={270} placeholder="Suche…" onChange={() => undefined} />} />
