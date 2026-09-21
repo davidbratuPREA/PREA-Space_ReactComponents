@@ -279,18 +279,32 @@ export function Tabs({ tabs, activeKey, defaultActiveKey, onChange, variant = 't
 /* ─── PanelTabs ──────────────────────────────────────────────────────────── */
 export function PanelTabs({
   tabs, activeKey, onChange, onAddTab, subTabs, activeSubKey, onSubChange, onAddSubTab, tools, width = 556, className, style,
+  variant = 'default', activeView = 'table', onViewChange, onCreate, createActive, onInfo, infoActive,
 }: PanelTabsProps) {
   const hasSub = !!subTabs && subTabs.length > 0;
+  const projekt = variant === 'projekt';
+  /* Figma panelTab State=Projekt — fixed tool set in the "Items" slot (22px buttons, 1px dividers, 4px gap) */
+  const projektTools = projekt && (
+    <>
+      <IconButton icon="li:plus" label="Neu erstellen" variant="primary" active={createActive} aria-pressed={createActive} onClick={onCreate} />
+      <ToolDivider />
+      <IconButton icon="li:list" label="Liste" active={activeView === 'list'} aria-pressed={activeView === 'list'} onClick={() => onViewChange?.('list')} />
+      <IconButton icon="li:cols2" label="Tabelle" active={activeView === 'table'} aria-pressed={activeView === 'table'} onClick={() => onViewChange?.('table')} />
+      <ToolDivider />
+      <IconButton icon="li:info-1" label="Info" active={infoActive} aria-pressed={infoActive} onClick={onInfo} />
+    </>
+  );
+  const rowTools = projekt ? projektTools : tools;
   return (
-    <div className={cx('prea-paneltabs', !hasSub && 'prea-paneltabs--single', className)} style={{ width, ...style }}>
+    <div className={cx('prea-paneltabs', !hasSub && 'prea-paneltabs--single', projekt && 'prea-paneltabs--projekt', className)} style={{ width, ...style }}>
       <div className="prea-paneltabs__row">
         <Tabs variant="tertiary" tabs={tabs} activeKey={activeKey} onChange={onChange} onAdd={onAddTab} />
-        {!hasSub && tools && <div className="prea-pathmenu__tools">{tools}</div>}
+        {!hasSub && rowTools && <div className="prea-pathmenu__tools">{rowTools}</div>}
       </div>
       {hasSub && (
-        <div className="prea-paneltabs__row">
+        <div className="prea-paneltabs__row prea-paneltabs__row--sub">
           <Tabs variant="secondary" tabs={subTabs!} activeKey={activeSubKey} onChange={onSubChange} onAdd={onAddSubTab} />
-          {tools && <div className="prea-pathmenu__tools">{tools}</div>}
+          {rowTools && <div className="prea-pathmenu__tools">{rowTools}</div>}
         </div>
       )}
     </div>

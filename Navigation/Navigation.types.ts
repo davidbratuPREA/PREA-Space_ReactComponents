@@ -156,8 +156,23 @@ export interface PanelTabsProps {
   activeSubKey?: string;
   onSubChange?: (key: string) => void;
   onAddSubTab?: () => void;
-  /** Right-hand tools (row 1 when no subTabs, row 2 otherwise). */
+  /** Right-hand tools (row 1 when no subTabs, row 2 otherwise). Ignored by the `projekt` variant, which brings its own. */
   tools?: React.ReactNode;
+  /**
+   * Figma "panelTab" State. `default` = tabs (+ optional subTabs) with free `tools`;
+   * `projekt` = Projekt page: 28px sub-tab row with the built-in tool set
+   * "+ (primary) · divider · li:list · li:cols2 · divider · li:info-1".
+   */
+  variant?: 'default' | 'projekt';
+  /** projekt: which view button is active. */
+  activeView?: 'list' | 'table';
+  onViewChange?: (view: 'list' | 'table') => void;
+  /** projekt: the blue "+" button. */
+  onCreate?: () => void;
+  createActive?: boolean;
+  /** projekt: the info button. */
+  onInfo?: () => void;
+  infoActive?: boolean;
   /** Width. Figma 556. */
   width?: number | string;
   className?: string;

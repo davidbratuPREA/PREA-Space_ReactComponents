@@ -251,6 +251,9 @@ html[data-theme='dark'] {
 }
 .prea-paneltabs--single { padding-bottom: var(--panelmenu\/sizing\/padding-tb, 5px); }
 .prea-paneltabs__row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+/* State=Projekt: 28px sub-tab row (Figma tabSub), built-in tool set */
+.prea-paneltabs--projekt .prea-paneltabs__row--sub { height: 28px; }
+.prea-paneltabs--projekt .prea-paneltabs__row--sub .prea-menutabs--secondary .prea-menutabs__tab { height: 28px; }
 
 /* ─── ToggleDataMenu ─────────────────────────────────────────────────────── */
 .prea-toggledata {

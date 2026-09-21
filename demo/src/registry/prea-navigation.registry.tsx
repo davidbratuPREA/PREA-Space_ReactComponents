@@ -26,6 +26,10 @@ function NavDemo() {
   const [tab, setTab] = useState('karte');
   const [sub, setSub] = useState('alle');
   const [log, setLog] = useState('');
+  const [ptab, setPtab] = useState('asset');
+  const [psub, setPsub] = useState('kanban');
+  const [view, setView] = useState<'list' | 'table'>('table');
+  const [info, setInfo] = useState(false);
   const themeItem = useThemeNavItem();
 
   const navBody = (
@@ -131,7 +135,7 @@ function NavDemo() {
       </div>
 
       <div>
-        <p style={headingStyle}>PanelTabs — TabsTertiary pills + TabsSecondary underline · Tabs standalone</p>
+        <p style={headingStyle}>PanelTabs — Default · with subTabs · State=Projekt (28px sub row, built-in „+ · Liste · Tabelle · Info“ tools) · Tabs standalone</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <PanelTabs
             tabs={[{ key: 'karte', label: 'Karte' }, { key: 'daten', label: 'Daten' }, { key: 'notizen', label: 'Notizen' }]}
@@ -144,6 +148,13 @@ function NavDemo() {
             subTabs={[{ key: 'alle', label: 'Alle' }, { key: 'wohnen', label: 'Wohnen' }, { key: 'buero', label: 'Büro' }]}
             activeSubKey={sub} onSubChange={setSub} onAddSubTab={() => setLog('add sub')}
             tools={<><IconButton icon="li:funnel" label="Filter" /><IconButton icon="li:download" label="Export" /></>}
+          />
+          <PanelTabs variant="projekt"
+            tabs={[{ key: 'asset', label: 'Asset' }, { key: 'analytics', label: 'Analytics' }, { key: 'relation', label: 'Relation' }, { key: 'notes', label: 'Notes' }]}
+            activeKey={ptab} onChange={setPtab} onAddTab={() => setLog('add tab')}
+            subTabs={[{ key: 'kalendar', label: 'Kalendar' }, { key: 'kanban', label: 'Kanban' }, { key: 'liste', label: 'Liste' }]}
+            activeSubKey={psub} onSubChange={setPsub} onAddSubTab={() => setLog('add sub')}
+            activeView={view} onViewChange={setView} onCreate={() => setLog('Neu erstellen')} onInfo={() => setInfo((v) => !v)} infoActive={info}
           />
           <div style={{ display: 'flex', gap: 24 }}>
             <Tabs variant="tertiary" tabs={[{ key: 'a', label: 'Übersicht' }, { key: 'b', label: 'Details' }]} />
@@ -205,6 +216,11 @@ const [open, setOpen] = useState(true);
 <PanelTabs tabs={tabs} activeKey={tab} onChange={setTab} onAddTab={addTab}
   subTabs={subTabs} activeSubKey={sub} onSubChange={setSub} tools={<IconButton icon="li:funnel" label="Filter" />} />
 
+// Figma State=Projekt: built-in tools (+ · Liste · Tabelle · Info)
+<PanelTabs variant="projekt" tabs={tabs} activeKey={tab} onChange={setTab}
+  subTabs={subTabs} activeSubKey={sub} onSubChange={setSub} onAddSubTab={addSub}
+  activeView={view} onViewChange={setView} onCreate={openCreate} onInfo={toggleInfo} infoActive={info} />
+
 <BottomNav icons={['li:cloud-sun']} date="Mo. 07. Sep" time="14:32" editMode={editing} onExitEdit={stopEditing}>
   <BottomNavButton icon="li:layers" variant="grey">Ebenen</BottomNavButton>
 </BottomNav>
@@ -237,6 +253,7 @@ export const navigationEntry: ComponentEntry = {
     { name: 'IconButton.icon / label / variant / size', type: "string | ReactNode / string / 'plain' | 'primary' / 18 | 22 | 24 | 32", default: "— / — / 'plain' / 22", required: false, description: 'Icon-only button used across the menus.' },
     { name: 'Tabs.variant', type: "'tertiary' | 'secondary'", default: "'tertiary'", required: false, description: '20px pill tabs or 26px underline tabs.' },
     { name: 'PanelTabs.tabs / subTabs / tools', type: 'TabItem[] / TabItem[] / ReactNode', default: '—', required: false, description: 'Pill row, optional underline row and right-hand tools.' },
+    { name: 'PanelTabs.variant', type: "'default' | 'projekt'", default: "'default'", required: false, description: 'Figma State. projekt = 28px sub row with built-in tools: + (onCreate), Liste / Tabelle (activeView, onViewChange), Info (onInfo, infoActive).' },
     { name: 'BottomNav.icons / date / time', type: '(string | ReactNode)[] / ReactNode', default: '—', required: false, description: 'Right-hand status area.' },
     { name: 'BottomNav.editMode / onExitEdit', type: 'boolean / () => void', default: 'false', required: false, description: 'Blue bar with white „Beenden“ button.' },
     { name: 'BottomNavButton.variant', type: "'grey' | 'primary' | 'plain'", default: "'plain'", required: false, description: '22px pill button.' },

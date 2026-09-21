@@ -319,6 +319,7 @@ const GROUPS: KanbanProjectGroup[] = [
 export function PortfolioScreen() {
   const [tab, setTab] = useState('relation');
   const [sub, setSub] = useState('t1');
+  const [view, setView] = useState<'list' | 'table'>('table');
   const [edit, setEdit] = useState(false);
   // "+ Neu erstellen" → createEntryMenu above the button (step 1: entry types, step 2: name); closes on X / outside click
   const [create, setCreate] = useState(false);
@@ -365,7 +366,7 @@ export function PortfolioScreen() {
           tabs={['Dashboard', 'Task', 'Relation', 'Asset', 'Map', 'Analytics', 'Data', 'Pitch', 'Notes'].map((l) => ({ key: l.toLowerCase(), label: l }))}
           activeKey={tab} onChange={setTab} onAddTab={() => undefined}
           subTabs={[{ key: 't1', label: 'Tabelle 1' }, { key: 't2', label: 'Tabelle 2' }, { key: 't3', label: 'Tabelle 3' }]} activeSubKey={sub} onSubChange={setSub} onAddSubTab={() => undefined}
-          tools={<><IconButton icon="li:plus" label="Neu" variant="primary" /><ToolDivider /><IconButton icon="li:list" label="Liste" /><IconButton icon="li:cols" label="Tabelle" active /><IconButton icon="li:info-1" label="Info" /></>}
+          variant="projekt" activeView={view} onViewChange={setView} onCreate={() => undefined}
         />
         {/* info_box_module full width, then the kanban board fills the remaining height (columns scroll on their own) */}
         <InfoBoxModule width="100%">
