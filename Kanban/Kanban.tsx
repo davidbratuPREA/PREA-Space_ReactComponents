@@ -118,7 +118,8 @@ export function KanbanColumn({ status, statusLabel, count, children, width = 457
         <KanbanStatusBadge status={status}>{statusLabel}</KanbanStatusBadge>
         <QuantityBadge count={n} />
       </div>
-      <div className="prea-kanban-column__body">{children}</div>
+      {/* no body when empty, so the head keeps equal padding top and bottom */}
+      {React.Children.count(children) > 0 && <div className="prea-kanban-column__body">{children}</div>}
     </section>
   );
 }
