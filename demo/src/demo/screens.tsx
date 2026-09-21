@@ -149,9 +149,15 @@ function LayerFilter({ onClose, onApply }: { onClose: () => void; onApply: () =>
   const [step, setStep] = useState('1');
   const [f, setF] = useState<Record<string, boolean>>({ a: true, b: true, c: false, d: true });
   const [range, setRange] = useState({ from: '', to: '' });
+  const [items, setItems] = useState<boolean[]>([true, false, false, false, false, false, false, false, false, false, true, false, false, true]);
+  const STEP2: Array<{ label: string; sub?: boolean }> = [
+    { label: 'Item name' }, { label: 'Item name' }, { label: 'sub-Item name', sub: true }, { label: 'sub-Item name', sub: true }, { label: 'sub-Item name', sub: true }, { label: 'sub-Item name', sub: true },
+    { label: 'Item name' }, { label: 'sub-Item name', sub: true }, { label: 'Item name' }, { label: 'Item name' }, { label: 'Item name' }, { label: 'Item name' }, { label: 'Item name' }, { label: 'Item name' },
+  ];
   return (
-    <FilterPanel tabs={[{ key: '1', label: 'Tab item' }, { key: '2', label: 'Tab item' }, { key: '3', label: 'Tab item' }]} activeTab={step} onTabChange={setStep}
-      onClose={onClose} onApply={onApply} onReset={() => { setF({}); setRange({ from: '', to: '' }); }}>
+    /* Figma layer_filter — fixed 502px, three steps: inputs + toggle groups · flat item list · ranges + single inputs */
+    <FilterPanel tabs={[{ key: '1', label: 'Tab item' }, { key: '2', label: 'Tab item' }, { key: '3', label: 'Tab item' }]} activeTab={step} onTabChange={setStep} height={502}
+      onClose={onClose} onApply={onApply} onReset={() => { setF({}); setItems(STEP2.map(() => false)); setRange({ from: '', to: '' }); }}>
       {step === '1' && (
         <>
           <FilterSection gap={10}>
@@ -170,28 +176,20 @@ function LayerFilter({ onClose, onApply }: { onClose: () => void; onApply: () =>
         </>
       )}
       {step === '2' && (
-        <>
-          <FilterSection>
-            <FilterGroupHead title="Nutzung" />
-            <FilterItem label="Büro" checked={!!f.office} onChange={(v) => setF((s) => ({ ...s, office: v }))} />
-            <FilterItem label="Wohnen" icon="home" checked={!!f.living} onChange={(v) => setF((s) => ({ ...s, living: v }))} />
-            <FilterItem label="Neubau" sub checked={!!f.new} onChange={(v) => setF((s) => ({ ...s, new: v }))} />
-            <FilterItem label="Bestand" sub checked={!!f.old} onChange={(v) => setF((s) => ({ ...s, old: v }))} />
-            <FilterItem label="Handel" icon="shopping-cart" checked={!!f.retail} onChange={(v) => setF((s) => ({ ...s, retail: v }))} />
-          </FilterSection>
-          <FilterSection>
-            <FilterGroupHead title="Status" />
-            <FilterItem label="In Planung" status="in_planung" checked={!!f.s1} onChange={(v) => setF((s) => ({ ...s, s1: v }))} />
-            <FilterItem label="Im Bau" status="im_baut" checked={!!f.s2} onChange={(v) => setF((s) => ({ ...s, s2: v }))} />
-            <FilterItem label="Fertiggestellt" status="fertiggestellt" checked={!!f.s3} onChange={(v) => setF((s) => ({ ...s, s3: v }))} />
-          </FilterSection>
-        </>
+        <FilterSection>
+          {STEP2.map((it, i) => <FilterItem key={i} label={it.label} sub={it.sub} icon="grid-01" checked={items[i]} onChange={(v) => setItems((s) => s.map((x, j) => (j === i ? v : x)))} />)}
+        </FilterSection>
       )}
       {step === '3' && (
         <FilterSection gap={10}>
-          <FilterRange label="Fläche (m²)" from={range.from} to={range.to} onChange={setRange} />
-          <FilterRange label="Baujahr" fromPlaceholder="1900" toPlaceholder="2026" />
-          <FilterRange label="Miete (€/m²)" />
+          <FilterRange label="Description" from={range.from} to={range.to} onChange={setRange} />
+          <FilterRange label="Description" />
+          <FilterRange label="Description" />
+          <TextInput width="100%" label="Description" placeholder="Input name" />
+          <TextInput width="100%" label="Description" placeholder="Input name" />
+          <TextInput width="100%" label="Description" placeholder="Input name" />
+          <TextInput width="100%" label="Description" placeholder="Input name" />
+          <TextInput width="100%" label="Description" placeholder="Input name" />
         </FilterSection>
       )}
     </FilterPanel>

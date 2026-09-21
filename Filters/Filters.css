@@ -295,7 +295,10 @@ html[data-theme='dark'] {
   line-height: var(--filter\/font\/lineheight-sm, 13px);
   color: var(--filter\/color\/description, #858585);
 }
-.prea-filter-range__row { display: flex; align-items: center; gap: 8px; }
+.prea-filter-range__row { display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0; }
+/* both inputs share the row and shrink — no horizontal overflow at 300px */
+.prea-filter-range__row > .prea-text-input { flex: 1 1 0; min-width: 0; width: auto; }
+.prea-filter-range__row > .prea-text-input .prea-input-native { min-width: 0; }
 .prea-filter-range__sep {
   flex-shrink: 0;
   font-size: var(--filter\/font\/size-sm, 10px);
