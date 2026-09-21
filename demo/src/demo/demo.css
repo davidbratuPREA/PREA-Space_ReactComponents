@@ -36,10 +36,9 @@
 .app__panel--wide { width: 100%; border-right: none; }
 .app__panel-scroll { flex: 1 1 0; min-height: 0; overflow-y: auto; position: relative; }
 .app__panel-scroll--pad { padding: 8px; }
-/* Portfolio: kanban area takes the full remaining height; the board is a row of full-height columns that scroll internally */
-.app__kanban { flex: 1 1 0; min-height: 0; display: flex; }
-.app__kanban-board { flex: 1 1 0; min-width: 0; align-items: stretch; height: 100%; }
-.app__kanban-board > .prea-kanban-column { min-height: 0; max-height: 100%; overflow-y: auto; }
+/* Portfolio: the kanban area fills the remaining height and scrolls as a whole; columns hug their content (Figma) */
+.app__kanban { flex: 1 1 0; min-height: 0; overflow: auto; }
+.app__kanban-board { min-width: 100%; box-sizing: border-box; }
 .app__panel .prea-pathmenu, .app__panel .prea-searchpanel, .app__panel .prea-paneltabs { background: transparent; }
 
 /* fake map */
