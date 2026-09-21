@@ -29,7 +29,7 @@ function NavDemo() {
   const [ptab, setPtab] = useState('asset');
   const [psub, setPsub] = useState('kanban');
   const [view, setView] = useState<'list' | 'table'>('table');
-  const [info, setInfo] = useState(false);
+  const [info, setInfo] = useState(true);
   const themeItem = useThemeNavItem();
 
   const navBody = (
@@ -253,7 +253,7 @@ export const navigationEntry: ComponentEntry = {
     { name: 'IconButton.icon / label / variant / size', type: "string | ReactNode / string / 'plain' | 'primary' / 18 | 22 | 24 | 32", default: "— / — / 'plain' / 22", required: false, description: 'Icon-only button used across the menus.' },
     { name: 'Tabs.variant', type: "'tertiary' | 'secondary'", default: "'tertiary'", required: false, description: '20px pill tabs or 26px underline tabs.' },
     { name: 'PanelTabs.tabs / subTabs / tools', type: 'TabItem[] / TabItem[] / ReactNode', default: '—', required: false, description: 'Pill row, optional underline row and right-hand tools.' },
-    { name: 'PanelTabs.variant', type: "'default' | 'projekt'", default: "'default'", required: false, description: 'Figma State. projekt = 28px sub row with built-in tools: + (onCreate), Liste / Tabelle (activeView, onViewChange), Info (onInfo, infoActive).' },
+    { name: 'PanelTabs.variant', type: "'default' | 'projekt'", default: "'default'", required: false, description: 'Figma State. projekt = 28px sub row with built-in tools: + (onCreate), Liste / Tabelle (activeView, onViewChange), Info toggle (onInfo, infoActive — default true) showing / hiding the info_box_module.' },
     { name: 'BottomNav.icons / date / time', type: '(string | ReactNode)[] / ReactNode', default: '—', required: false, description: 'Right-hand status area.' },
     { name: 'BottomNav.editMode / onExitEdit', type: 'boolean / () => void', default: 'false', required: false, description: 'Blue bar with white „Beenden“ button.' },
     { name: 'BottomNavButton.variant', type: "'grey' | 'primary' | 'plain'", default: "'plain'", required: false, description: '22px pill button.' },

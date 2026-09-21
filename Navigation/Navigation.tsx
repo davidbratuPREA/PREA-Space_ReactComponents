@@ -279,7 +279,7 @@ export function Tabs({ tabs, activeKey, defaultActiveKey, onChange, variant = 't
 /* ─── PanelTabs ──────────────────────────────────────────────────────────── */
 export function PanelTabs({
   tabs, activeKey, onChange, onAddTab, subTabs, activeSubKey, onSubChange, onAddSubTab, tools, width = 556, className, style,
-  variant = 'default', activeView = 'table', onViewChange, onCreate, createActive, onInfo, infoActive,
+  variant = 'default', activeView = 'table', onViewChange, onCreate, createActive, onInfo, infoActive = true,
 }: PanelTabsProps) {
   const hasSub = !!subTabs && subTabs.length > 0;
   const projekt = variant === 'projekt';

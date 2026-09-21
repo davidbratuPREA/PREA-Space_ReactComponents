@@ -170,7 +170,7 @@ export interface PanelTabsProps {
   /** projekt: the blue "+" button. */
   onCreate?: () => void;
   createActive?: boolean;
-  /** projekt: the info button. */
+  /** projekt: the info button — a toggle that shows / hides the info_box_module (active by default). */
   onInfo?: () => void;
   infoActive?: boolean;
   /** Width. Figma 556. */

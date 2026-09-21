@@ -320,6 +320,7 @@ export function PortfolioScreen() {
   const [tab, setTab] = useState('relation');
   const [sub, setSub] = useState('t1');
   const [view, setView] = useState<'list' | 'table'>('table');
+  const [showInfo, setShowInfo] = useState(true); // panelTab info toggle → info_box_module
   const [edit, setEdit] = useState(false);
   // "+ Neu erstellen" → createEntryMenu above the button (step 1: entry types, step 2: name); closes on X / outside click
   const [create, setCreate] = useState(false);
@@ -366,12 +367,14 @@ export function PortfolioScreen() {
           tabs={['Dashboard', 'Task', 'Relation', 'Asset', 'Map', 'Analytics', 'Data', 'Pitch', 'Notes'].map((l) => ({ key: l.toLowerCase(), label: l }))}
           activeKey={tab} onChange={setTab} onAddTab={() => undefined}
           subTabs={[{ key: 't1', label: 'Tabelle 1' }, { key: 't2', label: 'Tabelle 2' }, { key: 't3', label: 'Tabelle 3' }]} activeSubKey={sub} onSubChange={setSub} onAddSubTab={() => undefined}
-          variant="projekt" activeView={view} onViewChange={setView} onCreate={() => undefined}
+          variant="projekt" activeView={view} onViewChange={setView} onCreate={() => undefined} infoActive={showInfo} onInfo={() => setShowInfo((v) => !v)}
         />
         {/* info_box_module full width, then the kanban board fills the remaining height (columns scroll on their own) */}
-        <InfoBoxModule width="100%">
-          {Array.from({ length: 8 }, (_, i) => <InfoBox key={i} label="Eiusmod dolor Eius mod dolor Eiusmod dolor" value="XXXXXXX" />)}
-        </InfoBoxModule>
+        {showInfo && (
+          <InfoBoxModule width="100%">
+            {Array.from({ length: 8 }, (_, i) => <InfoBox key={i} label="Eiusmod dolor Eius mod dolor Eiusmod dolor" value="XXXXXXX" />)}
+          </InfoBoxModule>
+        )}
         <div className="app__kanban">
           <KanbanBoard className="app__kanban-board">
             <KanbanColumn status="inProgress" count={3}>
